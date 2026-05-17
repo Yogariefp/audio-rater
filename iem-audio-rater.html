@@ -1,0 +1,1523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IEM Audio Quality Rater</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --surface2: #222636;
+    --accent: #7c6af7;
+    --accent2: #5eead4;
+    --text: #e2e8f0;
+    --muted: #8892a4;
+    --border: #2d3348;
+    --red: #f87171;
+    --yellow: #fbbf24;
+    --green: #34d399;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    min-height: 100vh;
+    padding: 20px;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 28px;
+  }
+
+  header h1 {
+    font-size: 1.9rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  header p {
+    color: var(--muted);
+    font-size: 0.88rem;
+    margin-top: 6px;
+  }
+
+  .layout {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 720px) {
+    .layout { grid-template-columns: 1fr; }
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px;
+    margin-bottom: 16px;
+  }
+
+  .card h2 {
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .card h2 .icon { font-size: 1rem; }
+
+  /* IEM info */
+  .meta-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .meta-grid label {
+    font-size: 0.78rem;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .meta-grid input, .meta-grid select {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 10px;
+    color: var(--text);
+    font-size: 0.88rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .meta-grid input:focus, .meta-grid select:focus {
+    border-color: var(--accent);
+  }
+
+  .meta-grid select option { background: var(--surface2); }
+
+  /* Sliders */
+  .criterion { margin-bottom: 18px; }
+
+  .criterion-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 6px;
+  }
+
+  .criterion-label {
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  .criterion-sub {
+    font-size: 0.74rem;
+    color: var(--muted);
+    margin-top: 1px;
+  }
+
+  .score-badge {
+    font-size: 1.1rem;
+    font-weight: 700;
+    min-width: 38px;
+    text-align: right;
+    transition: color 0.3s;
+  }
+
+  .slider-wrap {
+    position: relative;
+  }
+
+  input[type=range] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 6px;
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+    background: var(--surface2);
+  }
+
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid var(--bg);
+    box-shadow: 0 0 6px rgba(124,106,247,0.5);
+    transition: transform 0.15s;
+  }
+
+  input[type=range]::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+  }
+
+  .tick-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.65rem;
+    color: var(--muted);
+    margin-top: 3px;
+    padding: 0 2px;
+  }
+
+  .test-tip {
+    margin-top: 7px;
+    padding: 7px 10px;
+    background: rgba(124,106,247,0.07);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 6px 6px 0;
+    font-size: 0.72rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  .test-tip b { color: var(--accent2); font-weight: 600; }
+
+  .summary-box {
+    font-size: 0.80rem;
+    color: var(--text);
+    line-height: 1.75;
+    white-space: pre-wrap;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+  }
+
+  .summary-sig {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: 6px;
+  }
+
+  .score-guide-toggle {
+    font-size: 0.70rem;
+    color: var(--muted);
+    cursor: pointer;
+    margin-top: 8px;
+    display: inline-block;
+    user-select: none;
+    transition: color 0.15s;
+  }
+  .score-guide-toggle:hover { color: var(--accent); }
+
+  .score-guide {
+    display: none;
+    margin-top: 6px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .guide-row {
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+    padding: 5px 10px;
+    font-size: 0.72rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .guide-row:last-child { border-bottom: none; }
+  .guide-num { font-weight: 700; min-width: 18px; text-align: right; flex-shrink: 0; }
+  .guide-desc { color: var(--muted); line-height: 1.4; }
+  .g1  { color: #f87171; } .g2  { color: #fb923c; }
+  .g3  { color: #f97316; } .g4  { color: #fbbf24; }
+  .g5  { color: #fde68a; } .g6  { color: #bef264; }
+  .g7  { color: #34d399; } .g8  { color: #2dd4bf; }
+  .g9  { color: #5eead4; } .g10 { color: #67e8f9; }
+  .gi1  { color: #67e8f9; } .gi2  { color: #5eead4; }
+  .gi3  { color: #2dd4bf; } .gi4  { color: #34d399; }
+  .gi5  { color: #bef264; } .gi6  { color: #fde68a; }
+  .gi7  { color: #fbbf24; } .gi8  { color: #f97316; }
+  .gi9  { color: #fb923c; } .gi10 { color: #f87171; }
+
+  /* Inverted slider (sibilance = lower is better) */
+  .inverted .criterion-label::after {
+    content: ' ↓ lower = better';
+    font-size: 0.68rem;
+    color: var(--muted);
+    font-weight: 400;
+  }
+
+  /* Sidebar */
+  .sidebar { position: sticky; top: 20px; align-self: start; }
+
+  .score-ring-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 0 16px;
+  }
+
+  .score-ring {
+    position: relative;
+    width: 120px;
+    height: 120px;
+  }
+
+  .score-ring svg { transform: rotate(-90deg); }
+
+  .score-ring-text {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .score-big {
+    font-size: 2rem;
+    font-weight: 800;
+    line-height: 1;
+    transition: color 0.3s;
+  }
+
+  .score-label {
+    font-size: 0.65rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .verdict {
+    margin-top: 10px;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    transition: color 0.3s;
+  }
+
+  .verdict-desc {
+    font-size: 0.78rem;
+    color: var(--muted);
+    text-align: center;
+    margin-top: 4px;
+  }
+
+  /* Breakdown bars */
+  .breakdown { margin-top: 4px; }
+
+  .breakdown-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .breakdown-name {
+    font-size: 0.78rem;
+    color: var(--muted);
+    width: 70px;
+    flex-shrink: 0;
+  }
+
+  .breakdown-bar-bg {
+    flex: 1;
+    height: 6px;
+    background: var(--surface2);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .breakdown-bar {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.35s ease;
+  }
+
+  .breakdown-val {
+    font-size: 0.78rem;
+    font-weight: 600;
+    width: 28px;
+    text-align: right;
+  }
+
+  /* Notes */
+  textarea {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px;
+    color: var(--text);
+    font-size: 0.85rem;
+    font-family: inherit;
+    resize: vertical;
+    min-height: 80px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  textarea:focus { border-color: var(--accent); }
+
+  /* Buttons */
+  .btn-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  button {
+    flex: 1;
+    padding: 9px;
+    border-radius: 9px;
+    border: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.1s;
+  }
+
+  button:active { transform: scale(0.97); }
+
+  .btn-save {
+    background: linear-gradient(135deg, var(--accent), #9f8fff);
+    color: #fff;
+  }
+
+  .btn-reset {
+    background: var(--surface2);
+    color: var(--muted);
+    border: 1px solid var(--border);
+  }
+
+  .btn-export {
+    background: var(--surface2);
+    color: var(--accent2);
+    border: 1px solid var(--border);
+  }
+
+  button:hover { opacity: 0.88; }
+
+  /* History */
+  .history-list { max-height: 300px; overflow-y: auto; }
+
+  .history-item {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+
+  .history-item:hover { border-color: var(--accent); }
+
+  .history-item-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .history-item-name {
+    font-size: 0.88rem;
+    font-weight: 600;
+  }
+
+  .history-item-score {
+    font-size: 0.88rem;
+    font-weight: 700;
+  }
+
+  .history-item-meta {
+    font-size: 0.72rem;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  .history-item-del {
+    float: right;
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-size: 0.8rem;
+    cursor: pointer;
+    padding: 2px 6px;
+    border-radius: 4px;
+    flex: 0;
+  }
+
+  .history-item-del:hover { color: var(--red); background: rgba(248,113,113,0.1); }
+
+  .empty-state {
+    color: var(--muted);
+    font-size: 0.82rem;
+    text-align: center;
+    padding: 20px 0;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 5px; height: 5px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>IEM Audio Quality Rater</h1>
+  <p>Hobbyist rating tool &mdash; rate your IEMs instantly, no audiophile jargon needed</p>
+</header>
+
+<div class="layout">
+  <!-- Left column -->
+  <div>
+
+    <!-- IEM Info -->
+    <div class="card">
+      <h2><span class="icon">🎧</span> IEM Details</h2>
+      <div class="meta-grid">
+        <div>
+          <label>IEM Name / Model</label>
+          <input id="iem-name" type="text" placeholder="e.g. KZ ZSN Pro X">
+        </div>
+        <div>
+          <label>Driver Type</label>
+          <select id="driver-type">
+            <option value="">Unknown</option>
+            <option value="DD">Dynamic Driver (DD)</option>
+            <option value="BA">Balanced Armature (BA)</option>
+            <option value="Hybrid">Hybrid (DD+BA)</option>
+            <option value="DD+Planar">Hybrid (DD+Planar)</option>
+            <option value="Planar">Planar Magnetic</option>
+            <option value="EST">Electrostatic (EST)</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div>
+          <label>Price Range</label>
+          <select id="price-range">
+            <option value="">Unspecified</option>
+            <option value="&lt;$20">Budget (&lt;$20)</option>
+            <option value="$20-50">Entry ($20–$50)</option>
+            <option value="$50-100">Mid-fi ($50–$100)</option>
+            <option value="$100-300">Upper mid-fi ($100–$300)</option>
+            <option value="$300+">High-fi ($300+)</option>
+          </select>
+        </div>
+        <div>
+          <label>Test Music Genre / Track</label>
+          <input id="genre" type="text" placeholder="e.g. J-Pop, Metal, Jazz" list="genre-suggestions">
+          <datalist id="genre-suggestions">
+            <option value="J-Rock">
+            <option value="J-Pop">
+            <option value="Metal">
+            <option value="Jazz">
+            <option value="Classical">
+            <option value="Electronic">
+            <option value="Acoustic">
+          </datalist>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bass -->
+    <div class="card">
+      <h2><span class="icon">🔊</span> Bass</h2>
+
+      <div class="criterion" id="cr-subbass">
+        <div class="criterion-header">
+          <div>
+            <div class="criterion-label">Sub-Bass Extension</div>
+            <div class="criterion-sub">Rumble &amp; depth you feel (20–80 Hz)</div>
+          </div>
+          <div class="score-badge" id="val-subbass">5</div>
+        </div>
+        <input type="range" min="1" max="10" value="5" id="subbass" oninput="update('subbass')">
+        <div class="tick-labels"><span>Weak</span><span>Moderate</span><span>Deep</span></div>
+        <div class="test-tip">💡 <b>How to notice:</b> Play a bass-heavy track with a deep synth or live kick drum. Close your eyes — do you feel a subtle chest-like rumble or physical vibration in the shell? That's sub-bass. No feel = weak extension.</div>
+        <div class="score-guide-toggle" onclick="toggleGuide(this)">📊 Score guide ▼</div>
+        <div class="score-guide">
+          <div class="guide-row"><span class="guide-num g1">1</span><span class="guide-desc">No sub-bass at all; completely flat below 80 Hz</span></div>
+          <div class="guide-row"><span class="guide-num g2">2</span><span class="guide-desc">Barely perceptible; only the deepest drops hint at depth</span></div>
+          <div class="guide-row"><span class="guide-num g3">3</span><span class="guide-desc">Very weak; bass drops lack weight and any rumble</span></div>
+          <div class="guide-row"><span class="guide-num g4">4</span><span class="guide-desc">Below average; limited depth, no physical sensation</span></div>
+          <div class="guide-row"><span class="guide-num g5">5</span><span class="guide-desc">Average; present but not impressive or physical</span></div>
+          <div class="guide-row"><span class="guide-num g6">6</span><span class="guide-desc">Decent; some depth and body in bass notes</span></div>
+          <div class="guide-row"><span class="guide-num g7">7</span><span class="guide-desc">Good; satisfying rumble, slight vibration in the shell</span></div>
+          <div class="guide-row"><span class="guide-num g8">8</span><span class="guide-desc">Strong; clear physical sensation and solid depth</span></div>
+          <div class="guide-row"><span class="guide-num g9">9</span><span class="guide-desc">Excellent; deep and physical, nearly wall-shaking</span></div>
+          <div class="guide-row"><span class="guide-num g10">10</span><span class="guide-desc">Reference-class; deep, physical, wall-shaking extension</span></div>
+        </div>
+      </div>
+
+      <div class="criterion" id="cr-basshit">
+        <div class="criterion-header">
+          <div>
+            <div class="criterion-label">Bass Punch &amp; Impact</div>
+            <div class="criterion-sub">Kick drums, bass guitar slam</div>
+          </div>
+          <div class="score-badge" id="val-basshit">5</div>
+        </div>
+        <input type="range" min="1" max="10" value="5" id="basshit" oninput="update('basshit')">
+        <div class="tick-labels"><span>Lean</span><span>Balanced</span><span>Hard-hitting</span></div>
+        <div class="test-tip">💡 <b>How to notice:</b> Focus on the kick drum hit. Does it land with a satisfying "thump" that feels physical, or does it arrive softly and disappear? Try a driving J-Rock track (e.g. ONE OK ROCK – <i>Wherever You Are</i>, or BTS-era EXILE / <i>garnidelia</i> for J-Pop EDM punch). The kick should hit you like a fist, not a feather.</div>
+        <div class="score-guide-toggle" onclick="toggleGuide(this)">📊 Score guide ▼</div>
+        <div class="score-guide">
+          <div class="guide-row"><span class="guide-num g1">1</span><span class="guide-desc">Kick drum barely audible; zero physical impact</span></div>
+          <div class="guide-row"><span class="guide-num g2">2</span><span class="guide-desc">Very soft; hits arrive but leave no impression</span></div>
+          <div class="guide-row"><span class="guide-num g3">3</span><span class="guide-desc">Soft; punch is present but lacks weight or conviction</span></div>
+          <div class="guide-row"><span class="guide-num g4">4</span><span class="guide-desc">Below average; kick is noticeable but not engaging</span></div>
+          <div class="guide-row"><span class="guide-num g5">5</span><span class="guide-desc">Average; punch present but not exciting or physical</span></div>
+          <div class="guide-row"><span class="guide-num g6">6</span><span class="guide-desc">Decent; hits land with some satisfying weight</span></div>
+          <div class="guide-row"><span class="guide-num g7">7</span><span class="guide-desc">Strong; kick drum feels physical and truly "lands"</span></div>
+          <div class="guide-row"><span class="guide-num g8">8</span><span class="guide-desc">Very strong; hits land with clear authority</span></div>
+          <div class="guide-row"><span class="guide-num g9">9</span><span class="guide-desc">Excellent; every hit is visceral and powerful</span></div>
+          <div class="guide-row"><span class="guide-num g10">10</span><span class="guide-desc">Outstanding; every hit lands with full authority and slam</span></div>
+        </div>
+      </div>
+
+      <div class="criterion" id="cr-bassclarity">
+        <div class="criterion-header">
+          <div>
+            <div class="criterion-label">Bass Clarity / Control</div>
+            <div class="criterion-sub">Notes are defined, not bloated or muddy</div>
+          </div>
+          <div class="score-badge" id="val-bassclarity">5</div>
+        </div>
+        <input type="range" min="1" max="10" value="5" id="bassclarity" oninput="update('bassclarity')">
+        <div class="tick-labels"><span>Muddy</span><span>OK</span><span>Tight &amp; clean</span></div>
+        <div class="test-tip">💡 <b>How to notice:</b> Listen to a fast bass-guitar run or rapid double-kick sequence. Can you hear each individual note cleanly, or do they blur into a single muddy wall? Muddy bass also bleeds into the mids and makes vocals sound foggy.</div>
+        <div class="score-guide-toggle" onclick="toggleGuide(this)">📊 Score guide ▼</div>
+        <div class="score-guide">
+          <div class="guide-row"><span class="guide-num g1">1</span><span class="guide-desc">Total mud; bass is one indistinct bloated blob</span></div>
+          <div class="guide-row"><span class="guide-num g2">2</span><span class="guide-desc">Extremely muddy; no definition between any notes</span></div>
+          <div class="guide-row"><span class="guide-num g3">3</span><span class="guide-desc">Very muddy; notes bleed heavily into each other</span></div>
+          <div class="guide-row"><span class="guide-num g4">4</span><span class="guide-desc">Below average; notes smear together in fast passages</span></div>
+          <div class="guide-row"><span class="guide-num g5">5</span><span class="guide-desc">Average; some definition but noticeable bloat remains</span></div>
+          <div class="guide-row"><span class="guide-num g6">6</span><span class="guide-desc">Decent; most notes distinguishable at moderate tempo</span></div>
+          <div class="guide-row"><span class="guide-num g7">7</span><span class="guide-desc">Good; individual bass notes clearly distinguishable</span></div>
+          <div class="guide-row"><span class="guide-num g8">8</span><span class="guide-desc">Very good; fast passages are tight and articulate</span></div>
+          <div class="guide-row"><span class="guide-num g9">9</span><span class="guide-desc">Excellent; near-perfect note separation at any tempo</span></div>
+          <div class="guide-row"><span class="guide-num g10">10</span><span class="guide-desc">Pristine; every note tight and perfectly defined</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mids -->
+    <div class="card">
+      <h2><span class="icon">🎤</span> Midrange</h2>
+
+      <div class="criterion" id="cr-vocals">
+        <div class="criterion-header">
+          <div>
+            <div class="criterion-label">Vocal Clarity</div>
+            <div class="criterion-sub">Voices sound natural, present, and clear</div>
+          </div>
+          <div class="score-badge" id="val-vocals">5</div>
+        </div>
+        <input type="range" min="1" max="10" value="5" id="vocals" oninput="update('vocals')">
+        <div class="tick-labels"><span>Thin/Recessed</span><span>Natural</span><span>Forward</span></div>
+        <div class="test-tip">💡 <b>How to notice:</b> Play a song you know well and focus only on the singer. Are they upfront and easy to understand every word, or pushed back behind the instruments? Also check: does the voice feel full-bodied or thin and distant?</div>
+        <div class="score-guide-toggle" onclick="toggleGuide(this)">📊 Score guide ▼</div>
+        <div class="score-guide">
+          <div class="guide-row"><span class="guide-num g1">1</span><span class="guide-desc">Voice completely buried; lyrics unintelligible</span></div>
+          <div class="guide-row"><span class="guide-num g2">2</span><span class="guide-desc">Extremely recessed; vocals are a faint shadow</span></div>
+          <div class="guide-row"><span class="guide-num g3">3</span><span class="guide-desc">Recessed and veiled; hard to follow what's sung</span></div>
+          <div class="guide-row"><span class="guide-num g4">4</span><span class="guide-desc">Below average; vocals lack presence and intimacy</span></div>
+          <div class="guide-row"><span class="guide-num g5">5</span><span class="guide-desc">Present but pushed back; acceptable clarity</span></div>
+          <div class="guide-row"><span class="guide-num g6">6</span><span class="guide-desc">Decent; vocals are audible and mostly clear</span></div>
+          <div class="guide-row"><span class="guide-num g7">7</span><span class="guide-desc">Clear and upfront; natural, lifelike presence</span></div>
+          <div class="guide-row"><span class="guide-num g8">8</span><span class="guide-desc">Very clear; singer sounds forward and intimate</span></div>
+          <div class="guide-row"><span class="guide-num g9">9</span><span class="guide-desc">Excellent; voice feels real and in the room with you</span></div>
+          <div class="guide-row"><span class="guide-num g10">10</span><span class="guide-desc">Singer feels right in front of you; effortless clarity</span></div>
+        </div>
+      </div>
+
+      <div class="criterion" id="cr-instruments">
+        <div class="criterion-header">
+          <div>
+            <div class="criterion-label">Instrument Texture</div>
+            <div class="criterion-sub">Guitars, piano, strings sound lifelike</div>
+          </div>
+          <div class="score-badge" id="val-instruments">5</div>
+        </div>
+        <input type="range" min="1" max="10" value="5" id="instruments" oninput="update('instruments')">
+        <div class="tick-labels"><span>Flat</span><span>OK</span><span>Rich &amp; detailed</span></div>
+        <div class="test-tip">💡 <b>How to notice:</b> Listen to an acoustic guitar strum — can you hear the string buzz and pick attack, or just a generic "guitar tone"? Piano should feel like hammers striking strings. The more lifelike and physical, the higher the texture score.</div>
+        <div class="score-guide-toggle" onclick="toggleGuide(this)">📊 Score guide ▼</div>
+        <div class="score-guide">
+          <div class="guide-row"><span class="guide-num g1">1</span><span class="guide-desc">Instruments sound synthetic and completely lifeless</span></div>
+          <div class="guide-row"><span class="guide-num g2">2</span><span class="guide-desc">Very flat; no sense of physical instrument character</span></div>
+          <div class="guide-row"><span class="guide-num g3">3</span><span class="guide-desc">Thin; guitars and piano lack character and body</span></div>
+          <div class="guide-row"><span class="guide-num g4">4</span><span class="guide-desc">Below average; instruments sound hollow and weak</span></div>
+          <div class="guide-row"><span class="guide-num g5">5</span><span class="guide-desc">Average; recognisable but flat, organic texture missing</span></div>
+          <div class="guide-row"><span class="guide-num g6">6</span><span class="guide-desc">Decent; some instrument character coming through</span></div>
+          <div class="guide-row"><span class="guide-num g7">7</span><span class="guide-desc">Lifelike; string buzz, pick attack, and body audible</span></div>
+          <div class="guide-row"><span class="guide-num g8">8</span><span class="guide-desc">Very lifelike; instruments feel physical and real</span></div>
+          <div class="guide-row"><span class="guide-num g9">9</span><span class="guide-desc">Excellent; every nuance and harmonic reproduced</span></div>
+          <div class="guide-row"><span class="guide-num g10">10</span><span class="guide-desc">Hyper-realistic; indistinguishable from a live performance</span></div>
+        </div>
+      </div>
+
+      <div class="criterion" id="cr-midwarmth">
+        <div class="criterion-header">
+          <div>
+            <div class="criterion-label">Warmth / Timbre</div>
+            <div class="criterion-sub">Tone sounds natural, not plasticky or sterile</div>
+          </div>
+          <div class="score-badge" id="val-midwarmth">5</div>
+        </div>
+        <input type="range" min="1" max="10" value="5" id="midwarmth" oninput="update('midwarmth')">
+        <div class="tick-labels"><span>Cold/Thin</span><span>Neutral</span><span>Warm</span></div>
+        <div class="test-tip">💡 <b>How to notice:</b> Listen to an acoustic or vocal-only track. Does everything sound natural like musicians in a real room, or does it feel sterile, plasticky, and artificially bright? Warmth adds body; too much makes it muddy; too little sounds clinical.</div>
+        <div class="score-guide-toggle" onclick="toggleGuide(this)">📊 Score guide ▼</div>
+        <div class="score-guide">
+          <div class="guide-row"><span class="guide-num g1">1</span><span class="guide-desc">Ice cold and sterile; clinical "digital" sound</span></div>
+          <div class="guide-row"><span class="guide-num g2">2</span><span class="guide-desc">Extremely thin; no body or organic quality at all</span></div>
+          <div class="guide-row"><span class="guide-num g3">3</span><span class="guide-desc">Thin and bright; lacks natural warmth or body</span></div>
+          <div class="guide-row"><span class="guide-num g4">4</span><span class="guide-desc">Slightly cool; lacks some fullness and body</span></div>
+          <div class="guide-row"><span class="guide-num g5">5</span><span class="guide-desc">Neutral; neither warm nor cold</span></div>
+          <div class="guide-row"><span class="guide-num g6">6</span><span class="guide-desc">Slightly warm; pleasant and natural</span></div>
+          <div class="guide-row"><span class="guide-num g7">7</span><span class="guide-desc">Pleasantly warm; natural, organic, room-like body</span></div>
+          <div class="guide-row"><span class="guide-num g8">8</span><span class="guide-desc">Warm and rich; instruments sound full and natural</span></div>
+          <div class="guide-row"><span class="guide-num g9">9</span><span class="guide-desc">Very warm; lush and inviting without muddiness</span></div>
+          <div class="guide-row"><span class="guide-num g10">10</span><span class="guide-desc">Richly warm and lush without crossing into muddiness</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Treble -->
+    <div class="card">
+      <h2><span class="icon">✨</span> Treble</h2>
+
+      <div class="criterion" id="cr-detail">
+        <div class="criterion-header">
+          <div>
+            <div class="criterion-label">Detail &amp; Clarity</div>
+            <div class="criterion-sub">Hi-hats, cymbals, micro-details</div>
+          </div>
+          <div class="score-badge" id="val-detail">5</div>
+        </div>
+        <input type="range" min="1" max="10" value="5" id="detail" oninput="update('detail')">
+        <div class="tick-labels"><span>Dull</span><span>Clear</span><span>Very detailed</span></div>
+        <div class="test-tip">💡 <b>How to notice:</b> Focus on hi-hats and cymbals. Can you hear the metallic shimmer and the decay tail after each hit? Also listen for subtle background details — a tambourine, a breath before a vocal phrase, or a distant backing instrument. If you notice new things each listen, detail is high.</div>
+        <div class="score-guide-toggle" onclick="toggleGuide(this)">📊 Score guide ▼</div>
+        <div class="score-guide">
+          <div class="guide-row"><span class="guide-num g1">1</span><span class="guide-desc">Completely rolled off; cymbals barely exist</span></div>
+          <div class="guide-row"><span class="guide-num g2">2</span><span class="guide-desc">Very dull; hi-hats are barely audible shapes</span></div>
+          <div class="guide-row"><span class="guide-num g3">3</span><span class="guide-desc">Dull; hi-hats are vague blobs with no shimmer</span></div>
+          <div class="guide-row"><span class="guide-num g4">4</span><span class="guide-desc">Below average; treble is muted and lacks definition</span></div>
+          <div class="guide-row"><span class="guide-num g5">5</span><span class="guide-desc">Average; treble present but limited in resolution</span></div>
+          <div class="guide-row"><span class="guide-num g6">6</span><span class="guide-desc">Decent; cymbal shimmer partially audible</span></div>
+          <div class="guide-row"><span class="guide-num g7">7</span><span class="guide-desc">Detailed; shimmer, decay, and micro-details audible</span></div>
+          <div class="guide-row"><span class="guide-num g8">8</span><span class="guide-desc">Very detailed; subtle background elements emerge</span></div>
+          <div class="guide-row"><span class="guide-num g9">9</span><span class="guide-desc">Excellent; you notice new micro-details each listen</span></div>
+          <div class="guide-row"><span class="guide-num g10">10</span><span class="guide-desc">Hyper-detailed; every transient and harmonic resolved</span></div>
+        </div>
+      </div>
+
+      <div class="criterion inverted" id="cr-sibilance">
+        <div class="criterion-header">
+          <div>
+            <div class="criterion-label">Sibilance / Harshness</div>
+            <div class="criterion-sub">Painful "S" and "T" sounds, shrill peaks</div>
+          </div>
+          <div class="score-badge" id="val-sibilance">6</div>
+        </div>
+        <input type="range" min="1" max="10" value="6" id="sibilance" oninput="update('sibilance')">
+        <div class="tick-labels"><span>None 👍</span><span>Mild</span><span>Harsh 👎</span></div>
+        <div class="test-tip">💡 <b>How to notice:</b> Listen to the singer say words with "s", "sh", or "ts" sounds (e.g. "still", "she", "this"). If those sounds sting your ears or feel like a sharp spike, that's sibilance. Cymbal crashes that sound razor-sharp or piercing also indicate treble harshness. <b>Lower score = better here.</b></div>
+        <div class="score-guide-toggle" onclick="toggleGuide(this)">📊 Score guide ▼</div>
+        <div class="score-guide">
+          <div class="guide-row"><span class="guide-num gi1">1</span><span class="guide-desc">No sibilance at all; perfectly smooth treble ✅ (best)</span></div>
+          <div class="guide-row"><span class="guide-num gi2">2</span><span class="guide-desc">Imperceptible; virtually no harshness detectable</span></div>
+          <div class="guide-row"><span class="guide-num gi3">3</span><span class="guide-desc">Very slight; barely noticeable on "s" sounds</span></div>
+          <div class="guide-row"><span class="guide-num gi4">4</span><span class="guide-desc">Slight; only apparent on very sibilant recordings</span></div>
+          <div class="guide-row"><span class="guide-num gi5">5</span><span class="guide-desc">Mild; occasional sharpness on sibilant tracks</span></div>
+          <div class="guide-row"><span class="guide-num gi6">6</span><span class="guide-desc">Moderate; "s" sounds are noticeably edgy</span></div>
+          <div class="guide-row"><span class="guide-num gi7">7</span><span class="guide-desc">Noticeable; "s" and "t" words regularly sting</span></div>
+          <div class="guide-row"><span class="guide-num gi8">8</span><span class="guide-desc">Strong; sibilance is a consistent annoyance</span></div>
+          <div class="guide-row"><span class="guide-num gi9">9</span><span class="guide-desc">Severe; listening is uncomfortable on many tracks</span></div>
+          <div class="guide-row"><span class="guide-num gi10">10</span><span class="guide-desc">Painful; ear fatigue within minutes ❌ (worst)</span></div>
+        </div>
+      </div>
+
+      <div class="criterion" id="cr-air">
+        <div class="criterion-header">
+          <div>
+            <div class="criterion-label">Air &amp; Extension</div>
+            <div class="criterion-sub">Top-end sparkle and openness above 10 kHz</div>
+          </div>
+          <div class="score-badge" id="val-air">5</div>
+        </div>
+        <input type="range" min="1" max="10" value="5" id="air" oninput="update('air')">
+        <div class="tick-labels"><span>Rolled-off</span><span>Decent</span><span>Airy</span></div>
+        <div class="test-tip">💡 <b>How to notice:</b> After a cymbal crash, listen to how long the high-frequency shimmer lingers. Rolled-off treble kills it quickly. Also: does the music feel "open" and breathable, or closed-in and suffocating at the top end? Violin harmonics and flute are great test instruments.</div>
+        <div class="score-guide-toggle" onclick="toggleGuide(this)">📊 Score guide ▼</div>
+        <div class="score-guide">
+          <div class="guide-row"><span class="guide-num g1">1</span><span class="guide-desc">Dead at the top; no sparkle or openness at all</span></div>
+          <div class="guide-row"><span class="guide-num g2">2</span><span class="guide-desc">Nearly dead; only the lowest treble region exists</span></div>
+          <div class="guide-row"><span class="guide-num g3">3</span><span class="guide-desc">Rolled off; music feels closed and suffocating</span></div>
+          <div class="guide-row"><span class="guide-num g4">4</span><span class="guide-desc">Below average; top-end is noticeably absent</span></div>
+          <div class="guide-row"><span class="guide-num g5">5</span><span class="guide-desc">Average; some top-end presence and openness</span></div>
+          <div class="guide-row"><span class="guide-num g6">6</span><span class="guide-desc">Decent; sparkle and openness above 10 kHz starting</span></div>
+          <div class="guide-row"><span class="guide-num g7">7</span><span class="guide-desc">Airy; cymbal decay lingers beautifully</span></div>
+          <div class="guide-row"><span class="guide-num g8">8</span><span class="guide-desc">Very airy; clear sense of space and extension</span></div>
+          <div class="guide-row"><span class="guide-num g9">9</span><span class="guide-desc">Excellent; music sounds open and expansive</span></div>
+          <div class="guide-row"><span class="guide-num g10">10</span><span class="guide-desc">Exceptional; music breathes — wide, open, spacious top</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Technical -->
+    <div class="card">
+      <h2><span class="icon">🔬</span> Technicalities</h2>
+
+      <div class="criterion" id="cr-separation">
+        <div class="criterion-header">
+          <div>
+            <div class="criterion-label">Instrument Separation</div>
+            <div class="criterion-sub">Each instrument sounds distinct, not blended</div>
+          </div>
+          <div class="score-badge" id="val-separation">5</div>
+        </div>
+        <input type="range" min="1" max="10" value="5" id="separation" oninput="update('separation')">
+        <div class="tick-labels"><span>Congested</span><span>Good</span><span>Excellent</span></div>
+        <div class="test-tip">💡 <b>How to notice:</b> Play a full-band or orchestral track. Mentally try to "zoom in" on one instrument at a time — guitar, then bass, then drums, then vocals. If you can isolate each clearly without the others bleeding in, separation is excellent. Poor separation sounds like a congested wall of sound.</div>
+        <div class="score-guide-toggle" onclick="toggleGuide(this)">📊 Score guide ▼</div>
+        <div class="score-guide">
+          <div class="guide-row"><span class="guide-num g1">1</span><span class="guide-desc">Everything blurs into one wall of sound</span></div>
+          <div class="guide-row"><span class="guide-num g2">2</span><span class="guide-desc">Heavily congested; instruments are indistinct</span></div>
+          <div class="guide-row"><span class="guide-num g3">3</span><span class="guide-desc">Very congested; instruments constantly bleed together</span></div>
+          <div class="guide-row"><span class="guide-num g4">4</span><span class="guide-desc">Below average; separation breaks down in busy sections</span></div>
+          <div class="guide-row"><span class="guide-num g5">5</span><span class="guide-desc">Average; congestion noticeable in busy passages</span></div>
+          <div class="guide-row"><span class="guide-num g6">6</span><span class="guide-desc">Decent; most instruments stay mostly distinct</span></div>
+          <div class="guide-row"><span class="guide-num g7">7</span><span class="guide-desc">Good; each instrument has its own clear space</span></div>
+          <div class="guide-row"><span class="guide-num g8">8</span><span class="guide-desc">Very good; separation holds even in complex mixes</span></div>
+          <div class="guide-row"><span class="guide-num g9">9</span><span class="guide-desc">Excellent; effortlessly separates all elements</span></div>
+          <div class="guide-row"><span class="guide-num g10">10</span><span class="guide-desc">Perfect; isolate any single instrument at will</span></div>
+        </div>
+      </div>
+
+      <div class="criterion" id="cr-soundstage">
+        <div class="criterion-header">
+          <div>
+            <div class="criterion-label">Soundstage</div>
+            <div class="criterion-sub">How wide/deep the music feels around you</div>
+          </div>
+          <div class="score-badge" id="val-soundstage">5</div>
+        </div>
+        <input type="range" min="1" max="10" value="5" id="soundstage" oninput="update('soundstage')">
+        <div class="tick-labels"><span>In-head</span><span>Medium</span><span>Wide &amp; open</span></div>
+        <div class="test-tip">💡 <b>How to notice:</b> Close your eyes and picture where the band is playing. Does the music feel trapped between your ears, or does it expand outward like musicians spread across a stage in front of you? Live recordings are ideal — try <i>L'Arc-en-Ciel Live 25th</i> or <i>ONE OK ROCK – Ambitions JAPAN DOME TOUR</i>. A wide stage means you feel like you're in the venue, not just listening through a keyhole.</div>
+        <div class="score-guide-toggle" onclick="toggleGuide(this)">📊 Score guide ▼</div>
+        <div class="score-guide">
+          <div class="guide-row"><span class="guide-num g1">1</span><span class="guide-desc">Everything trapped inside your skull</span></div>
+          <div class="guide-row"><span class="guide-num g2">2</span><span class="guide-desc">Extremely narrow; music feels claustrophobic</span></div>
+          <div class="guide-row"><span class="guide-num g3">3</span><span class="guide-desc">Very cramped; music feels narrow and confined</span></div>
+          <div class="guide-row"><span class="guide-num g4">4</span><span class="guide-desc">Below average; limited sense of space outside the head</span></div>
+          <div class="guide-row"><span class="guide-num g5">5</span><span class="guide-desc">Average; slightly outside-head sensation</span></div>
+          <div class="guide-row"><span class="guide-num g6">6</span><span class="guide-desc">Decent; noticeable width and some depth</span></div>
+          <div class="guide-row"><span class="guide-num g7">7</span><span class="guide-desc">Wide; musicians feel spread across a real stage</span></div>
+          <div class="guide-row"><span class="guide-num g8">8</span><span class="guide-desc">Very wide; clear depth and width beyond shoulders</span></div>
+          <div class="guide-row"><span class="guide-num g9">9</span><span class="guide-desc">Excellent; expansive, room-filling presentation</span></div>
+          <div class="guide-row"><span class="guide-num g10">10</span><span class="guide-desc">Holographic; full 3D immersive environment</span></div>
+        </div>
+      </div>
+
+      <div class="criterion" id="cr-imaging">
+        <div class="criterion-header">
+          <div>
+            <div class="criterion-label">Imaging</div>
+            <div class="criterion-sub">Can you pinpoint where each sound comes from?</div>
+          </div>
+          <div class="score-badge" id="val-imaging">5</div>
+        </div>
+        <input type="range" min="1" max="10" value="5" id="imaging" oninput="update('imaging')">
+        <div class="tick-labels"><span>Vague</span><span>Decent</span><span>Precise</span></div>
+        <div class="test-tip">💡 <b>How to notice:</b> In a live recording, can you tell which side the guitar is on vs. the keyboard? Try pointing your finger at where each instrument seems to come from. Precise imaging pins sounds to exact clock positions (10 o'clock, 2 o'clock). Vague imaging makes everything float loosely in the center.</div>
+        <div class="score-guide-toggle" onclick="toggleGuide(this)">📊 Score guide ▼</div>
+        <div class="score-guide">
+          <div class="guide-row"><span class="guide-num g1">1</span><span class="guide-desc">Everything floats vaguely in the center</span></div>
+          <div class="guide-row"><span class="guide-num g2">2</span><span class="guide-desc">Very vague; instruments have no consistent position</span></div>
+          <div class="guide-row"><span class="guide-num g3">3</span><span class="guide-desc">Rough left/right only; no real depth positioning</span></div>
+          <div class="guide-row"><span class="guide-num g4">4</span><span class="guide-desc">Below average; positions shift and blur frequently</span></div>
+          <div class="guide-row"><span class="guide-num g5">5</span><span class="guide-desc">Decent; approximate instrument placement possible</span></div>
+          <div class="guide-row"><span class="guide-num g6">6</span><span class="guide-desc">Fair; general direction of instruments detectable</span></div>
+          <div class="guide-row"><span class="guide-num g7">7</span><span class="guide-desc">Good; you can point to where each instrument is</span></div>
+          <div class="guide-row"><span class="guide-num g8">8</span><span class="guide-desc">Very good; positions are stable and convincing</span></div>
+          <div class="guide-row"><span class="guide-num g9">9</span><span class="guide-desc">Excellent; near-pinpoint accuracy on all instruments</span></div>
+          <div class="guide-row"><span class="guide-num g10">10</span><span class="guide-desc">Precise; exact clock-position pinpointing</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Comfort & Build -->
+    <div class="card">
+      <h2><span class="icon">🏗️</span> Fit &amp; Build</h2>
+
+      <div class="criterion" id="cr-comfort">
+        <div class="criterion-header">
+          <div>
+            <div class="criterion-label">Comfort / Fit</div>
+            <div class="criterion-sub">Stays in ear, no pressure or pain after 30+ min</div>
+          </div>
+          <div class="score-badge" id="val-comfort">5</div>
+        </div>
+        <input type="range" min="1" max="10" value="5" id="comfort" oninput="update('comfort')">
+        <div class="tick-labels"><span>Uncomfortable</span><span>OK</span><span>Excellent fit</span></div>
+        <div class="test-tip">💡 <b>How to notice:</b> Wear the IEM for at least 30 minutes without adjusting it. Notice: any pressure or soreness in the ear canal? Does the shell press on your tragus or anti-helix? If you forget you're wearing it at the end of a session, that's an excellent fit score.</div>
+        <div class="score-guide-toggle" onclick="toggleGuide(this)">📊 Score guide ▼</div>
+        <div class="score-guide">
+          <div class="guide-row"><span class="guide-num g1">1</span><span class="guide-desc">Painful within 5 minutes; unbearable pressure</span></div>
+          <div class="guide-row"><span class="guide-num g2">2</span><span class="guide-desc">Very uncomfortable; noticeable pain after 10 minutes</span></div>
+          <div class="guide-row"><span class="guide-num g3">3</span><span class="guide-desc">Uncomfortable; constant urge to readjust</span></div>
+          <div class="guide-row"><span class="guide-num g4">4</span><span class="guide-desc">Below average; noticeable discomfort after 20 minutes</span></div>
+          <div class="guide-row"><span class="guide-num g5">5</span><span class="guide-desc">OK; manageable for short to moderate sessions</span></div>
+          <div class="guide-row"><span class="guide-num g6">6</span><span class="guide-desc">Decent; comfortable for up to 45 minutes</span></div>
+          <div class="guide-row"><span class="guide-num g7">7</span><span class="guide-desc">Good; comfortable for 1+ hour sessions</span></div>
+          <div class="guide-row"><span class="guide-num g8">8</span><span class="guide-desc">Very good; no discomfort even after 2 hours</span></div>
+          <div class="guide-row"><span class="guide-num g9">9</span><span class="guide-desc">Excellent; wearable indefinitely without issue</span></div>
+          <div class="guide-row"><span class="guide-num g10">10</span><span class="guide-desc">You forget you're wearing them; could sleep in them</span></div>
+        </div>
+      </div>
+
+      <div class="criterion" id="cr-isolation">
+        <div class="criterion-header">
+          <div>
+            <div class="criterion-label">Passive Isolation</div>
+            <div class="criterion-sub">How well it blocks outside noise</div>
+          </div>
+          <div class="score-badge" id="val-isolation">5</div>
+        </div>
+        <input type="range" min="1" max="10" value="5" id="isolation" oninput="update('isolation')">
+        <div class="tick-labels"><span>Poor</span><span>Decent</span><span>Great seal</span></div>
+        <div class="test-tip">💡 <b>How to notice:</b> Insert the IEM without playing any music and sit in a room with ambient noise (fan, AC, street). How much is blocked? Then play music at a low volume — do you still need to raise the volume to compete with background noise? Great isolation means even quiet passages stay audible.</div>
+        <div class="score-guide-toggle" onclick="toggleGuide(this)">📊 Score guide ▼</div>
+        <div class="score-guide">
+          <div class="guide-row"><span class="guide-num g1">1</span><span class="guide-desc">No isolation; ambient noise fully present</span></div>
+          <div class="guide-row"><span class="guide-num g2">2</span><span class="guide-desc">Nearly none; only the loudest sounds are dulled</span></div>
+          <div class="guide-row"><span class="guide-num g3">3</span><span class="guide-desc">Poor; only high frequencies slightly attenuated</span></div>
+          <div class="guide-row"><span class="guide-num g4">4</span><span class="guide-desc">Below average; still very aware of surroundings</span></div>
+          <div class="guide-row"><span class="guide-num g5">5</span><span class="guide-desc">Average; noise reduced but still clearly audible</span></div>
+          <div class="guide-row"><span class="guide-num g6">6</span><span class="guide-desc">Decent; low-level noise becomes less intrusive</span></div>
+          <div class="guide-row"><span class="guide-num g7">7</span><span class="guide-desc">Good; most ambient noise effectively blocked</span></div>
+          <div class="guide-row"><span class="guide-num g8">8</span><span class="guide-desc">Very good; comfortable in noisy environments</span></div>
+          <div class="guide-row"><span class="guide-num g9">9</span><span class="guide-desc">Excellent; very little ambient noise gets through</span></div>
+          <div class="guide-row"><span class="guide-num g10">10</span><span class="guide-desc">Near-complete silence even in noisy environments</span></div>
+        </div>
+      </div>
+
+      <div class="criterion" id="cr-build">
+        <div class="criterion-header">
+          <div>
+            <div class="criterion-label">Build Quality</div>
+            <div class="criterion-sub">Shell, cable, connectors feel sturdy</div>
+          </div>
+          <div class="score-badge" id="val-build">5</div>
+        </div>
+        <input type="range" min="1" max="10" value="5" id="build" oninput="update('build')">
+        <div class="tick-labels"><span>Flimsy</span><span>OK</span><span>Solid</span></div>
+        <div class="test-tip">💡 <b>How to notice:</b> Gently tug the cable where it meets the connector — does it feel secure or wobbly? Hold the shell and feel its weight and rigidity. Check for seam gaps, rough edges, or a hollow feeling. A good build feels dense and consistent, with connectors that click in firmly.</div>
+        <div class="score-guide-toggle" onclick="toggleGuide(this)">📊 Score guide ▼</div>
+        <div class="score-guide">
+          <div class="guide-row"><span class="guide-num g1">1</span><span class="guide-desc">Feels like it will break on first use</span></div>
+          <div class="guide-row"><span class="guide-num g2">2</span><span class="guide-desc">Extremely fragile; shell flexes and cable is hair-thin</span></div>
+          <div class="guide-row"><span class="guide-num g3">3</span><span class="guide-desc">Cheap and fragile; inspires no confidence</span></div>
+          <div class="guide-row"><span class="guide-num g4">4</span><span class="guide-desc">Below average; some wobble in connectors or shell</span></div>
+          <div class="guide-row"><span class="guide-num g5">5</span><span class="guide-desc">Average; functional but nothing impressive</span></div>
+          <div class="guide-row"><span class="guide-num g6">6</span><span class="guide-desc">Decent; solid enough for confident daily use</span></div>
+          <div class="guide-row"><span class="guide-num g7">7</span><span class="guide-desc">Solid; sturdy shell, secure connectors, quality cable</span></div>
+          <div class="guide-row"><span class="guide-num g8">8</span><span class="guide-desc">Very solid; metal or high-grade plastic, premium feel</span></div>
+          <div class="guide-row"><span class="guide-num g9">9</span><span class="guide-desc">Excellent; near-flawless construction throughout</span></div>
+          <div class="guide-row"><span class="guide-num g10">10</span><span class="guide-desc">Premium; flawless construction, no weak points anywhere</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Value & Notes -->
+    <div class="card">
+      <h2><span class="icon">💬</span> Notes &amp; Value</h2>
+
+      <div class="criterion" id="cr-value">
+        <div class="criterion-header">
+          <div>
+            <div class="criterion-label">Value for Money</div>
+            <div class="criterion-sub">What you get vs. what you paid</div>
+          </div>
+          <div class="score-badge" id="val-value">5</div>
+        </div>
+        <input type="range" min="1" max="10" value="5" id="value" oninput="update('value')">
+        <div class="tick-labels"><span>Overpriced</span><span>Fair</span><span>Steal!</span></div>
+        <div class="test-tip">💡 <b>How to judge:</b> Compare what this IEM does vs. others you've heard at the same price. Does it outperform expectations for its tier? A score of 8–10 means it competes with IEMs 1–2 price brackets above it. A score of 1–3 means better options exist for the same money.</div>
+        <div class="score-guide-toggle" onclick="toggleGuide(this)">📊 Score guide ▼</div>
+        <div class="score-guide">
+          <div class="guide-row"><span class="guide-num g1">1</span><span class="guide-desc">Embarrassingly overpriced; everything else beats it</span></div>
+          <div class="guide-row"><span class="guide-num g2">2</span><span class="guide-desc">Very poor; much better options exist at the same price</span></div>
+          <div class="guide-row"><span class="guide-num g3">3</span><span class="guide-desc">Poor value; clearly outclassed by rivals</span></div>
+          <div class="guide-row"><span class="guide-num g4">4</span><span class="guide-desc">Below average; competitors offer more for the money</span></div>
+          <div class="guide-row"><span class="guide-num g5">5</span><span class="guide-desc">Fair; you get exactly what you pay for</span></div>
+          <div class="guide-row"><span class="guide-num g6">6</span><span class="guide-desc">Decent; slightly better than expected for the price</span></div>
+          <div class="guide-row"><span class="guide-num g7">7</span><span class="guide-desc">Good deal; outperforms its price tier</span></div>
+          <div class="guide-row"><span class="guide-num g8">8</span><span class="guide-desc">Great deal; competes with IEMs a full tier above</span></div>
+          <div class="guide-row"><span class="guide-num g9">9</span><span class="guide-desc">Excellent value; punches 1.5–2 tiers above its price</span></div>
+          <div class="guide-row"><span class="guide-num g10">10</span><span class="guide-desc">Incredible steal; competes 2+ tiers above its price</span></div>
+        </div>
+      </div>
+
+      <div style="margin-top: 12px;">
+        <label style="font-size:0.78rem; color:var(--muted); display:block; margin-bottom:6px;">Personal notes (what stands out, what to improve)</label>
+        <textarea id="notes" placeholder="e.g. Bass is great but vocals sound slightly veiled. Cable microphonics are annoying. Would use for EDM and gaming."></textarea>
+      </div>
+
+      <div class="btn-row" style="margin-top: 14px;">
+        <button class="btn-save" onclick="saveResult()">💾 Save Rating</button>
+        <button class="btn-export" onclick="exportAll()">📋 Export .txt</button>
+        <button class="btn-export" onclick="pickAndSaveJSON()">🗂 Save JSON</button>
+        <button class="btn-export" onclick="document.getElementById('json-file-input').click()">📂 Load JSON</button>
+        <input type="file" id="json-file-input" accept=".json,application/json" style="display:none" onchange="loadJSONFile(event)">
+        <button class="btn-reset" onclick="resetForm()">↺ Reset</button>
+      </div>
+    </div>
+
+    <!-- Summary & Conclusion -->
+    <div class="card">
+      <h2><span class="icon">📝</span> Summary &amp; Conclusion</h2>
+      <div class="summary-box" id="summary-box">Adjust the sliders above to generate a summary.</div>
+      <div class="btn-row" style="margin-top: 10px;">
+        <button class="btn-export" onclick="copySummary(event)">📋 Copy Summary</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Right sidebar -->
+  <div class="sidebar">
+
+    <!-- Score ring -->
+    <div class="card">
+      <h2><span class="icon">📊</span> Overall Score</h2>
+      <div class="score-ring-wrap">
+        <div class="score-ring">
+          <svg width="120" height="120" viewBox="0 0 120 120">
+            <circle cx="60" cy="60" r="50" fill="none" stroke="#2d3348" stroke-width="10"/>
+            <circle id="ring-fill" cx="60" cy="60" r="50" fill="none"
+              stroke="url(#rg)" stroke-width="10"
+              stroke-dasharray="314.16" stroke-dashoffset="157.08"
+              stroke-linecap="round"/>
+            <defs>
+              <linearGradient id="rg" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#7c6af7"/>
+                <stop offset="100%" stop-color="#5eead4"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <div class="score-ring-text">
+            <div class="score-big" id="score-big">5.0</div>
+            <div class="score-label">/ 10</div>
+          </div>
+        </div>
+        <div class="verdict" id="verdict-text">Decent</div>
+        <div class="verdict-desc" id="verdict-desc">Adjust sliders to rate</div>
+      </div>
+
+      <!-- Breakdown -->
+      <div class="breakdown">
+        <div class="breakdown-row">
+          <div class="breakdown-name">Bass</div>
+          <div class="breakdown-bar-bg"><div class="breakdown-bar" id="bar-bass" style="width:50%;background:#7c6af7"></div></div>
+          <div class="breakdown-val" id="bv-bass">5.0</div>
+        </div>
+        <div class="breakdown-row">
+          <div class="breakdown-name">Mids</div>
+          <div class="breakdown-bar-bg"><div class="breakdown-bar" id="bar-mids" style="width:50%;background:#a78bfa"></div></div>
+          <div class="breakdown-val" id="bv-mids">5.0</div>
+        </div>
+        <div class="breakdown-row">
+          <div class="breakdown-name">Treble</div>
+          <div class="breakdown-bar-bg"><div class="breakdown-bar" id="bar-treble" style="width:50%;background:#5eead4"></div></div>
+          <div class="breakdown-val" id="bv-treble">5.0</div>
+        </div>
+        <div class="breakdown-row">
+          <div class="breakdown-name">Technical</div>
+          <div class="breakdown-bar-bg"><div class="breakdown-bar" id="bar-tech" style="width:50%;background:#34d399"></div></div>
+          <div class="breakdown-val" id="bv-tech">5.0</div>
+        </div>
+        <div class="breakdown-row">
+          <div class="breakdown-name">Fit/Build</div>
+          <div class="breakdown-bar-bg"><div class="breakdown-bar" id="bar-fit" style="width:50%;background:#fbbf24"></div></div>
+          <div class="breakdown-val" id="bv-fit">5.0</div>
+        </div>
+        <div class="breakdown-row">
+          <div class="breakdown-name">Value</div>
+          <div class="breakdown-bar-bg"><div class="breakdown-bar" id="bar-value" style="width:50%;background:#f87171"></div></div>
+          <div class="breakdown-val" id="bv-value">5.0</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- History -->
+    <div class="card">
+      <h2><span class="icon">📜</span> Saved Ratings</h2>
+      <div class="history-list" id="history-list">
+        <div class="empty-state">No ratings saved yet.<br>Fill in the form and hit Save.</div>
+      </div>
+    </div>
+
+    <!-- Quick tips -->
+    <div class="card">
+      <h2><span class="icon">💡</span> Test Tips</h2>
+      <div style="font-size:0.78rem; color:var(--muted); line-height:1.7;">
+        <p>🎵 <b style="color:var(--text)">Sub-bass:</b> Play <em>"Midnight City"</em> by M83 or any electronic with deep synths.</p>
+        <br>
+        <p>🥁 <b style="color:var(--text)">Punch:</b> Use <em>"Tom Sawyer"</em> by Rush or metal/rock with fast kick drums.</p>
+        <br>
+        <p>🎤 <b style="color:var(--text)">Vocals:</b> Use <em>"Sleepwalking Cover"</em> by This Wildlife or an acoustic singer-songwriter track you know well.</p>
+        <br>
+        <p>🔔 <b style="color:var(--text)">Sibilance:</b> Tracks with lots of "s" words — if they sting, it's sibilant.</p>
+        <br>
+        <p>🌐 <b style="color:var(--text)">Soundstage:</b> Use a binaural recording (search "binaural 8D audio" on YouTube).</p>
+        <br>
+        <p>🎯 <b style="color:var(--text)">Imaging:</b> Orchestral music — can you tell where violin vs cello sits?</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const SLIDERS = [
+    'subbass','basshit','bassclarity',
+    'vocals','instruments','midwarmth',
+    'detail','sibilance','air',
+    'separation','soundstage','imaging',
+    'comfort','isolation','build',
+    'value'
+  ];
+
+  const GROUPS = {
+    bass:   ['subbass','basshit','bassclarity'],
+    mids:   ['vocals','instruments','midwarmth'],
+    treble: ['detail','sibilance','air'],  // sibilance is inverted
+    tech:   ['separation','soundstage','imaging'],
+    fit:    ['comfort','isolation','build'],
+    value:  ['value']
+  };
+
+  function getVal(id) {
+    return parseInt(document.getElementById(id).value);
+  }
+
+  function scoreColor(score) {
+    if (score >= 8.5) return '#34d399';
+    if (score >= 7)   return '#5eead4';
+    if (score >= 5.5) return '#fbbf24';
+    if (score >= 4)   return '#f97316';
+    return '#f87171';
+  }
+
+  function verdictOf(score) {
+    if (score >= 9.0) return ['Legendary', 'A true gem in your collection!'];
+    if (score >= 8.0) return ['Excellent', 'Highly recommended — buy without hesitation.'];
+    if (score >= 7.0) return ['Very Good', 'Solid performer with minor flaws.'];
+    if (score >= 6.0) return ['Good', 'Above average, enjoyable daily driver.'];
+    if (score >= 5.0) return ['Decent', 'Gets the job done, some compromises.'];
+    if (score >= 4.0) return ['Mediocre', 'Noticeable weaknesses, look for alternatives.'];
+    if (score >= 3.0) return ['Poor', 'Hard to recommend at any price.'];
+    return ['Skip It', 'Not worth your time or money.'];
+  }
+
+  function groupAvg(ids, invertId) {
+    const vals = ids.map(id => {
+      let v = getVal(id);
+      if (id === invertId) v = 11 - v; // invert sibilance
+      return v;
+    });
+    return vals.reduce((a,b)=>a+b,0) / vals.length;
+  }
+
+  function update(changedId) {
+    const v = getVal(changedId);
+    const badge = document.getElementById('val-' + changedId);
+    badge.textContent = v;
+    badge.style.color = scoreColor(v);
+
+    // Update slider track fill
+    const slider = document.getElementById(changedId);
+    const pct = (v - 1) / 9 * 100;
+    slider.style.background = `linear-gradient(to right, var(--accent) ${pct}%, var(--surface2) ${pct}%)`;
+
+    recalc();
+  }
+
+  function recalc() {
+    const bass   = groupAvg(GROUPS.bass, null);
+    const mids   = groupAvg(GROUPS.mids, null);
+    const treble = groupAvg(GROUPS.treble, 'sibilance');
+    const tech   = groupAvg(GROUPS.tech, null);
+    const fit    = groupAvg(GROUPS.fit, null);
+    const value  = getVal('value');
+
+    // Weighted average
+    const overall = (bass*1.5 + mids*1.5 + treble*1.2 + tech*1.2 + fit*1.0 + value*0.6) / 7.0;
+    const rounded = Math.round(overall * 10) / 10;
+
+    // Ring
+    const circ = 314.16;
+    const offset = circ - ((rounded - 1) / 9) * circ;
+    document.getElementById('ring-fill').setAttribute('stroke-dashoffset', offset);
+
+    const scoreEl = document.getElementById('score-big');
+    scoreEl.textContent = rounded.toFixed(1);
+    scoreEl.style.color = scoreColor(rounded);
+
+    const [vLabel, vDesc] = verdictOf(rounded);
+    document.getElementById('verdict-text').textContent = vLabel;
+    document.getElementById('verdict-text').style.color = scoreColor(rounded);
+    document.getElementById('verdict-desc').textContent = vDesc;
+
+    setBar('bass',   bass,   '#7c6af7');
+    setBar('mids',   mids,   '#a78bfa');
+    setBar('treble', treble, '#5eead4');
+    setBar('tech',   tech,   '#34d399');
+    setBar('fit',    fit,    '#fbbf24');
+    setBar('value',  value,  '#f87171');
+    updateSummary();
+  }
+
+  function setBar(key, val, color) {
+    const pct = (val - 1) / 9 * 100;
+    document.getElementById('bar-' + key).style.width = pct + '%';
+    document.getElementById('bar-' + key).style.background = color;
+    document.getElementById('bv-' + key).textContent = (Math.round(val * 10) / 10).toFixed(1);
+    document.getElementById('bv-' + key).style.color = scoreColor(val);
+  }
+
+  function getFormData() {
+    const data = {
+      name: document.getElementById('iem-name').value.trim() || 'Unnamed IEM',
+      driver: document.getElementById('driver-type').value,
+      price: document.getElementById('price-range').value,
+      genre: document.getElementById('genre').value.trim(),
+      notes: document.getElementById('notes').value.trim(),
+      scores: {},
+      timestamp: new Date().toISOString()
+    };
+    SLIDERS.forEach(id => data.scores[id] = getVal(id));
+    return data;
+  }
+
+  function loadJSONFile(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      try {
+        const data = JSON.parse(e.target.result);
+        if (!Array.isArray(data)) { alert('Invalid JSON: expected an array of ratings.'); return; }
+        const existing = loadHistory();
+        // Merge: add entries from file that aren't already in localStorage (by id)
+        const existingIds = new Set(existing.map(h => h.id));
+        const incoming = data.filter(h => !existingIds.has(h.id));
+        const merged = [...incoming, ...existing].sort((a, b) => b.id - a.id);
+        localStorage.setItem('iem_ratings', JSON.stringify(merged));
+        renderHistory();
+        alert(`✅ Loaded ${incoming.length} new rating(s) from file. Total: ${merged.length}.`);
+      } catch (err) {
+        alert('Failed to parse JSON file: ' + err.message);
+      }
+      event.target.value = ''; // reset so same file can be picked again
+    };
+    reader.readAsText(file);
+  }
+
+  // --- JSON file persistence via File System Access API ---
+  let _jsonFileHandle = null;
+
+  async function pickAndSaveJSON() {
+    const history = loadHistory();
+    if (!history.length) { alert('No saved ratings to export yet.'); return; }
+    if (window.showSaveFilePicker) {
+      try {
+        _jsonFileHandle = await window.showSaveFilePicker({
+          suggestedName: 'iem-ratings.json',
+          types: [{ description: 'JSON file', accept: { 'application/json': ['.json'] } }]
+        });
+        await _writeJSON(_jsonFileHandle, history);
+        const btn = event.currentTarget;
+        const orig = btn.textContent;
+        btn.textContent = '✅ JSON Saved!';
+        setTimeout(() => btn.textContent = orig, 1500);
+      } catch (e) {
+        if (e.name !== 'AbortError') console.error(e);
+      }
+    } else {
+      // Fallback: download blob
+      _downloadJSON(history);
+    }
+  }
+
+  async function _writeJSON(handle, history) {
+    const writable = await handle.createWritable();
+    await writable.write(JSON.stringify(history, null, 2));
+    await writable.close();
+  }
+
+  function _downloadJSON(history) {
+    const blob = new Blob([JSON.stringify(history, null, 2)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'iem-ratings.json';
+    a.click();
+  }
+
+  async function _autoSaveJSON(history) {
+    if (_jsonFileHandle) {
+      try { await _writeJSON(_jsonFileHandle, history); } catch (e) { console.warn('Auto-save JSON failed:', e); }
+    }
+  }
+
+  function saveResult() {
+    const data = getFormData();
+    const history = loadHistory();
+    data.id = Date.now();
+
+    // compute overall for display
+    const bass   = groupAvg(GROUPS.bass, null);
+    const mids   = groupAvg(GROUPS.mids, null);
+    const treble = groupAvg(GROUPS.treble, 'sibilance');
+    const tech   = groupAvg(GROUPS.tech, null);
+    const fit    = groupAvg(GROUPS.fit, null);
+    const value  = getVal('value');
+    data.overall = Math.round(((bass*1.5 + mids*1.5 + treble*1.2 + tech*1.2 + fit*1.0 + value*0.6) / 7.0) * 10) / 10;
+    data.summary = generateSummaryFromScores(data.scores);
+
+    history.unshift(data);
+    localStorage.setItem('iem_ratings', JSON.stringify(history));
+    renderHistory();
+    _autoSaveJSON(history);
+
+    // Briefly flash save button
+    const btn = document.querySelector('.btn-save');
+    btn.textContent = '✅ Saved!';
+    setTimeout(() => btn.textContent = '💾 Save Rating', 1500);
+  }
+
+  function loadHistory() {
+    try { return JSON.parse(localStorage.getItem('iem_ratings') || '[]'); }
+    catch { return []; }
+  }
+
+  function renderHistory() {
+    const history = loadHistory();
+    const list = document.getElementById('history-list');
+    if (!history.length) {
+      list.innerHTML = '<div class="empty-state">No ratings saved yet.<br>Fill in the form and hit Save.</div>';
+      return;
+    }
+    list.innerHTML = history.map(item => {
+      const date = new Date(item.timestamp).toLocaleDateString();
+      const driver = item.driver ? ` · ${item.driver}` : '';
+      const price = item.price ? ` · ${item.price}` : '';
+      return `
+        <div class="history-item" onclick="loadItem(${item.id})">
+          <div class="history-item-top">
+            <div class="history-item-name">${escHtml(item.name)}</div>
+            <div class="history-item-score" style="color:${scoreColor(item.overall)}">${item.overall}/10</div>
+            <button class="history-item-del" onclick="deleteItem(event,${item.id})">✕</button>
+          </div>
+          <div class="history-item-meta">${date}${driver}${price}</div>
+        </div>`;
+    }).join('');
+  }
+
+  function escHtml(s) {
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function loadItem(id) {
+    const history = loadHistory();
+    const item = history.find(h => h.id === id);
+    if (!item) return;
+    document.getElementById('iem-name').value = item.name;
+    document.getElementById('driver-type').value = item.driver || '';
+    document.getElementById('price-range').value = item.price || '';
+    document.getElementById('genre').value = item.genre || '';
+    document.getElementById('notes').value = item.notes || '';
+    SLIDERS.forEach(id => {
+      const slider = document.getElementById(id);
+      slider.value = item.scores[id] || 5;
+      update(id);
+    });
+  }
+
+  function deleteItem(event, id) {
+    event.stopPropagation();
+    let history = loadHistory();
+    history = history.filter(h => h.id !== id);
+    localStorage.setItem('iem_ratings', JSON.stringify(history));
+    renderHistory();
+  }
+
+  function resetForm() {
+    document.getElementById('iem-name').value = '';
+    document.getElementById('driver-type').value = '';
+    document.getElementById('price-range').value = '';
+    document.getElementById('genre').value = '';
+    document.getElementById('notes').value = '';
+    SLIDERS.forEach(id => {
+      document.getElementById(id).value = id === 'sibilance' ? 6 : 5;
+      update(id);
+    });
+  }
+
+  function exportAll() {
+    const history = loadHistory();
+    if (!history.length) {
+      alert('No saved ratings to export yet.');
+      return;
+    }
+
+    const lines = ['IEM Audio Rater — Export', '='.repeat(40), ''];
+    history.forEach(item => {
+      lines.push(`IEM: ${item.name}`);
+      if (item.driver) lines.push(`Driver: ${item.driver}`);
+      if (item.price)  lines.push(`Price:  ${item.price}`);
+      if (item.genre)  lines.push(`Genre tested: ${item.genre}`);
+      lines.push(`Date: ${new Date(item.timestamp).toLocaleString()}`);
+      lines.push(`Overall: ${item.overall}/10`);
+      lines.push('');
+      lines.push('Scores:');
+      const labels = {
+        subbass:'Sub-Bass Extension', basshit:'Bass Punch', bassclarity:'Bass Clarity',
+        vocals:'Vocal Clarity', instruments:'Instrument Texture', midwarmth:'Warmth/Timbre',
+        detail:'Treble Detail', sibilance:'Sibilance (lower=better)', air:'Air/Extension',
+        separation:'Separation', soundstage:'Soundstage', imaging:'Imaging',
+        comfort:'Comfort', isolation:'Isolation', build:'Build Quality',
+        value:'Value for Money'
+      };
+      Object.entries(item.scores).forEach(([k,v]) => {
+        lines.push(`  ${(labels[k] || k).padEnd(28)} ${v}/10`);
+      });
+      if (item.notes)    { lines.push(''); lines.push('Notes: ' + item.notes); }
+      if (item.summary)  { lines.push(''); lines.push('Summary:'); lines.push(item.summary); }
+      lines.push(''); lines.push('-'.repeat(40)); lines.push('');
+    });
+
+    const blob = new Blob([lines.join('\n')], {type: 'text/plain'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'iem-ratings.txt';
+    a.click();
+  }
+
+  function toggleGuide(el) {
+    const guide = el.nextElementSibling;
+    const isOpen = guide.style.display === 'block';
+    guide.style.display = isOpen ? 'none' : 'block';
+    el.textContent = isOpen ? '📊 Score guide ▼' : '📊 Score guide ▲';
+  }
+
+  function generateSummaryFromScores(sc) {
+    const avg = arr => arr.reduce((a,b) => a+b, 0) / arr.length;
+    const bass   = avg([sc.subbass, sc.basshit, sc.bassclarity]);
+    const mids   = avg([sc.vocals, sc.instruments, sc.midwarmth]);
+    const treble = avg([sc.detail, 11 - sc.sibilance, sc.air]);
+    const tech   = avg([sc.separation, sc.soundstage, sc.imaging]);
+    const fit    = avg([sc.comfort, sc.isolation, sc.build]);
+    const value  = sc.value;
+    const overall = Math.round(((bass*1.5 + mids*1.5 + treble*1.2 + tech*1.2 + fit*1.0 + value*0.6) / 7.0) * 10) / 10;
+
+    let sig;
+    if      (bass - mids > 1   && treble - mids > 1)  sig = 'V-shaped';
+    else if (bass - mids > 1.5 && treble - mids <= 1) sig = 'Bass-heavy';
+    else if (treble - mids > 1.5 && bass - mids <= 1) sig = 'Bright / Analytical';
+    else if (mids - bass > 1   && mids - treble > 1)  sig = 'Mid-forward';
+    else if (Math.abs(bass-mids) <= 1 && Math.abs(mids-treble) <= 1) sig = 'Neutral / Balanced';
+    else sig = 'Neutral';
+
+    const sigDesc = {
+      'V-shaped':            'Elevated bass and treble with recessed mids — fun and energetic, but vocals may feel distant or thin.',
+      'Bass-heavy':          'Strong bass presence dominates — exciting for bass-driven genres but can overwhelm the midrange.',
+      'Bright / Analytical': 'Treble-forward with high detail retrieval — great for critical listening, may fatigue over extended sessions.',
+      'Mid-forward':         'Prominent vocals and instruments — ideal for acoustic, jazz, and vocal-centric music.',
+      'Neutral / Balanced':  'Even across all frequencies — versatile and accurate without strong colouration.',
+      'Neutral':             'No dominant frequency colouration — relatively even response across the board.'
+    };
+
+    const groups = { Bass: bass, Mids: mids, Treble: treble, Technical: tech, 'Fit & Build': fit };
+    const strengths  = Object.entries(groups).filter(([,v]) => v >= 7).map(([k]) => k);
+    const weaknesses = Object.entries(groups).filter(([,v]) => v < 5).map(([k]) => k);
+
+    const lines = [];
+    lines.push(`Sound Signature: ${sig}`);
+    lines.push(sigDesc[sig]);
+    lines.push('');
+
+    if (strengths.length)  lines.push(`✅ Strong areas: ${strengths.join(', ')}.`);
+    if (weaknesses.length) lines.push(`⚠️ Weak areas: ${weaknesses.join(', ')}.`);
+
+    if (sc.sibilance >= 7)
+      lines.push('⚠️ High sibilance — extended listening may cause ear fatigue on bright or "s"-heavy tracks.');
+    else if (sc.sibilance <= 3)
+      lines.push('✅ Smooth, non-fatiguing treble — sibilance is well-controlled.');
+
+    if (sc.bassclarity <= 4 && sc.basshit >= 7)
+      lines.push('ℹ️ Punchy but muddy bass — good impact, but fast bass passages may sound bloated.');
+
+    const bestFor = [];
+    if (bass >= 7)   bestFor.push('EDM', 'Hip-hop', 'Live rock');
+    if (mids >= 7)   bestFor.push('Vocals', 'Acoustic');
+    if (treble >= 7) bestFor.push('Classical', 'Jazz');
+    if (tech >= 7)   bestFor.push('Orchestral', 'Gaming');
+    if (!bestFor.length) bestFor.push('General listening');
+    lines.push(`🎵 Best for: ${[...new Set(bestFor)].slice(0, 5).join(', ')}.`);
+
+    if (value >= 8)      lines.push('💰 Excellent value — competes with IEMs above its price tier.');
+    else if (value <= 3) lines.push('💰 Poor value — better alternatives likely exist at this price.');
+
+    lines.push('');
+    const [vLabel, vDesc] = verdictOf(overall);
+    lines.push(`Verdict: ${vLabel} (${overall}/10) — ${vDesc}`);
+
+    return lines.join('\n');
+  }
+
+  function updateSummary() {
+    const sc = {};
+    SLIDERS.forEach(id => sc[id] = getVal(id));
+    document.getElementById('summary-box').textContent = generateSummaryFromScores(sc);
+  }
+
+  function copySummary(event) {
+    const text = document.getElementById('summary-box').textContent;
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = event.target;
+      btn.textContent = '✅ Copied!';
+      setTimeout(() => btn.textContent = '📋 Copy Summary', 1500);
+    });
+  }
+
+  // Init
+  SLIDERS.forEach(id => update(id));
+  renderHistory();
+</script>
+</body>
+</html>
