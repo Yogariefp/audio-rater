@@ -78,9 +78,11 @@ Each group score is the average of its criteria. Sibilance is inverted before av
 
 ## Data Persistence
 
-**Browser localStorage** — ratings are saved automatically and survive page refreshes.
+> ⚠️ **Your ratings are stored in your browser only.** This is a static site — nothing you rate gets saved to this repository automatically. If you clear your browser data or switch devices, your ratings are gone unless you export them first.
 
-**JSON file (recommended)** — click **🗂 Save JSON** to save all ratings to a `.json` file of your choice. The app remembers the file for the session and silently updates it every time you save a new rating. Click **📂 Load JSON** to import ratings from a previous session or another device.
+**Browser localStorage** — ratings are saved automatically and survive page refreshes, but only in the browser you used.
+
+**JSON file (recommended)** — click **🗂 Save JSON** to save all ratings to a `.json` file on your computer. The app remembers the file for the session and silently updates it every time you save a new rating. Click **📂 Load JSON** to restore them on another browser or device.
 
 **Export .txt** — human-readable export of all saved ratings for archiving or sharing.
 
