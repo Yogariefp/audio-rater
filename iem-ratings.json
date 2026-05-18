@@ -1,5 +1,34 @@
 [
   {
+    "name": "GK Streak",
+    "driver": "DD+Planar",
+    "price": "$20-50",
+    "genre": "Based on Test Tips",
+    "notes": "",
+    "scores": {
+      "subbass": 7,
+      "basshit": 6,
+      "bassclarity": 4,
+      "vocals": 4,
+      "instruments": 5,
+      "midwarmth": 6,
+      "detail": 5,
+      "sibilance": 3,
+      "air": 5,
+      "separation": 5,
+      "soundstage": 6,
+      "imaging": 6,
+      "comfort": 7,
+      "isolation": 5,
+      "build": 6,
+      "value": 6
+    },
+    "timestamp": "2026-05-17T16:18:00.402Z",
+    "id": 1779034680402,
+    "overall": 5.7,
+    "summary": "Sound Signature: Neutral / Balanced\nEven across all frequencies — versatile and accurate without strong colouration.\n\n✅ Smooth, non-fatiguing treble — sibilance is well-controlled.\n🎵 Best for: General listening.\n\nVerdict: Decent (5.7/10) — Gets the job done, some compromises."
+  },
+  {
     "name": "Moondrop Rays / May",
     "driver": "DD+Planar",
     "price": "$50-100",
@@ -13,7 +42,7 @@
       "instruments": 7,
       "midwarmth": 6,
       "detail": 7,
-      "sibilance": 4,
+      "sibilance": 6,
       "air": 6,
       "separation": 7,
       "soundstage": 7,
@@ -21,67 +50,11 @@
       "comfort": 8,
       "isolation": 6,
       "build": 4,
-      "value": 6
+      "value": 5
     },
-    "timestamp": "2026-05-17T15:46:58.195Z",
-    "id": 1779032818195,
-    "overall": 6.4,
-    "summary": "Sound Signature: Neutral / Balanced\nEven across all frequencies — versatile and accurate without strong colouration.\n\n🎵 Best for: General listening.\n\nVerdict: Good (6.4/10) — Above average, enjoyable daily driver."
-  },
-  {
-    "name": "Tangzu Waner SG 2",
-    "driver": "DD",
-    "price": "$20-50",
-    "genre": "Live 25th L'Arc-en-Ciel",
-    "notes": "",
-    "scores": {
-      "subbass": 5,
-      "basshit": 6,
-      "bassclarity": 5,
-      "vocals": 6,
-      "instruments": 6,
-      "midwarmth": 6,
-      "detail": 6,
-      "sibilance": 4,
-      "air": 7,
-      "separation": 6,
-      "soundstage": 5,
-      "imaging": 5,
-      "comfort": 6,
-      "isolation": 5,
-      "build": 4,
-      "value": 7
-    },
-    "timestamp": "2026-05-17T09:15:22.667Z",
-    "id": 1779009322667,
-    "overall": 5.8
-  },
-  {
-    "name": "GK Streak",
-    "driver": "DD+Planar",
-    "price": "$20-50",
-    "genre": "Live 25th L'Arc-en-Ciel",
-    "notes": "",
-    "scores": {
-      "subbass": 7,
-      "basshit": 7,
-      "bassclarity": 4,
-      "vocals": 4,
-      "instruments": 7,
-      "midwarmth": 6,
-      "detail": 6,
-      "sibilance": 3,
-      "air": 6,
-      "separation": 7,
-      "soundstage": 6,
-      "imaging": 6,
-      "comfort": 7,
-      "isolation": 5,
-      "build": 6,
-      "value": 4
-    },
-    "timestamp": "2026-05-17T09:04:15.384Z",
-    "id": 1779008655384,
-    "overall": 5.9
+    "timestamp": "2026-05-17T15:53:13.716Z",
+    "id": 1779033193716,
+    "overall": 6.2,
+    "summary": "Sound Signature: Neutral / Balanced\nEven across all frequencies — versatile and accurate without strong colouration.\n\n🎵 Best for: General listening.\n\nVerdict: Good (6.2/10) — Above average, enjoyable daily driver."
   }
 ]
