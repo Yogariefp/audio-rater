@@ -1756,6 +1756,24 @@
     const el = document.getElementById(id);
     if (el) el.setAttribute('aria-label', SLIDER_ARIA[id] + ' (1–10)');
   });
+
+  // Auto-load bundled iem-ratings.json (served alongside the page, e.g. on GitHub Pages).
+  // Silently merges any entries not already in localStorage; never overwrites existing data.
+  (async function _loadBundledJSON() {
+    try {
+      const res = await fetch('iem-ratings.json');
+      if (!res.ok) return;
+      const incoming = await res.json();
+      if (!Array.isArray(incoming) || !incoming.length) return;
+      const existing   = loadHistory();
+      const existingIds = new Set(existing.map(h => h.id));
+      const toAdd = incoming.filter(h => !existingIds.has(h.id));
+      if (!toAdd.length) return;
+      const merged = [...existing, ...toAdd];
+      localStorage.setItem('iem_ratings', JSON.stringify(merged));
+      renderHistory();
+    } catch (_) { /* offline or file absent — proceed with localStorage only */ }
+  })();
 </script>
 </body>
 </html>
