@@ -494,12 +494,12 @@
       <h2><span class="icon">🎧</span> IEM Details</h2>
       <div class="meta-grid">
         <div>
-          <label>IEM Name / Model</label>
-          <input id="iem-name" type="text" placeholder="e.g. KZ ZSN Pro X">
+          <label for="iem-name">IEM Name / Model</label>
+          <input id="iem-name" type="text" placeholder="e.g. KZ ZSN Pro X" oninput="updateSummary()">
         </div>
         <div>
-          <label>Driver Type</label>
-          <select id="driver-type">
+          <label for="driver-type">Driver Type</label>
+          <select id="driver-type" onchange="updateSummary()">
             <option value="">Unknown</option>
             <option value="DD">Dynamic Driver (DD)</option>
             <option value="BA">Balanced Armature (BA)</option>
@@ -511,8 +511,8 @@
           </select>
         </div>
         <div>
-          <label>Price Range</label>
-          <select id="price-range">
+          <label for="price-range">Price Range</label>
+          <select id="price-range" onchange="updateSummary()">
             <option value="">Unspecified</option>
             <option value="&lt;$20">Budget (&lt;$20)</option>
             <option value="$20-50">Entry ($20–$50)</option>
@@ -522,8 +522,8 @@
           </select>
         </div>
         <div>
-          <label>Test Music Genre / Track</label>
-          <input id="genre" type="text" placeholder="e.g. J-Pop, Metal, Jazz" list="genre-suggestions">
+          <label for="genre">Test Music Genre / Track</label>
+          <input id="genre" type="text" placeholder="e.g. J-Pop, Metal, Jazz" list="genre-suggestions" oninput="updateSummary()">
           <datalist id="genre-suggestions">
             <option value="J-Rock">
             <option value="J-Pop">
@@ -983,14 +983,14 @@
       </div>
 
       <div style="margin-top: 12px;">
-        <label style="font-size:0.78rem; color:var(--muted); display:block; margin-bottom:6px;">Personal notes (what stands out, what to improve)</label>
-        <textarea id="notes" placeholder="e.g. Bass is great but vocals sound slightly veiled. Cable microphonics are annoying. Would use for EDM and gaming."></textarea>
+        <label for="notes" style="font-size:0.78rem; color:var(--muted); display:block; margin-bottom:6px;">Personal notes (what stands out, what to improve)</label>
+        <textarea id="notes" placeholder="e.g. Bass is great but vocals sound slightly veiled. Cable microphonics are annoying. Would use for EDM and gaming." oninput="updateSummary()"></textarea>
       </div>
 
       <div class="btn-row" style="margin-top: 14px;">
         <button class="btn-save" onclick="saveResult()">💾 Save Rating</button>
         <button class="btn-export" onclick="exportAll()">📋 Export .txt</button>
-        <button class="btn-export" onclick="pickAndSaveJSON()">🗂 Save JSON</button>
+        <button class="btn-export" onclick="pickAndSaveJSON(event)">🗂 Save JSON</button>
         <button class="btn-export" onclick="document.getElementById('json-file-input').click()">📂 Load JSON</button>
         <input type="file" id="json-file-input" accept=".json,application/json" style="display:none" onchange="loadJSONFile(event)">
         <button class="btn-reset" onclick="resetForm()">↺ Reset</button>
@@ -1103,6 +1103,201 @@
 </div>
 
 <script>
+  const GUIDE_DATA = {
+    subbass:     { inv: false, rows: [
+      'No sub-bass at all; completely flat below 80 Hz',
+      'Barely perceptible; only the deepest drops hint at depth',
+      'Very weak; bass drops lack weight and any rumble',
+      'Below average; limited depth, no physical sensation',
+      'Average; present but not impressive or physical',
+      'Decent; some depth and body in bass notes',
+      'Good; satisfying rumble, slight vibration in the shell',
+      'Strong; clear physical sensation and solid depth',
+      'Excellent; deep and physical, nearly wall-shaking',
+      'Reference-class; deep, physical, wall-shaking extension'
+    ]},
+    basshit:     { inv: false, rows: [
+      'Kick drum barely audible; zero physical impact',
+      'Very soft; hits arrive but leave no impression',
+      'Soft; punch is present but lacks weight or conviction',
+      'Below average; kick is noticeable but not engaging',
+      'Average; punch present but not exciting or physical',
+      'Decent; hits land with some satisfying weight',
+      'Strong; kick drum feels physical and truly "lands"',
+      'Very strong; hits land with clear authority',
+      'Excellent; every hit is visceral and powerful',
+      'Outstanding; every hit lands with full authority and slam'
+    ]},
+    bassclarity: { inv: false, rows: [
+      'Total mud; bass is one indistinct bloated blob',
+      'Extremely muddy; no definition between any notes',
+      'Very muddy; notes bleed heavily into each other',
+      'Below average; notes smear together in fast passages',
+      'Average; some definition but noticeable bloat remains',
+      'Decent; most notes distinguishable at moderate tempo',
+      'Good; individual bass notes clearly distinguishable',
+      'Very good; fast passages are tight and articulate',
+      'Excellent; near-perfect note separation at any tempo',
+      'Pristine; every note tight and perfectly defined'
+    ]},
+    vocals:      { inv: false, rows: [
+      'Voice completely buried; lyrics unintelligible',
+      'Extremely recessed; vocals are a faint shadow',
+      "Recessed and veiled; hard to follow what's sung",
+      'Below average; vocals lack presence and intimacy',
+      'Present but pushed back; acceptable clarity',
+      'Decent; vocals are audible and mostly clear',
+      'Clear and upfront; natural, lifelike presence',
+      'Very clear; singer sounds forward and intimate',
+      'Excellent; voice feels real and in the room with you',
+      'Singer feels right in front of you; effortless clarity'
+    ]},
+    instruments: { inv: false, rows: [
+      'Instruments sound synthetic and completely lifeless',
+      'Very flat; no sense of physical instrument character',
+      'Thin; guitars and piano lack character and body',
+      'Below average; instruments sound hollow and weak',
+      'Average; recognisable but flat, organic texture missing',
+      'Decent; some instrument character coming through',
+      'Lifelike; string buzz, pick attack, and body audible',
+      'Very lifelike; instruments feel physical and real',
+      'Excellent; every nuance and harmonic reproduced',
+      'Hyper-realistic; indistinguishable from a live performance'
+    ]},
+    midwarmth:   { inv: false, rows: [
+      'Ice cold and sterile; clinical "digital" sound',
+      'Extremely thin; no body or organic quality at all',
+      'Thin and bright; lacks natural warmth or body',
+      'Slightly cool; lacks some fullness and body',
+      'Neutral; neither warm nor cold',
+      'Slightly warm; pleasant and natural',
+      'Pleasantly warm; natural, organic, room-like body',
+      'Warm and rich; instruments sound full and natural',
+      'Very warm; lush and inviting without muddiness',
+      'Richly warm and lush without crossing into muddiness'
+    ]},
+    detail:      { inv: false, rows: [
+      'Completely rolled off; cymbals barely exist',
+      'Very dull; hi-hats are barely audible shapes',
+      'Dull; hi-hats are vague blobs with no shimmer',
+      'Below average; treble is muted and lacks definition',
+      'Average; treble present but limited in resolution',
+      'Decent; cymbal shimmer partially audible',
+      'Detailed; shimmer, decay, and micro-details audible',
+      'Very detailed; subtle background elements emerge',
+      'Excellent; you notice new micro-details each listen',
+      'Hyper-detailed; every transient and harmonic resolved'
+    ]},
+    sibilance:   { inv: true,  rows: [
+      'No sibilance at all; perfectly smooth treble \u2705 (best)',
+      'Imperceptible; virtually no harshness detectable',
+      'Very slight; barely noticeable on "s" sounds',
+      'Slight; only apparent on very sibilant recordings',
+      'Mild; occasional sharpness on sibilant tracks',
+      'Moderate; "s" sounds are noticeably edgy',
+      'Noticeable; "s" and "t" words regularly sting',
+      'Strong; sibilance is a consistent annoyance',
+      'Severe; listening is uncomfortable on many tracks',
+      'Painful; ear fatigue within minutes \u274c (worst)'
+    ]},
+    air:         { inv: false, rows: [
+      'Dead at the top; no sparkle or openness at all',
+      'Nearly dead; only the lowest treble region exists',
+      'Rolled off; music feels closed and suffocating',
+      'Below average; top-end is noticeably absent',
+      'Average; some top-end presence and openness',
+      'Decent; sparkle and openness above 10 kHz starting',
+      'Airy; cymbal decay lingers beautifully',
+      'Very airy; clear sense of space and extension',
+      'Excellent; music sounds open and expansive',
+      'Exceptional; music breathes \u2014 wide, open, spacious top'
+    ]},
+    separation:  { inv: false, rows: [
+      'Everything blurs into one wall of sound',
+      'Heavily congested; instruments are indistinct',
+      'Very congested; instruments constantly bleed together',
+      'Below average; separation breaks down in busy sections',
+      'Average; congestion noticeable in busy passages',
+      'Decent; most instruments stay mostly distinct',
+      'Good; each instrument has its own clear space',
+      'Very good; separation holds even in complex mixes',
+      'Excellent; effortlessly separates all elements',
+      'Perfect; isolate any single instrument at will'
+    ]},
+    soundstage:  { inv: false, rows: [
+      'Everything trapped inside your skull',
+      'Extremely narrow; music feels claustrophobic',
+      'Very cramped; music feels narrow and confined',
+      'Below average; limited sense of space outside the head',
+      'Average; slightly outside-head sensation',
+      'Decent; noticeable width and some depth',
+      'Wide; musicians feel spread across a real stage',
+      'Very wide; clear depth and width beyond shoulders',
+      'Excellent; expansive, room-filling presentation',
+      'Holographic; full 3D immersive environment'
+    ]},
+    imaging:     { inv: false, rows: [
+      'Everything floats vaguely in the center',
+      'Very vague; instruments have no consistent position',
+      'Rough left/right only; no real depth positioning',
+      'Below average; positions shift and blur frequently',
+      'Decent; approximate instrument placement possible',
+      'Fair; general direction of instruments detectable',
+      'Good; you can point to where each instrument is',
+      'Very good; positions are stable and convincing',
+      'Excellent; near-pinpoint accuracy on all instruments',
+      'Precise; exact clock-position pinpointing'
+    ]},
+    comfort:     { inv: false, rows: [
+      'Painful within 5 minutes; unbearable pressure',
+      'Very uncomfortable; noticeable pain after 10 minutes',
+      'Uncomfortable; constant urge to readjust',
+      'Below average; noticeable discomfort after 20 minutes',
+      'OK; manageable for short to moderate sessions',
+      'Decent; comfortable for up to 45 minutes',
+      'Good; comfortable for 1+ hour sessions',
+      'Very good; no discomfort even after 2 hours',
+      'Excellent; wearable indefinitely without issue',
+      "You forget you're wearing them; could sleep in them"
+    ]},
+    isolation:   { inv: false, rows: [
+      'No isolation; ambient noise fully present',
+      'Nearly none; only the loudest sounds are dulled',
+      'Poor; only high frequencies slightly attenuated',
+      'Below average; still very aware of surroundings',
+      'Average; noise reduced but still clearly audible',
+      'Decent; low-level noise becomes less intrusive',
+      'Good; most ambient noise effectively blocked',
+      'Very good; comfortable in noisy environments',
+      'Excellent; very little ambient noise gets through',
+      'Near-complete silence even in noisy environments'
+    ]},
+    build:       { inv: false, rows: [
+      'Feels like it will break on first use',
+      'Extremely fragile; shell flexes and cable is hair-thin',
+      'Cheap and fragile; inspires no confidence',
+      'Below average; some wobble in connectors or shell',
+      'Average; functional but nothing impressive',
+      'Decent; solid enough for confident daily use',
+      'Solid; sturdy shell, secure connectors, quality cable',
+      'Very solid; metal or high-grade plastic, premium feel',
+      'Excellent; near-flawless construction throughout',
+      'Premium; flawless construction, no weak points anywhere'
+    ]},
+    value:       { inv: false, rows: [
+      'Embarrassingly overpriced; everything else beats it',
+      'Very poor; much better options exist at the same price',
+      'Poor value; clearly outclassed by rivals',
+      'Below average; competitors offer more for the money',
+      'Fair; you get exactly what you pay for',
+      'Decent; slightly better than expected for the price',
+      'Good deal; outperforms its price tier',
+      'Great deal; competes with IEMs a full tier above',
+      'Excellent value; punches 1.5\u20132 tiers above its price',
+      'Incredible steal; competes 2+ tiers above its price'
+    ]}
+  };
+
   const SLIDERS = [
     'subbass','basshit','bassclarity',
     'vocals','instruments','midwarmth',
@@ -1251,7 +1446,7 @@
   // --- JSON file persistence via File System Access API ---
   let _jsonFileHandle = null;
 
-  async function pickAndSaveJSON() {
+  async function pickAndSaveJSON(event) {
     const history = loadHistory();
     if (!history.length) { alert('No saved ratings to export yet.'); return; }
     if (window.showSaveFilePicker) {
@@ -1296,8 +1491,7 @@
 
   function saveResult() {
     const data = getFormData();
-    const history = loadHistory();
-    data.id = Date.now();
+    let history = loadHistory();
 
     // compute overall for display
     const bass   = groupAvg(GROUPS.bass, null);
@@ -1309,14 +1503,26 @@
     data.overall = Math.round(((bass*1.5 + mids*1.5 + treble*1.2 + tech*1.2 + fit*1.0 + value*0.6) / 7.0) * 10) / 10;
     data.summary = generateSummaryFromScores(data.scores);
 
-    history.unshift(data);
+    // Upsert: update existing entry if same name, otherwise insert
+    const existingIdx = history.findIndex(h => h.name.trim().toLowerCase() === data.name.trim().toLowerCase());
+    let isUpdate = false;
+    if (existingIdx !== -1) {
+      data.id = history[existingIdx].id;
+      data.timestamp = history[existingIdx].timestamp;
+      history[existingIdx] = data;
+      isUpdate = true;
+    } else {
+      data.id = Date.now();
+      history.unshift(data);
+    }
+
     localStorage.setItem('iem_ratings', JSON.stringify(history));
     renderHistory();
     _autoSaveJSON(history);
 
     // Briefly flash save button
     const btn = document.querySelector('.btn-save');
-    btn.textContent = '✅ Saved!';
+    btn.textContent = isUpdate ? '✅ Updated!' : '✅ Saved!';
     setTimeout(() => btn.textContent = '💾 Save Rating', 1500);
   }
 
@@ -1431,6 +1637,18 @@
   function toggleGuide(el) {
     const guide = el.nextElementSibling;
     const isOpen = guide.style.display === 'block';
+    if (!isOpen && !guide.dataset.loaded) {
+      const sliderId = el.closest('.criterion').querySelector('input[type=range]').id;
+      const gdata = GUIDE_DATA[sliderId];
+      if (gdata) {
+        guide.innerHTML = gdata.rows.map((desc, i) => {
+          const n = i + 1;
+          const cls = gdata.inv ? `gi${n}` : `g${n}`;
+          return `<div class="guide-row"><span class="guide-num ${cls}">${n}</span><span class="guide-desc">${desc}</span></div>`;
+        }).join('');
+        guide.dataset.loaded = '1';
+      }
+    }
     guide.style.display = isOpen ? 'none' : 'block';
     el.textContent = isOpen ? '📊 Score guide ▼' : '📊 Score guide ▲';
   }
@@ -1503,7 +1721,12 @@
   function updateSummary() {
     const sc = {};
     SLIDERS.forEach(id => sc[id] = getVal(id));
-    document.getElementById('summary-box').textContent = generateSummaryFromScores(sc);
+    const name   = document.getElementById('iem-name').value.trim();
+    const driver = document.getElementById('driver-type').value;
+    const price  = document.getElementById('price-range').value;
+    const meta   = [name, driver, price].filter(Boolean).join(' · ');
+    const body   = generateSummaryFromScores(sc);
+    document.getElementById('summary-box').textContent = meta ? meta + '\n\n' + body : body;
   }
 
   function copySummary(event) {
@@ -1518,6 +1741,21 @@
   // Init
   SLIDERS.forEach(id => update(id));
   renderHistory();
+  // Clear pre-rendered guide rows; they are built lazily on first open (Fix 3)
+  document.querySelectorAll('.score-guide').forEach(el => { el.innerHTML = ''; });
+  // Set accessible labels on all range sliders (Fix 4)
+  const SLIDER_ARIA = {
+    subbass:'Sub-Bass Extension', basshit:'Bass Punch', bassclarity:'Bass Clarity',
+    vocals:'Vocal Clarity', instruments:'Instrument Texture', midwarmth:'Warmth/Timbre',
+    detail:'Treble Detail', sibilance:'Sibilance (↓ = smoother)', air:'Air/Extension',
+    separation:'Separation', soundstage:'Soundstage Width', imaging:'Stereo Imaging',
+    comfort:'Comfort', isolation:'Passive Isolation', build:'Build Quality',
+    value:'Value for Money'
+  };
+  SLIDERS.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.setAttribute('aria-label', SLIDER_ARIA[id] + ' (1–10)');
+  });
 </script>
 </body>
 </html>
