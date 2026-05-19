@@ -1,5 +1,63 @@
 [
   {
+    "name": "Tangzu Wan'er S.G II",
+    "driver": "DD",
+    "price": "$20-50",
+    "genre": "Based on Test Tips",
+    "notes": "Single DD budget IEM (~$22). Bass-heavy tuning — the elevated low-end comes at the cost of mids clarity and treble detail for neutral-preferring listening. Instruments feel veiled behind the warm bass. Treble detail and air are lacking. Comfort is good. Value scored relative to preference fit, not raw price-to-performance.",
+    "scores": {
+      "subbass": 7,
+      "basshit": 7,
+      "bassclarity": 4,
+      "vocals": 5,
+      "instruments": 3,
+      "midwarmth": 7,
+      "detail": 4,
+      "sibilance": 3,
+      "air": 4,
+      "separation": 4,
+      "soundstage": 6,
+      "imaging": 5,
+      "comfort": 8,
+      "isolation": 7,
+      "build": 6,
+      "value": 6
+    },
+    "timestamp": "2026-05-19T10:05:00.000Z",
+    "overall": 5.6,
+    "summary": "Sound Signature: Neutral / Balanced\nEven across all frequencies — versatile and accurate without strong colouration.\n\n✅ Strong areas: Fit & Build.\n✅ Smooth, non-fatiguing treble — sibilance is well-controlled.\nℹ️ Punchy but muddy bass — good impact, but fast bass passages may sound bloated.\n🎵 Best for: General listening.\n\nVerdict: Decent (5.6/10) — Gets the job done, some compromises.",
+    "id": 1779069900000
+  },
+  {
+    "name": "CrinEar Daybreak",
+    "driver": "DD+BA+Planar",
+    "price": "$100-300",
+    "genre": "Based on Test Tips",
+    "notes": "Crinacle's first mass-produced tribrid (1DD+2BA+2mPT). Tuned to IEF 2025 Curve — reference-grade neutral. Micro-planar tweeters give excellent treble extension and air. Clean, controlled bass with natural mids. Ergonomic filled-resin shell with modular 3.5mm/4.4mm cable.",
+    "scores": {
+      "subbass": 7,
+      "basshit": 7,
+      "bassclarity": 8,
+      "vocals": 8,
+      "instruments": 7,
+      "midwarmth": 6,
+      "detail": 8,
+      "sibilance": 4,
+      "air": 8,
+      "separation": 7,
+      "soundstage": 6,
+      "imaging": 7,
+      "comfort": 7,
+      "isolation": 7,
+      "build": 7,
+      "value": 5
+    },
+    "timestamp": "2026-05-19T10:00:00.000Z",
+    "overall": 7,
+    "summary": "Sound Signature: Neutral / Balanced\nEven across all frequencies — versatile and accurate without strong colouration.\n\n✅ Strong areas: Bass, Mids, Treble, Fit & Build.\n🎵 Best for: EDM, Hip-hop, Live rock, Vocals, Acoustic.\n\nVerdict: Very Good (7/10) — Solid performer with minor flaws.",
+    "id": 1779069600000
+  },
+  {
     "name": "GK Streak",
     "driver": "DD+Planar",
     "price": "$20-50",
@@ -8,25 +66,25 @@
     "scores": {
       "subbass": 7,
       "basshit": 6,
-      "bassclarity": 4,
-      "vocals": 4,
+      "bassclarity": 5,
+      "vocals": 5,
       "instruments": 5,
       "midwarmth": 6,
-      "detail": 5,
+      "detail": 6,
       "sibilance": 3,
       "air": 5,
       "separation": 5,
       "soundstage": 6,
       "imaging": 6,
       "comfort": 7,
-      "isolation": 5,
+      "isolation": 6,
       "build": 6,
-      "value": 6
+      "value": 7
     },
     "timestamp": "2026-05-17T16:18:00.402Z",
-    "id": 1779034680402,
-    "overall": 5.7,
-    "summary": "Sound Signature: Neutral / Balanced\nEven across all frequencies — versatile and accurate without strong colouration.\n\n✅ Smooth, non-fatiguing treble — sibilance is well-controlled.\n🎵 Best for: General listening.\n\nVerdict: Decent (5.7/10) — Gets the job done, some compromises."
+    "overall": 6,
+    "summary": "Sound Signature: Neutral / Balanced\nEven across all frequencies — versatile and accurate without strong colouration.\n\n✅ Smooth, non-fatiguing treble — sibilance is well-controlled.\n🎵 Best for: General listening.\n\nVerdict: Good (6/10) — Above average, enjoyable daily driver.",
+    "id": 1779034680402
   },
   {
     "name": "Moondrop Rays / May",
@@ -42,7 +100,7 @@
       "instruments": 7,
       "midwarmth": 6,
       "detail": 7,
-      "sibilance": 6,
+      "sibilance": 4,
       "air": 6,
       "separation": 7,
       "soundstage": 7,
@@ -50,11 +108,11 @@
       "comfort": 8,
       "isolation": 6,
       "build": 4,
-      "value": 5
+      "value": 6
     },
     "timestamp": "2026-05-17T15:53:13.716Z",
     "id": 1779033193716,
-    "overall": 6.2,
-    "summary": "Sound Signature: Neutral / Balanced\nEven across all frequencies — versatile and accurate without strong colouration.\n\n🎵 Best for: General listening.\n\nVerdict: Good (6.2/10) — Above average, enjoyable daily driver."
+    "overall": 6.4,
+    "summary": "Sound Signature: Neutral / Balanced\nEven across all frequencies — versatile and accurate without strong colouration.\n\n🎵 Best for: General listening.\n\nVerdict: Good (6.4/10) — Above average, enjoyable daily driver."
   }
 ]
