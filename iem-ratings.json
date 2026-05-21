@@ -35,8 +35,8 @@
     "genre": "Based on Test Tips",
     "notes": "Crinacle's first mass-produced tribrid (1DD+2BA+2mPT). Tuned to IEF 2025 Curve — reference-grade neutral. Micro-planar tweeters give excellent treble extension and air. Clean, controlled bass with natural mids. Ergonomic filled-resin shell with modular 3.5mm/4.4mm cable.",
     "scores": {
-      "subbass": 7,
-      "basshit": 7,
+      "subbass": 8,
+      "basshit": 8,
       "bassclarity": 7,
       "vocals": 6,
       "instruments": 7,
@@ -44,7 +44,7 @@
       "detail": 8,
       "sibilance": 4,
       "air": 8,
-      "separation": 7,
+      "separation": 8,
       "soundstage": 7,
       "imaging": 7,
       "comfort": 7,
@@ -53,8 +53,8 @@
       "value": 6
     },
     "timestamp": "2026-05-19T10:00:00.000Z",
-    "overall": 7,
-    "summary": "Sound Signature: Neutral / Balanced\nEven across all frequencies — versatile and accurate without strong colouration.\n\n✅ Strong areas: Bass, Treble, Technical, Fit & Build.\n🎵 Best for: EDM, Hip-hop, Live rock, Classical, Jazz.\n\nVerdict: Very Good (7/10) — Solid performer with minor flaws.",
+    "overall": 7.2,
+    "summary": "Sound Signature: Neutral / Balanced\nEven across all frequencies — versatile and accurate without strong colouration.\n\n✅ Strong areas: Bass, Treble, Technical, Fit & Build.\n🎵 Best for: EDM, Hip-hop, Live rock, Classical, Jazz.\n\nVerdict: Very Good (7.2/10) — Solid performer with minor flaws.",
     "id": 1779069600000
   },
   {
@@ -73,7 +73,7 @@
       "detail": 6,
       "sibilance": 3,
       "air": 6,
-      "separation": 5,
+      "separation": 6,
       "soundstage": 6,
       "imaging": 6,
       "comfort": 7,
@@ -82,8 +82,8 @@
       "value": 6
     },
     "timestamp": "2026-05-17T16:18:00.402Z",
-    "overall": 6,
-    "summary": "Sound Signature: Neutral\nNo dominant frequency colouration — relatively even response across the board.\n\n✅ Smooth, non-fatiguing treble — sibilance is well-controlled.\n🎵 Best for: General listening.\n\nVerdict: Good (6/10) — Above average, enjoyable daily driver.",
+    "overall": 6.1,
+    "summary": "Sound Signature: Neutral\nNo dominant frequency colouration — relatively even response across the board.\n\n✅ Smooth, non-fatiguing treble — sibilance is well-controlled.\n🎵 Best for: General listening.\n\nVerdict: Good (6.1/10) — Above average, enjoyable daily driver.",
     "id": 1779034680402
   },
   {
@@ -101,18 +101,18 @@
       "midwarmth": 7,
       "detail": 7,
       "sibilance": 6,
-      "air": 6,
+      "air": 7,
       "separation": 7,
-      "soundstage": 7,
-      "imaging": 7,
+      "soundstage": 8,
+      "imaging": 8,
       "comfort": 8,
       "isolation": 7,
       "build": 4,
       "value": 6
     },
     "timestamp": "2026-05-17T15:53:13.716Z",
-    "overall": 6.6,
-    "summary": "Sound Signature: Neutral\nNo dominant frequency colouration — relatively even response across the board.\n\n✅ Strong areas: Mids, Technical.\n🎵 Best for: Vocals, Acoustic, Orchestral, Gaming.\n\nVerdict: Good (6.6/10) — Above average, enjoyable daily driver.",
+    "overall": 6.7,
+    "summary": "Sound Signature: Neutral / Balanced\nEven across all frequencies — versatile and accurate without strong colouration.\n\n✅ Strong areas: Mids, Technical.\n🎵 Best for: Vocals, Acoustic, Orchestral, Gaming.\n\nVerdict: Good (6.7/10) — Above average, enjoyable daily driver.",
     "id": 1779033193716
   }
 ]
