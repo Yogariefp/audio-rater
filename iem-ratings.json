@@ -1,5 +1,34 @@
 [
   {
+    "name": "Hidizs My Lin",
+    "driver": "Hybrid",
+    "price": "$50-100",
+    "genre": "J-Pop",
+    "notes": "Hidizs My Lin — DD+BA hybrid collab IEM. Absolute V-shape tuning: elevated bass shelf (~70 dB, 20–60 Hz) with a significant mid scoop (~10 dB recession at 250–800 Hz), then a sharp treble peak at 6–7 kHz that is the highest point on the entire FR curve. Mids are recessed and instruments lack body. Vocals are thinned out by the lower-mid recession. The 6–7 kHz peak brings perceived detail but causes notable sibilance. Deep trough at 8–9 kHz then steep rolloff limits air extension. Channel matching is near-perfect (L/R almost identical). Build and comfort are above average for the price tier.",
+    "scores": {
+      "subbass": 7,
+      "basshit": 7,
+      "bassclarity": 6,
+      "vocals": 4,
+      "instruments": 4,
+      "midwarmth": 5,
+      "detail": 7,
+      "sibilance": 5,
+      "air": 6,
+      "separation": 6,
+      "soundstage": 7,
+      "imaging": 6,
+      "comfort": 6,
+      "isolation": 6,
+      "build": 8,
+      "value": 8
+    },
+    "timestamp": "2026-07-01T10:56:54.791Z",
+    "overall": 6.2,
+    "summary": "Sound Signature: V-shaped\nElevated bass and treble with recessed mids — fun and energetic, but vocals may feel distant or thin.\n\n⚠️ Weak areas: Mids.\n🎵 Best for: General listening.\n💰 Excellent value — competes with IEMs above its price tier.\n\nVerdict: Good (6.2/10) — Above average, enjoyable daily driver.",
+    "id": 1782903414791
+  },
+  {
     "name": "Tangzu Cai Wenji",
     "driver": "DD",
     "price": "<$20",
