@@ -1,5 +1,34 @@
 [
   {
+    "name": "ZiiGaat x Vivir Digital Rumba",
+    "driver": "DD",
+    "price": "$20-50",
+    "genre": "",
+    "notes": "Fun basshead-leaning tuning, sub-bass emphasis with controlled decay, vocals said to be pushed forward by 2.5-3kHz pinna gain, smooth/safe treble but closed-in on air. Competes at $35 against Truthear Gate (~$20, more neutral-warm, wider stage) and Tangzu Wan'er S.G II (~$20-25, more vocal-forward, better accessories) — both cheaper and actually battle-tested. Kiwi Ears Cadenza II ($49.99) also on the radar but not re-auditioned recently. Revisit with a real listen before trusting these numbers.",
+    "scores": {
+      "subbass": 7,
+      "basshit": 7,
+      "bassclarity": 6,
+      "vocals": 6,
+      "instruments": 5,
+      "midwarmth": 6,
+      "detail": 5,
+      "sibilance": 3,
+      "air": 4,
+      "separation": 6,
+      "soundstage": 6,
+      "imaging": 5,
+      "comfort": 5,
+      "isolation": 5,
+      "build": 7,
+      "value": 5
+    },
+    "timestamp": "2026-07-14T00:00:00.000Z",
+    "overall": 5.8,
+    "summary": "Sound Signature: Neutral / Balanced\nEven across all frequencies — versatile and accurate without strong colouration.\n\n✅ Smooth, non-fatiguing treble — sibilance is well-controlled.\n🎵 Best for: General listening.\n\nVerdict: Decent (5.8/10) — Gets the job done, some compromises.",
+    "id": 1783877406109
+  },
+  {
     "name": "Hidizs My Lin",
     "driver": "Hybrid",
     "price": "$50-100",
