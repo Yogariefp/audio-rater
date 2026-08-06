@@ -1,5 +1,34 @@
 [
   {
+    "name": "Cozoy D1",
+    "driver": "DD",
+    "price": "$20-50",
+    "genre": "",
+    "notes": "Drier and less bassy than ZiiGaat x Vivir Digital Rumba and Tangzu Wan'er S.G II — leaner low end trades slam for cleaner, tighter bass. Upper-mid/vocal region sits forward and clear, per squig.link FR (COZOY D1 AVG vs Crinacle target), tracking close to the ZiiGaat through bass/mids but pulling ahead in the 2-4kHz vocal presence region. Treble is more jagged with peaks around 8-11kHz giving a metallic, energetic edge rather than the smoother, safer top end of the Rumba. Fairness pass (2026-08-01): imaging pulled back to neutral (was an unjustified +1 over the Rumba); comfort/build/value pulled back to neutral 5s since no hands-on time with the unit yet — revisit once actually worn/tested.",
+    "scores": {
+      "subbass": 5,
+      "basshit": 5,
+      "bassclarity": 6,
+      "vocals": 7,
+      "instruments": 6,
+      "midwarmth": 4,
+      "detail": 7,
+      "sibilance": 5,
+      "air": 6,
+      "separation": 6,
+      "soundstage": 6,
+      "imaging": 5,
+      "comfort": 5,
+      "isolation": 5,
+      "build": 7,
+      "value": 6
+    },
+    "timestamp": "2026-08-01T01:56:51.921Z",
+    "overall": 5.7,
+    "summary": "Sound Signature: Neutral / Balanced\nEven across all frequencies — versatile and accurate without strong colouration.\n\n🎵 Best for: General listening.\n\nVerdict: Decent (5.7/10) — Gets the job done, some compromises.",
+    "id": 1785549411923
+  },
+  {
     "name": "ZiiGaat x Vivir Digital Rumba",
     "driver": "DD",
     "price": "$20-50",
@@ -185,21 +214,21 @@
       "bassclarity": 7,
       "vocals": 7,
       "instruments": 7,
-      "midwarmth": 6,
+      "midwarmth": 7,
       "detail": 8,
       "sibilance": 5,
-      "air": 5,
-      "separation": 7,
+      "air": 6,
+      "separation": 8,
       "soundstage": 7,
       "imaging": 7,
       "comfort": 8,
       "isolation": 6,
-      "build": 6,
+      "build": 4,
       "value": 6
     },
     "timestamp": "2026-05-17T15:53:13.716Z",
-    "overall": 6.7,
-    "summary": "Sound Signature: Neutral / Balanced\nEven across all frequencies — versatile and accurate without strong colouration.\n\n✅ Strong areas: Bass, Technical.\n🎵 Best for: EDM, Hip-hop, Live rock, Orchestral, Gaming.\n\nVerdict: Good (6.7/10) — Above average, enjoyable daily driver.",
+    "overall": 6.8,
+    "summary": "Sound Signature: Neutral / Balanced\nEven across all frequencies — versatile and accurate without strong colouration.\n\n✅ Strong areas: Bass, Mids, Technical.\n🎵 Best for: EDM, Hip-hop, Live rock, Vocals, Acoustic.\n\nVerdict: Good (6.8/10) — Above average, enjoyable daily driver.",
     "id": 1779033193716
   }
 ]
