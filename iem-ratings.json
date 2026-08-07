@@ -124,13 +124,13 @@
     "scores": {
       "subbass": 6,
       "basshit": 6,
-      "bassclarity": 4,
+      "bassclarity": 5,
       "vocals": 5,
       "instruments": 5,
       "midwarmth": 6,
       "detail": 5,
       "sibilance": 3,
-      "air": 5,
+      "air": 3,
       "separation": 4,
       "soundstage": 6,
       "imaging": 5,
@@ -140,8 +140,8 @@
       "value": 7
     },
     "timestamp": "2026-05-19T10:05:00.000Z",
-    "overall": 5.6,
-    "summary": "Sound Signature: Neutral / Balanced\nEven across all frequencies — versatile and accurate without strong colouration.\n\n✅ Smooth, non-fatiguing treble — sibilance is well-controlled.\n🎵 Best for: General listening.\n\nVerdict: Decent (5.6/10) — Gets the job done, some compromises.",
+    "overall": 5.5,
+    "summary": "Sound Signature: Neutral / Balanced\nEven across all frequencies — versatile and accurate without strong colouration.\n\n✅ Smooth, non-fatiguing treble — sibilance is well-controlled.\n🎵 Best for: General listening.\n\nVerdict: Decent (5.5/10) — Gets the job done, some compromises.",
     "id": 1779069900000
   },
   {
