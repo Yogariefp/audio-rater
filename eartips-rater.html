@@ -171,6 +171,13 @@
 
   .test-tip b { color: var(--accent2); font-weight: 600; }
 
+  .inverted .criterion-label::after {
+    content: ' \2193 lower = better';
+    font-size: 0.68rem;
+    color: var(--muted);
+    font-weight: 400;
+  }
+
   .summary-box {
     font-size: 0.80rem;
     color: var(--text);
@@ -424,6 +431,19 @@
         <div class="tick-labels"><span>Recessed</span><span>Neutral</span><span>Forward</span></div>
         <div class="test-tip">💡 Narrower bores tend to push vocals forward; wider bores tend to relax them — which way does this tip lean?</div>
       </div>
+
+      <div class="criterion inverted" id="cr-sibilance">
+        <div class="criterion-header">
+          <div>
+            <div class="criterion-label">Sibilance / Harshness</div>
+            <div class="criterion-sub">Painful "s" sounds or sharp peaks vs. stock tips, often from a metal nozzle insert</div>
+          </div>
+          <div class="score-badge" id="val-sibilance">5</div>
+        </div>
+        <input type="range" min="1" max="10" value="5" id="sibilance" oninput="update('sibilance')">
+        <div class="tick-labels"><span>None 👍</span><span>Mild</span><span>Harsh 👎</span></div>
+        <div class="test-tip">💡 Listen to female vocals or "s"/"t" sounds — does this tip sting or stay smooth? <b>Lower score = better here.</b></div>
+      </div>
     </div>
 
     <!-- Build & Value -->
@@ -543,16 +563,23 @@
 </div>
 
 <script>
-  const SLIDERS = ['fit','seal','bassimpact','trebleclarity','vocalforward','durability','value'];
+  const SLIDERS = ['fit','seal','bassimpact','trebleclarity','vocalforward','sibilance','durability','value'];
+  const INVERTED = 'sibilance'; // lower = better, so it's flipped (11 - v) before averaging
 
   const GROUPS = {
     fit:   ['fit','seal'],
-    sound: ['bassimpact','trebleclarity','vocalforward'],
+    sound: ['bassimpact','trebleclarity','vocalforward','sibilance'],
     build: ['durability'],
     value: ['value']
   };
 
   function getVal(id) { return parseInt(document.getElementById(id).value); }
+
+  function getScoreVal(id) { return id === INVERTED ? 11 - getVal(id) : getVal(id); }
+
+  function overallScore() {
+    return SLIDERS.map(getScoreVal).reduce((a,b)=>a+b,0) / SLIDERS.length;
+  }
 
   function scoreColor(score) {
     if (score >= 8.5) return '#34d399';
@@ -571,7 +598,7 @@
   }
 
   function groupAvg(ids) {
-    const vals = ids.map(getVal);
+    const vals = ids.map(getScoreVal);
     return vals.reduce((a,b)=>a+b,0) / vals.length;
   }
 
@@ -594,7 +621,7 @@
     const build = groupAvg(GROUPS.build);
     const value = groupAvg(GROUPS.value);
 
-    const overall = SLIDERS.map(getVal).reduce((a,b)=>a+b,0) / SLIDERS.length;
+    const overall = overallScore();
     const rounded = Math.round(overall * 10) / 10;
 
     const circ = 314.16;
@@ -710,7 +737,7 @@
     const data = getFormData();
     let history = loadHistory();
 
-    data.overall = Math.round((SLIDERS.map(getVal).reduce((a,b)=>a+b,0) / SLIDERS.length) * 10) / 10;
+    data.overall = Math.round(overallScore() * 10) / 10;
 
     const existingIdx = history.findIndex(h => h.name.trim().toLowerCase() === data.name.trim().toLowerCase());
     let isUpdate = false;
@@ -806,6 +833,7 @@
     const labels = {
       fit:'Fit / Comfort', seal:'Seal / Isolation',
       bassimpact:'Bass Impact', trebleclarity:'Treble/Clarity Impact', vocalforward:'Vocal Forwardness',
+      sibilance:'Sibilance (lower=better)',
       durability:'Durability', value:'Value for Money'
     };
 
@@ -843,7 +871,7 @@
     const sound = groupAvg(GROUPS.sound);
     const build = groupAvg(GROUPS.build);
     const value = groupAvg(GROUPS.value);
-    const overall = Math.round((SLIDERS.map(getVal).reduce((a,b)=>a+b,0) / SLIDERS.length) * 10) / 10;
+    const overall = Math.round(overallScore() * 10) / 10;
 
     const strengths  = Object.entries({Fit:fit, Sound:sound, Build:build, Value:value}).filter(([,v]) => v >= 7).map(([k]) => k);
     const weaknesses = Object.entries({Fit:fit, Sound:sound, Build:build, Value:value}).filter(([,v]) => v < 5).map(([k]) => k);

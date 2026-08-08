@@ -168,13 +168,16 @@
 
   const GROUPS = {
     Fit:   { ids: ['fit','seal'], color: '#7c6af7' },
-    Sound: { ids: ['bassimpact','trebleclarity','vocalforward'], color: '#5eead4' },
+    Sound: { ids: ['bassimpact','trebleclarity','vocalforward','sibilance'], color: '#5eead4', invert: 'sibilance' },
     Build: { ids: ['durability'], color: '#fbbf24' },
     Value: { ids: ['value'], color: '#f87171' }
   };
 
   function groupAvg(scores, def) {
-    const vals = def.ids.map(id => scores[id] ?? 5);
+    const vals = def.ids.map(id => {
+      const v = scores[id] ?? 5;
+      return id === def.invert ? 11 - v : v;
+    });
     return vals.reduce((a, b) => a + b, 0) / vals.length;
   }
 
