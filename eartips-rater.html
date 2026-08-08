@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eartips Rater</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --surface2: #222636;
+    --accent: #7c6af7;
+    --accent2: #5eead4;
+    --text: #e2e8f0;
+    --muted: #8892a4;
+    --border: #2d3348;
+    --red: #f87171;
+    --yellow: #fbbf24;
+    --green: #34d399;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    min-height: 100vh;
+    padding: 20px;
+  }
+
+  header { text-align: center; margin-bottom: 28px; }
+
+  header h1 {
+    font-size: 1.9rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  header p { color: var(--muted); font-size: 0.88rem; margin-top: 6px; }
+  header a { color: var(--accent2); text-decoration: none; }
+  header a:hover { text-decoration: underline; }
+
+  .layout {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 720px) {
+    .layout { grid-template-columns: 1fr; }
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px;
+    margin-bottom: 16px;
+  }
+
+  .card h2 {
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .card h2 .icon { font-size: 1rem; }
+
+  .meta-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .meta-grid label {
+    font-size: 0.78rem;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .meta-grid input, .meta-grid select {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 10px;
+    color: var(--text);
+    font-size: 0.88rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .meta-grid input:focus, .meta-grid select:focus { border-color: var(--accent); }
+  .meta-grid select option { background: var(--surface2); }
+
+  .criterion { margin-bottom: 18px; }
+
+  .criterion-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 6px;
+  }
+
+  .criterion-label { font-size: 0.9rem; font-weight: 500; }
+  .criterion-sub { font-size: 0.74rem; color: var(--muted); margin-top: 1px; }
+
+  .score-badge {
+    font-size: 1.1rem;
+    font-weight: 700;
+    min-width: 38px;
+    text-align: right;
+    transition: color 0.3s;
+  }
+
+  input[type=range] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 6px;
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+    background: var(--surface2);
+  }
+
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid var(--bg);
+    box-shadow: 0 0 6px rgba(124,106,247,0.5);
+    transition: transform 0.15s;
+  }
+
+  input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.2); }
+
+  .tick-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.65rem;
+    color: var(--muted);
+    margin-top: 3px;
+    padding: 0 2px;
+  }
+
+  .test-tip {
+    margin-top: 7px;
+    padding: 7px 10px;
+    background: rgba(124,106,247,0.07);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 6px 6px 0;
+    font-size: 0.72rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  .test-tip b { color: var(--accent2); font-weight: 600; }
+
+  .summary-box {
+    font-size: 0.80rem;
+    color: var(--text);
+    line-height: 1.75;
+    white-space: pre-wrap;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+  }
+
+  /* Sidebar */
+  .sidebar { position: sticky; top: 20px; align-self: start; }
+
+  .score-ring-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 0 16px;
+  }
+
+  .score-ring { position: relative; width: 120px; height: 120px; }
+  .score-ring svg { transform: rotate(-90deg); }
+
+  .score-ring-text {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .score-big { font-size: 2rem; font-weight: 800; line-height: 1; transition: color 0.3s; }
+  .score-label { font-size: 0.65rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+
+  .verdict { margin-top: 10px; font-size: 1rem; font-weight: 700; letter-spacing: 0.04em; transition: color 0.3s; }
+  .verdict-desc { font-size: 0.78rem; color: var(--muted); text-align: center; margin-top: 4px; }
+
+  .breakdown { margin-top: 4px; }
+
+  .breakdown-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .breakdown-name { font-size: 0.78rem; color: var(--muted); width: 70px; flex-shrink: 0; }
+
+  .breakdown-bar-bg {
+    flex: 1;
+    height: 6px;
+    background: var(--surface2);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .breakdown-bar { height: 100%; border-radius: 3px; transition: width 0.35s ease; }
+
+  .breakdown-val { font-size: 0.78rem; font-weight: 600; width: 28px; text-align: right; }
+
+  textarea {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px;
+    color: var(--text);
+    font-size: 0.85rem;
+    font-family: inherit;
+    resize: vertical;
+    min-height: 80px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  textarea:focus { border-color: var(--accent); }
+
+  .btn-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+
+  button {
+    flex: 1;
+    min-width: 100px;
+    padding: 9px;
+    border-radius: 9px;
+    border: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.1s;
+  }
+
+  button:active { transform: scale(0.97); }
+
+  .btn-save { background: linear-gradient(135deg, var(--accent), #9f8fff); color: #fff; }
+  .btn-reset { background: var(--surface2); color: var(--muted); border: 1px solid var(--border); }
+  .btn-export { background: var(--surface2); color: var(--accent2); border: 1px solid var(--border); }
+  button:hover { opacity: 0.88; }
+
+  .history-list { max-height: 300px; overflow-y: auto; }
+
+  .history-item {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+
+  .history-item:hover { border-color: var(--accent); }
+
+  .history-item-top { display: flex; justify-content: space-between; align-items: center; }
+  .history-item-name { font-size: 0.88rem; font-weight: 600; }
+  .history-item-score { font-size: 0.88rem; font-weight: 700; }
+  .history-item-meta { font-size: 0.72rem; color: var(--muted); margin-top: 2px; }
+
+  .history-item-del {
+    float: right;
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-size: 0.8rem;
+    cursor: pointer;
+    padding: 2px 6px;
+    border-radius: 4px;
+    flex: 0;
+  }
+
+  .history-item-del:hover { color: var(--red); background: rgba(248,113,113,0.1); }
+
+  .empty-state { color: var(--muted); font-size: 0.82rem; text-align: center; padding: 20px 0; }
+
+  ::-webkit-scrollbar { width: 5px; height: 5px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Eartips Rater</h1>
+  <p>Score a tip on fit, seal, and how it colors the sound &mdash; feeds the tier list below</p>
+  <p><a href="eartips-tierlist.html">&larr; Back to Eartips Tier List</a> &nbsp;&middot;&nbsp; <a href="iem-audio-rater.html">IEM Rater</a></p>
+</header>
+
+<div class="layout">
+  <div>
+
+    <!-- Tip Info -->
+    <div class="card">
+      <h2><span class="icon">🦻</span> Tip Details</h2>
+      <div class="meta-grid">
+        <div>
+          <label for="tip-name">Tip Name</label>
+          <input id="tip-name" type="text" placeholder="e.g. Sedna Earfit Mythril" oninput="updateSummary()">
+        </div>
+        <div>
+          <label for="tip-brand">Brand</label>
+          <input id="tip-brand" type="text" placeholder="e.g. Azla" oninput="updateSummary()">
+        </div>
+        <div>
+          <label for="tip-type">Core / Material</label>
+          <select id="tip-type" onchange="updateSummary()">
+            <option value="">Unspecified</option>
+            <option value="Silicone">Silicone</option>
+            <option value="Foam">Foam</option>
+            <option value="Metal-core">Metal-core</option>
+            <option value="Hybrid">Hybrid</option>
+          </select>
+        </div>
+        <div>
+          <label for="tip-price">Price</label>
+          <input id="tip-price" type="text" placeholder="e.g. $10-20" oninput="updateSummary()">
+        </div>
+      </div>
+    </div>
+
+    <!-- Fit & Seal -->
+    <div class="card">
+      <h2><span class="icon">👂</span> Fit &amp; Seal</h2>
+
+      <div class="criterion" id="cr-fit">
+        <div class="criterion-header">
+          <div>
+            <div class="criterion-label">Fit / Comfort</div>
+            <div class="criterion-sub">How it feels in-ear after 30+ minutes</div>
+          </div>
+          <div class="score-badge" id="val-fit">5</div>
+        </div>
+        <input type="range" min="1" max="10" value="5" id="fit" oninput="update('fit')">
+        <div class="tick-labels"><span>Uncomfortable</span><span>OK</span><span>Excellent</span></div>
+        <div class="test-tip">💡 Wear it a while without adjusting — any pressure points, or do you forget it's there?</div>
+      </div>
+
+      <div class="criterion" id="cr-seal">
+        <div class="criterion-header">
+          <div>
+            <div class="criterion-label">Seal / Isolation</div>
+            <div class="criterion-sub">How well it blocks outside noise and holds bass in</div>
+          </div>
+          <div class="score-badge" id="val-seal">5</div>
+        </div>
+        <input type="range" min="1" max="10" value="5" id="seal" oninput="update('seal')">
+        <div class="tick-labels"><span>Loose</span><span>Decent</span><span>Airtight</span></div>
+        <div class="test-tip">💡 Insert without music in a room with ambient noise — how much gets through? A poor seal also leaks bass.</div>
+      </div>
+    </div>
+
+    <!-- Sound Impact -->
+    <div class="card">
+      <h2><span class="icon">🔊</span> Sound Impact</h2>
+
+      <div class="criterion" id="cr-bassimpact">
+        <div class="criterion-header">
+          <div>
+            <div class="criterion-label">Bass Impact</div>
+            <div class="criterion-sub">Bore width's effect on bass weight/control</div>
+          </div>
+          <div class="score-badge" id="val-bassimpact">5</div>
+        </div>
+        <input type="range" min="1" max="10" value="5" id="bassimpact" oninput="update('bassimpact')">
+        <div class="tick-labels"><span>Thin/loose</span><span>Neutral</span><span>Full &amp; tight</span></div>
+        <div class="test-tip">💡 Swap from stock tips on the same IEM — does bass gain or lose weight and control?</div>
+      </div>
+
+      <div class="criterion" id="cr-trebleclarity">
+        <div class="criterion-header">
+          <div>
+            <div class="criterion-label">Treble / Clarity Impact</div>
+            <div class="criterion-sub">Effect on air, sparkle, and detail retrieval</div>
+          </div>
+          <div class="score-badge" id="val-trebleclarity">5</div>
+        </div>
+        <input type="range" min="1" max="10" value="5" id="trebleclarity" oninput="update('trebleclarity')">
+        <div class="tick-labels"><span>Muffled</span><span>Neutral</span><span>Opens up</span></div>
+        <div class="test-tip">💡 Listen for cymbal decay and air — does this tip dampen it (common with foam) or let it breathe?</div>
+      </div>
+
+      <div class="criterion" id="cr-vocalforward">
+        <div class="criterion-header">
+          <div>
+            <div class="criterion-label">Vocal Forwardness</div>
+            <div class="criterion-sub">Effect on how upfront mids/vocals sit</div>
+          </div>
+          <div class="score-badge" id="val-vocalforward">5</div>
+        </div>
+        <input type="range" min="1" max="10" value="5" id="vocalforward" oninput="update('vocalforward')">
+        <div class="tick-labels"><span>Recessed</span><span>Neutral</span><span>Forward</span></div>
+        <div class="test-tip">💡 Narrower bores tend to push vocals forward; wider bores tend to relax them — which way does this tip lean?</div>
+      </div>
+    </div>
+
+    <!-- Build & Value -->
+    <div class="card">
+      <h2><span class="icon">🏗️</span> Build &amp; Value</h2>
+
+      <div class="criterion" id="cr-durability">
+        <div class="criterion-header">
+          <div>
+            <div class="criterion-label">Durability</div>
+            <div class="criterion-sub">Resistance to tearing, stretching, foam collapse</div>
+          </div>
+          <div class="score-badge" id="val-durability">5</div>
+        </div>
+        <input type="range" min="1" max="10" value="5" id="durability" oninput="update('durability')">
+        <div class="tick-labels"><span>Wears fast</span><span>OK</span><span>Lasts</span></div>
+        <div class="test-tip">💡 Check the material after repeated insertions — silicone tearing at the core, or foam losing its rebound?</div>
+      </div>
+
+      <div class="criterion" id="cr-value">
+        <div class="criterion-header">
+          <div>
+            <div class="criterion-label">Value for Money</div>
+            <div class="criterion-sub">What you get vs. what you paid</div>
+          </div>
+          <div class="score-badge" id="val-value">5</div>
+        </div>
+        <input type="range" min="1" max="10" value="5" id="value" oninput="update('value')">
+        <div class="tick-labels"><span>Overpriced</span><span>Fair</span><span>Steal!</span></div>
+        <div class="test-tip">💡 Compare against other tips at the same price — does it clearly outperform them?</div>
+      </div>
+
+      <div style="margin-top: 12px;">
+        <label for="notes" style="font-size:0.78rem; color:var(--muted); display:block; margin-bottom:6px;">Notes (what stands out, what to improve)</label>
+        <textarea id="notes" placeholder="e.g. Great seal but treble feels a bit closed-in compared to stock tips." oninput="updateSummary()"></textarea>
+      </div>
+
+      <div class="btn-row" style="margin-top: 14px;">
+        <button class="btn-save" onclick="saveResult()">💾 Save Rating</button>
+        <button class="btn-export" onclick="exportAll()">📋 Export .txt</button>
+        <button class="btn-export" onclick="pickAndSaveJSON(event)">🗂 Save JSON</button>
+        <button class="btn-export" onclick="document.getElementById('json-file-input').click()">📂 Load JSON</button>
+        <input type="file" id="json-file-input" accept=".json,application/json" style="display:none" onchange="loadJSONFile(event)">
+        <button class="btn-reset" onclick="resetForm()">↺ Reset</button>
+      </div>
+    </div>
+
+    <!-- Summary -->
+    <div class="card">
+      <h2><span class="icon">📝</span> Summary</h2>
+      <div class="summary-box" id="summary-box">Adjust the sliders above to generate a summary.</div>
+    </div>
+
+  </div>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+
+    <div class="card">
+      <h2><span class="icon">📊</span> Overall Score</h2>
+      <div class="score-ring-wrap">
+        <div class="score-ring">
+          <svg width="120" height="120" viewBox="0 0 120 120">
+            <circle cx="60" cy="60" r="50" fill="none" stroke="#2d3348" stroke-width="10"/>
+            <circle id="ring-fill" cx="60" cy="60" r="50" fill="none"
+              stroke="url(#rg)" stroke-width="10"
+              stroke-dasharray="314.16" stroke-dashoffset="157.08"
+              stroke-linecap="round"/>
+            <defs>
+              <linearGradient id="rg" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#7c6af7"/>
+                <stop offset="100%" stop-color="#5eead4"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <div class="score-ring-text">
+            <div class="score-big" id="score-big">5.0</div>
+            <div class="score-label">/ 10</div>
+          </div>
+        </div>
+        <div class="verdict" id="verdict-text">Decent</div>
+        <div class="verdict-desc" id="verdict-desc">Adjust sliders to rate</div>
+      </div>
+
+      <div class="breakdown">
+        <div class="breakdown-row">
+          <div class="breakdown-name">Fit</div>
+          <div class="breakdown-bar-bg"><div class="breakdown-bar" id="bar-fit" style="width:50%;background:#7c6af7"></div></div>
+          <div class="breakdown-val" id="bv-fit">5.0</div>
+        </div>
+        <div class="breakdown-row">
+          <div class="breakdown-name">Sound</div>
+          <div class="breakdown-bar-bg"><div class="breakdown-bar" id="bar-sound" style="width:50%;background:#5eead4"></div></div>
+          <div class="breakdown-val" id="bv-sound">5.0</div>
+        </div>
+        <div class="breakdown-row">
+          <div class="breakdown-name">Build</div>
+          <div class="breakdown-bar-bg"><div class="breakdown-bar" id="bar-build" style="width:50%;background:#fbbf24"></div></div>
+          <div class="breakdown-val" id="bv-build">5.0</div>
+        </div>
+        <div class="breakdown-row">
+          <div class="breakdown-name">Value</div>
+          <div class="breakdown-bar-bg"><div class="breakdown-bar" id="bar-value" style="width:50%;background:#f87171"></div></div>
+          <div class="breakdown-val" id="bv-value">5.0</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2><span class="icon">📜</span> Saved Ratings</h2>
+      <div class="history-list" id="history-list">
+        <div class="empty-state">No ratings saved yet.<br>Fill in the form and hit Save.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const SLIDERS = ['fit','seal','bassimpact','trebleclarity','vocalforward','durability','value'];
+
+  const GROUPS = {
+    fit:   ['fit','seal'],
+    sound: ['bassimpact','trebleclarity','vocalforward'],
+    build: ['durability'],
+    value: ['value']
+  };
+
+  function getVal(id) { return parseInt(document.getElementById(id).value); }
+
+  function scoreColor(score) {
+    if (score >= 8.5) return '#34d399';
+    if (score >= 7)   return '#5eead4';
+    if (score >= 5.5) return '#fbbf24';
+    if (score >= 4)   return '#f97316';
+    return '#f87171';
+  }
+
+  function verdictOf(score) {
+    if (score >= 8.5) return ['S Tier', 'A go-to upgrade tip — buy without hesitation.'];
+    if (score >= 7.0) return ['A Tier', 'Strong pick with a clear identity.'];
+    if (score >= 5.5) return ['B Tier', 'Solid, dependable, nothing special.'];
+    if (score >= 4.0) return ['C Tier', 'Noticeable compromises — situational.'];
+    return ['D Tier', 'Hard to recommend over the alternatives.'];
+  }
+
+  function groupAvg(ids) {
+    const vals = ids.map(getVal);
+    return vals.reduce((a,b)=>a+b,0) / vals.length;
+  }
+
+  function update(changedId) {
+    const v = getVal(changedId);
+    const badge = document.getElementById('val-' + changedId);
+    badge.textContent = v;
+    badge.style.color = scoreColor(v);
+
+    const slider = document.getElementById(changedId);
+    const pct = (v - 1) / 9 * 100;
+    slider.style.background = `linear-gradient(to right, var(--accent) ${pct}%, var(--surface2) ${pct}%)`;
+
+    recalc();
+  }
+
+  function recalc() {
+    const fit   = groupAvg(GROUPS.fit);
+    const sound = groupAvg(GROUPS.sound);
+    const build = groupAvg(GROUPS.build);
+    const value = groupAvg(GROUPS.value);
+
+    const overall = SLIDERS.map(getVal).reduce((a,b)=>a+b,0) / SLIDERS.length;
+    const rounded = Math.round(overall * 10) / 10;
+
+    const circ = 314.16;
+    const offset = circ - ((rounded - 1) / 9) * circ;
+    document.getElementById('ring-fill').setAttribute('stroke-dashoffset', offset);
+
+    const scoreEl = document.getElementById('score-big');
+    scoreEl.textContent = rounded.toFixed(1);
+    scoreEl.style.color = scoreColor(rounded);
+
+    const [vLabel, vDesc] = verdictOf(rounded);
+    document.getElementById('verdict-text').textContent = vLabel;
+    document.getElementById('verdict-text').style.color = scoreColor(rounded);
+    document.getElementById('verdict-desc').textContent = vDesc;
+
+    setBar('fit',   fit,   '#7c6af7');
+    setBar('sound', sound, '#5eead4');
+    setBar('build', build, '#fbbf24');
+    setBar('value', value, '#f87171');
+    updateSummary();
+  }
+
+  function setBar(key, val, color) {
+    const pct = (val - 1) / 9 * 100;
+    document.getElementById('bar-' + key).style.width = pct + '%';
+    document.getElementById('bar-' + key).style.background = color;
+    document.getElementById('bv-' + key).textContent = (Math.round(val * 10) / 10).toFixed(1);
+    document.getElementById('bv-' + key).style.color = scoreColor(val);
+  }
+
+  function getFormData() {
+    const data = {
+      name: document.getElementById('tip-name').value.trim() || 'Unnamed Tip',
+      brand: document.getElementById('tip-brand').value.trim(),
+      type: document.getElementById('tip-type').value,
+      price: document.getElementById('tip-price').value.trim(),
+      notes: document.getElementById('notes').value.trim(),
+      scores: {},
+      timestamp: new Date().toISOString()
+    };
+    SLIDERS.forEach(id => data.scores[id] = getVal(id));
+    return data;
+  }
+
+  function loadJSONFile(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      try {
+        const data = JSON.parse(e.target.result);
+        if (!Array.isArray(data)) { alert('Invalid JSON: expected an array of ratings.'); return; }
+        const existing = loadHistory();
+        const existingIds = new Set(existing.map(h => h.id));
+        const incoming = data.filter(h => !existingIds.has(h.id));
+        const merged = [...incoming, ...existing].sort((a, b) => b.id - a.id);
+        localStorage.setItem('eartips_ratings', JSON.stringify(merged));
+        renderHistory();
+        alert(`✅ Loaded ${incoming.length} new rating(s) from file. Total: ${merged.length}.`);
+      } catch (err) {
+        alert('Failed to parse JSON file: ' + err.message);
+      }
+      event.target.value = '';
+    };
+    reader.readAsText(file);
+  }
+
+  let _jsonFileHandle = null;
+
+  async function pickAndSaveJSON(event) {
+    const history = loadHistory();
+    if (!history.length) { alert('No saved ratings to export yet.'); return; }
+    if (window.showSaveFilePicker) {
+      try {
+        _jsonFileHandle = await window.showSaveFilePicker({
+          suggestedName: 'eartips-ratings.json',
+          types: [{ description: 'JSON file', accept: { 'application/json': ['.json'] } }]
+        });
+        await _writeJSON(_jsonFileHandle, history);
+        const btn = event.currentTarget;
+        const orig = btn.textContent;
+        btn.textContent = '✅ JSON Saved!';
+        setTimeout(() => btn.textContent = orig, 1500);
+      } catch (e) {
+        if (e.name !== 'AbortError') console.error(e);
+      }
+    } else {
+      _downloadJSON(history);
+    }
+  }
+
+  async function _writeJSON(handle, history) {
+    const writable = await handle.createWritable();
+    await writable.write(JSON.stringify(history, null, 2));
+    await writable.close();
+  }
+
+  function _downloadJSON(history) {
+    const blob = new Blob([JSON.stringify(history, null, 2)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'eartips-ratings.json';
+    a.click();
+  }
+
+  async function _autoSaveJSON(history) {
+    if (_jsonFileHandle) {
+      try { await _writeJSON(_jsonFileHandle, history); } catch (e) { console.warn('Auto-save JSON failed:', e); }
+    }
+  }
+
+  function saveResult() {
+    const data = getFormData();
+    let history = loadHistory();
+
+    data.overall = Math.round((SLIDERS.map(getVal).reduce((a,b)=>a+b,0) / SLIDERS.length) * 10) / 10;
+
+    const existingIdx = history.findIndex(h => h.name.trim().toLowerCase() === data.name.trim().toLowerCase());
+    let isUpdate = false;
+    if (existingIdx !== -1) {
+      data.id = history[existingIdx].id;
+      history[existingIdx] = data;
+      isUpdate = true;
+    } else {
+      data.id = Date.now();
+      history.unshift(data);
+    }
+
+    localStorage.setItem('eartips_ratings', JSON.stringify(history));
+    renderHistory();
+    _autoSaveJSON(history);
+
+    const btn = document.querySelector('.btn-save');
+    btn.textContent = isUpdate ? '✅ Updated!' : '✅ Saved!';
+    setTimeout(() => btn.textContent = '💾 Save Rating', 1500);
+  }
+
+  function loadHistory() {
+    try { return JSON.parse(localStorage.getItem('eartips_ratings') || '[]'); }
+    catch { return []; }
+  }
+
+  function renderHistory() {
+    const history = loadHistory();
+    const list = document.getElementById('history-list');
+    if (!history.length) {
+      list.innerHTML = '<div class="empty-state">No ratings saved yet.<br>Fill in the form and hit Save.</div>';
+      return;
+    }
+    list.innerHTML = history.map(item => {
+      const date = new Date(item.timestamp).toLocaleDateString();
+      const brand = item.brand ? ` · ${escHtml(item.brand)}` : '';
+      return `
+        <div class="history-item" onclick="loadItem(${item.id})">
+          <div class="history-item-top">
+            <div class="history-item-name">${escHtml(item.name)}</div>
+            <div class="history-item-score" style="color:${scoreColor(item.overall)}">${item.overall}/10</div>
+            <button class="history-item-del" onclick="deleteItem(event,${item.id})">✕</button>
+          </div>
+          <div class="history-item-meta">${date}${brand}</div>
+        </div>`;
+    }).join('');
+  }
+
+  function escHtml(s) {
+    return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function loadItem(id) {
+    const history = loadHistory();
+    const item = history.find(h => h.id === id);
+    if (!item) return;
+    document.getElementById('tip-name').value = item.name;
+    document.getElementById('tip-brand').value = item.brand || '';
+    document.getElementById('tip-type').value = item.type || '';
+    document.getElementById('tip-price').value = item.price || '';
+    document.getElementById('notes').value = item.notes || '';
+    SLIDERS.forEach(id => {
+      const slider = document.getElementById(id);
+      slider.value = item.scores[id] || 5;
+      update(id);
+    });
+  }
+
+  function deleteItem(event, id) {
+    event.stopPropagation();
+    let history = loadHistory();
+    history = history.filter(h => h.id !== id);
+    localStorage.setItem('eartips_ratings', JSON.stringify(history));
+    renderHistory();
+  }
+
+  function resetForm() {
+    document.getElementById('tip-name').value = '';
+    document.getElementById('tip-brand').value = '';
+    document.getElementById('tip-type').value = '';
+    document.getElementById('tip-price').value = '';
+    document.getElementById('notes').value = '';
+    SLIDERS.forEach(id => {
+      document.getElementById(id).value = 5;
+      update(id);
+    });
+  }
+
+  function exportAll() {
+    const history = loadHistory();
+    if (!history.length) { alert('No saved ratings to export yet.'); return; }
+
+    const labels = {
+      fit:'Fit / Comfort', seal:'Seal / Isolation',
+      bassimpact:'Bass Impact', trebleclarity:'Treble/Clarity Impact', vocalforward:'Vocal Forwardness',
+      durability:'Durability', value:'Value for Money'
+    };
+
+    const lines = ['Eartips Rater — Export', '='.repeat(40), ''];
+    history.forEach(item => {
+      lines.push(`Tip: ${item.name}`);
+      if (item.brand) lines.push(`Brand: ${item.brand}`);
+      if (item.type)  lines.push(`Core: ${item.type}`);
+      if (item.price) lines.push(`Price: ${item.price}`);
+      lines.push(`Date: ${new Date(item.timestamp).toLocaleString()}`);
+      lines.push(`Overall: ${item.overall}/10`);
+      lines.push('');
+      lines.push('Scores:');
+      Object.entries(item.scores).forEach(([k,v]) => {
+        lines.push(`  ${(labels[k] || k).padEnd(26)} ${v}/10`);
+      });
+      if (item.notes) { lines.push(''); lines.push('Notes: ' + item.notes); }
+      lines.push(''); lines.push('-'.repeat(40)); lines.push('');
+    });
+
+    const blob = new Blob([lines.join('\n')], {type: 'text/plain'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'eartips-ratings.txt';
+    a.click();
+  }
+
+  function updateSummary() {
+    const name  = document.getElementById('tip-name').value.trim();
+    const brand = document.getElementById('tip-brand').value.trim();
+    const type  = document.getElementById('tip-type').value;
+    const meta  = [name, brand, type].filter(Boolean).join(' · ');
+
+    const fit   = groupAvg(GROUPS.fit);
+    const sound = groupAvg(GROUPS.sound);
+    const build = groupAvg(GROUPS.build);
+    const value = groupAvg(GROUPS.value);
+    const overall = Math.round((SLIDERS.map(getVal).reduce((a,b)=>a+b,0) / SLIDERS.length) * 10) / 10;
+
+    const strengths  = Object.entries({Fit:fit, Sound:sound, Build:build, Value:value}).filter(([,v]) => v >= 7).map(([k]) => k);
+    const weaknesses = Object.entries({Fit:fit, Sound:sound, Build:build, Value:value}).filter(([,v]) => v < 5).map(([k]) => k);
+
+    const lines = [];
+    if (strengths.length)  lines.push(`✅ Strong: ${strengths.join(', ')}.`);
+    if (weaknesses.length) lines.push(`⚠️ Weak: ${weaknesses.join(', ')}.`);
+
+    const [vLabel, vDesc] = verdictOf(overall);
+    lines.push('');
+    lines.push(`Verdict: ${vLabel} (${overall}/10) — ${vDesc}`);
+
+    document.getElementById('summary-box').textContent = (meta ? meta + '\n\n' : '') + lines.join('\n');
+  }
+
+  // Init
+  SLIDERS.forEach(id => update(id));
+  renderHistory();
+
+  // Auto-load bundled eartips-ratings.json, merging in anything not already saved locally.
+  (async function _loadBundledJSON() {
+    try {
+      const res = await fetch('eartips-ratings.json');
+      if (!res.ok) return;
+      const incoming = await res.json();
+      if (!Array.isArray(incoming) || !incoming.length) return;
+      const existing = loadHistory();
+      const existingIds = new Set(existing.map(h => h.id));
+      const toAdd = incoming.filter(h => !existingIds.has(h.id));
+      if (!toAdd.length) return;
+      const merged = [...existing, ...toAdd];
+      localStorage.setItem('eartips_ratings', JSON.stringify(merged));
+      renderHistory();
+    } catch (_) { /* offline or file absent */ }
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,128 @@
+[
+  {
+    "name": "W1",
+    "brand": "SpinFit",
+    "price": "",
+    "notes": "Reputation-based placement, not a hands-on test — revisit once actually worn. SpinFit's flagship hybrid-bore tip: the swiveling silicone core is widely reported to give a more consistent, fatigue-free seal than fixed tips, and the wider bore opens up air/soundstage without gutting bass the way some wide-bore tips do. Considered a safe upgrade across most IEMs rather than a tip that colors tuning hard in one direction.",
+    "scores": {
+      "fit": 9,
+      "seal": 9,
+      "bassimpact": 8,
+      "trebleclarity": 9,
+      "vocalforward": 8,
+      "durability": 9,
+      "value": 9
+    },
+    "timestamp": "2026-08-08T00:00:00.000Z",
+    "overall": 8.7,
+    "id": 1786233600000
+  },
+  {
+    "name": "Sedna Earfit Mythril",
+    "brand": "Azla",
+    "price": "",
+    "notes": "Reputation-based placement, not a hands-on test — revisit once actually worn. The metal-reinforced-nozzle variant of Azla's Sedna Earfit line; the rigid core is reported to tighten bass and sharpen treble extension versus the stock silicone version, at the cost of a slightly firmer, less plush feel in the ear than Crystal 2.",
+    "scores": {
+      "fit": 7,
+      "seal": 8,
+      "bassimpact": 6,
+      "trebleclarity": 9,
+      "vocalforward": 7,
+      "durability": 8,
+      "value": 7
+    },
+    "timestamp": "2026-08-08T00:00:00.000Z",
+    "overall": 7.4,
+    "id": 1786233600001
+  },
+  {
+    "name": "Sedna Earfit Crystal 2",
+    "brand": "Azla",
+    "price": "",
+    "notes": "Reputation-based placement, not a hands-on test — revisit once actually worn. Clear-silicone sibling to Mythril; softer and more comfortable for long sessions, with a gentler bass lift and smoother treble than the metal-core version. Generally regarded as the more universally comfortable all-rounder of the two Sedna tips.",
+    "scores": {
+      "fit": 8,
+      "seal": 8,
+      "bassimpact": 7,
+      "trebleclarity": 7,
+      "vocalforward": 8,
+      "durability": 7,
+      "value": 8
+    },
+    "timestamp": "2026-08-08T00:00:00.000Z",
+    "overall": 7.6,
+    "id": 1786233600002
+  },
+  {
+    "name": "S&S Eartips",
+    "brand": "Dunu",
+    "price": "",
+    "notes": "Reputation-based placement, not a hands-on test — revisit once actually worn. Dunu's stock-accessory tip bundled with several of their IEMs — decent, dependable seal and comfort, but no strong sonic identity of its own. Solid default rather than a deliberate upgrade pick.",
+    "scores": {
+      "fit": 7,
+      "seal": 6,
+      "bassimpact": 6,
+      "trebleclarity": 6,
+      "vocalforward": 6,
+      "durability": 7,
+      "value": 6
+    },
+    "timestamp": "2026-08-08T00:00:00.000Z",
+    "overall": 6.3,
+    "id": 1786233600003
+  },
+  {
+    "name": "EBT",
+    "brand": "EarrBond",
+    "price": "",
+    "notes": "Reputation-based placement, not a hands-on test — revisit once actually worn. Less mainstream than the others on this list, so confidence here is lower — flag if this doesn't match your experience. General impression: isolation and comfort can be strong when the fit lands, but sonic character is closer to neutral/stock than the Azla or SpinFit tips, and quality can feel less consistent unit-to-unit.",
+    "scores": {
+      "fit": 6,
+      "seal": 7,
+      "bassimpact": 5,
+      "trebleclarity": 4,
+      "vocalforward": 5,
+      "durability": 4,
+      "value": 4
+    },
+    "timestamp": "2026-08-08T00:00:00.000Z",
+    "overall": 5.0,
+    "id": 1786233600004
+  },
+  {
+    "name": "CoreIR Brass",
+    "brand": "Pentaconn",
+    "price": "",
+    "notes": "Reputation-based placement, not a hands-on test — revisit once actually worn. Less mainstream than the others on this list, so confidence here is lower — flag if this doesn't match your experience. Brass-reinforced core in the same family as the metal-core Azla tips; adds some treble sparkle and bass texture, but the firmer, heavier build is reported to feel less comfortable over long sessions than silicone-only tips.",
+    "scores": {
+      "fit": 5,
+      "seal": 5,
+      "bassimpact": 6,
+      "trebleclarity": 6,
+      "vocalforward": 5,
+      "durability": 5,
+      "value": 4
+    },
+    "timestamp": "2026-08-08T00:00:00.000Z",
+    "overall": 5.1,
+    "id": 1786233600005
+  },
+  {
+    "name": "Magic Form Tips",
+    "brand": "Feaulle",
+    "price": "",
+    "notes": "Reputation-based placement, not a hands-on test — revisit once actually worn. Foam-style form tip: excellent seal and isolation since the foam expands to the canal shape, but that same foam damps treble and air noticeably, giving a warmer, more muffled top end than any silicone tip on this list. Foam also compresses and wears out faster than silicone over repeated use.",
+    "scores": {
+      "fit": 5,
+      "seal": 7,
+      "bassimpact": 3,
+      "trebleclarity": 2,
+      "vocalforward": 3,
+      "durability": 3,
+      "value": 4
+    },
+    "timestamp": "2026-08-08T00:00:00.000Z",
+    "overall": 3.9,
+    "id": 1786233600006
+  }
+]

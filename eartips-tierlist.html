@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eartips Tier List</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --surface2: #222636;
+    --accent: #7c6af7;
+    --accent2: #5eead4;
+    --text: #e2e8f0;
+    --muted: #8892a4;
+    --border: #2d3348;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    min-height: 100vh;
+    padding: 20px;
+  }
+
+  header { text-align: center; margin-bottom: 28px; }
+
+  header h1 {
+    font-size: 1.9rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  header p { color: var(--muted); font-size: 0.88rem; margin-top: 6px; }
+  header a { color: var(--accent2); text-decoration: none; }
+  header a:hover { text-decoration: underline; }
+
+  .wrap { max-width: 900px; margin: 0 auto; }
+
+  .note {
+    font-size: 0.78rem;
+    color: var(--muted);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 14px;
+    line-height: 1.5;
+    margin-bottom: 16px;
+  }
+
+  .note b { color: var(--text); }
+
+  .empty-state {
+    text-align: center;
+    color: var(--muted);
+    padding: 60px 20px;
+    font-size: 0.9rem;
+  }
+
+  .tier {
+    display: grid;
+    grid-template-columns: 72px 1fr;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+
+  .tier-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    font-weight: 800;
+    color: #16110c;
+  }
+
+  .tier-body { background: var(--surface); }
+
+  .tier-empty {
+    padding: 16px 18px;
+    color: var(--muted);
+    font-size: 0.82rem;
+    font-style: italic;
+  }
+
+  .tip-row {
+    padding: 12px 16px;
+    border-top: 1px solid var(--border);
+  }
+
+  .tip-row:first-child { border-top: none; }
+
+  .tip-top {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .tip-name { font-weight: 600; font-size: 0.95rem; }
+  .tip-brand { color: var(--muted); font-size: 0.76rem; font-weight: 400; margin-left: 6px; }
+
+  .tip-score { font-weight: 700; font-size: 1.05rem; flex-shrink: 0; }
+
+  .tip-notes {
+    color: var(--muted);
+    font-size: 0.78rem;
+    line-height: 1.55;
+    margin-top: 6px;
+  }
+
+  .tip-bars {
+    display: flex;
+    gap: 14px;
+    margin-top: 8px;
+    flex-wrap: wrap;
+  }
+
+  .tip-bar-row { display: flex; align-items: center; gap: 5px; width: 130px; }
+  .tip-bar-label { font-size: 0.62rem; color: var(--muted); width: 34px; flex-shrink: 0; }
+  .tip-bar-track { flex: 1; height: 5px; background: var(--surface2); border-radius: 3px; overflow: hidden; }
+  .tip-bar-fill { height: 100%; border-radius: 3px; }
+
+  @media (max-width: 620px) {
+    .tier { grid-template-columns: 52px 1fr; }
+    .tier-badge { font-size: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🦻 Eartips Tier List</h1>
+  <p>Auto-ranked from saved ratings, grouped by overall score</p>
+  <p><a href="eartips-rater.html">📝 Score a Tip &rarr;</a> &nbsp;&middot;&nbsp; <a href="iem-audio-rater.html">&larr; Back to Rater</a> &nbsp;&middot;&nbsp; <a href="tierlist.html">IEM Tier List &rarr;</a></p>
+</header>
+
+<div class="wrap">
+  <div class="note">Scores reflect personal preference and, where noted, general reputation rather than a hands-on/measured comparison — open <a href="eartips-rater.html">Score a Tip</a> to add your own rating or correct one of these.</div>
+  <div id="content"><div class="empty-state">Loading ratings&hellip;</div></div>
+</div>
+
+<script>
+  const TIERS = [
+    { key: 'S', label: 'S', min: 8.5, color: '#ef6f6f' },
+    { key: 'A', label: 'A', min: 7.0, color: '#f2a35f' },
+    { key: 'B', label: 'B', min: 5.5, color: '#f2ce5a' },
+    { key: 'C', label: 'C', min: 4.0, color: '#f2ea8f' },
+    { key: 'D', label: 'D', min: -Infinity, color: '#b7e39a' }
+  ];
+
+  function tierOf(score) { return TIERS.find(t => score >= t.min); }
+
+  function scoreColor(score) {
+    if (score >= 8.5) return '#34d399';
+    if (score >= 7)   return '#5eead4';
+    if (score >= 5.5) return '#fbbf24';
+    if (score >= 4)   return '#f97316';
+    return '#f87171';
+  }
+
+  const GROUPS = {
+    Fit:   { ids: ['fit','seal'], color: '#7c6af7' },
+    Sound: { ids: ['bassimpact','trebleclarity','vocalforward'], color: '#5eead4' },
+    Build: { ids: ['durability'], color: '#fbbf24' },
+    Value: { ids: ['value'], color: '#f87171' }
+  };
+
+  function groupAvg(scores, def) {
+    const vals = def.ids.map(id => scores[id] ?? 5);
+    return vals.reduce((a, b) => a + b, 0) / vals.length;
+  }
+
+  function escHtml(s) {
+    return String(s ?? '').replace(/[&<>"']/g, c => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    }[c]));
+  }
+
+  function loadLocalHistory() {
+    try { return JSON.parse(localStorage.getItem('eartips_ratings') || '[]'); }
+    catch { return []; }
+  }
+
+  async function loadAllRatings() {
+    const local = loadLocalHistory();
+    let bundled = [];
+    try {
+      const res = await fetch('eartips-ratings.json');
+      if (res.ok) bundled = await res.json();
+    } catch (_) { /* offline or file absent */ }
+
+    const byId = new Map();
+    [...bundled, ...local].forEach(item => {
+      if (item && item.name) byId.set(item.id ?? item.name, item);
+    });
+    return [...byId.values()];
+  }
+
+  function renderBars(item) {
+    return Object.entries(GROUPS).map(([label, def]) => {
+      const avg = groupAvg(item.scores || {}, def);
+      const pct = ((avg - 1) / 9 * 100).toFixed(0);
+      return `
+        <div class="tip-bar-row">
+          <span class="tip-bar-label">${label}</span>
+          <div class="tip-bar-track">
+            <div class="tip-bar-fill" style="width:${pct}%; background:${def.color};"></div>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  async function render() {
+    const content = document.getElementById('content');
+    const ratings = await loadAllRatings();
+
+    if (!ratings.length) {
+      content.innerHTML = '<div class="empty-state">No ratings yet. Go <a href="eartips-rater.html">score some tips</a> first!</div>';
+      return;
+    }
+
+    ratings.sort((a, b) => (b.overall ?? 0) - (a.overall ?? 0));
+
+    const grouped = new Map(TIERS.map(t => [t.key, []]));
+    ratings.forEach(item => grouped.get(tierOf(item.overall ?? 0).key).push(item));
+
+    content.innerHTML = TIERS.map(t => {
+      const items = grouped.get(t.key);
+      const body = items.length
+        ? items.map(item => {
+            const brand = item.brand ? `<span class="tip-brand">${escHtml(item.brand)}</span>` : '';
+            const notes = item.notes ? `<div class="tip-notes">${escHtml(item.notes)}</div>` : '';
+            return `
+              <div class="tip-row">
+                <div class="tip-top">
+                  <div class="tip-name">${escHtml(item.name)}${brand}</div>
+                  <div class="tip-score" style="color:${scoreColor(item.overall ?? 0)}">${(item.overall ?? 0).toFixed(1)}</div>
+                </div>
+                ${notes}
+                <div class="tip-bars">${renderBars(item)}</div>
+              </div>`;
+          }).join('')
+        : '<div class="tier-empty">No tips in this tier yet.</div>';
+
+      return `
+        <div class="tier">
+          <div class="tier-badge" style="background:${t.color};">${t.label}</div>
+          <div class="tier-body">${body}</div>
+        </div>`;
+    }).join('');
+  }
+
+  render();
+</script>
+</body>
+</html>
