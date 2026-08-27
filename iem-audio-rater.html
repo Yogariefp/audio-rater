@@ -500,17 +500,16 @@
         </div>
         <div>
           <label for="driver-type">Driver Type</label>
-          <select id="driver-type" onchange="updateSummary()">
-            <option value="">Unknown</option>
-            <option value="DD">Dynamic Driver (DD)</option>
-            <option value="BA">Balanced Armature (BA)</option>
-            <option value="Hybrid">Hybrid (DD+BA)</option>
-            <option value="DD+Planar">Hybrid (DD+Planar)</option>
-            <option value="DD+BA+Planar">Tribrid (DD+BA+Planar)</option>
-            <option value="Planar">Planar Magnetic</option>
-            <option value="EST">Electrostatic (EST)</option>
-            <option value="Other">Other</option>
-          </select>
+          <input id="driver-type" type="text" list="driver-type-options" placeholder="e.g. 1DD+3BA" oninput="updateSummary()">
+          <datalist id="driver-type-options">
+            <option value="DD">
+            <option value="BA">
+            <option value="Hybrid">
+            <option value="DD+Planar">
+            <option value="DD+BA+Planar">
+            <option value="Planar">
+            <option value="EST">
+          </datalist>
         </div>
         <div>
           <label for="price-range">Price Range</label>

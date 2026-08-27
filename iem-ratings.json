@@ -1,5 +1,34 @@
 [
   {
+    "name": "ZiiGaat Odyssey",
+    "driver": "1DD+3BA",
+    "price": "$100-300",
+    "genre": "",
+    "notes": "Bass is the best out of the whole lineup — strong, controlled sub-bass and punch. Treble is smoother than expected, not as harsh/sibilant as anticipated (Headfonics corroborates: near-zero sibilance, though treble detail retrieval is a known weak point — 'certain elements sounding dampened'). Vocals are a bit unusual in presentation but still enjoyable; mids are otherwise natural and engaging per big-reviewer consensus. Shell itself is decent (lightweight, no rough edges), but the stock cable is explicitly flimsy — Headfonics: 'feels like it could snap with a firm tug' — so Build Quality (which bundles shell+cable+connectors per this app's own rubric) can't sit in the 'premium' tier. Seal is excellent (best isolation tested) but it's too good — causes dizziness/pressure discomfort, making it hard to actually use for extended listening; note this diverges from other reviewers, who call Odyssey's isolation only 'okay' due to a vent near the 2-pin connectors — likely a personal fit/ear-anatomy factor. Stock cable and eartips are terrible for a $200 IEM.",
+    "scores": {
+      "subbass": 9,
+      "basshit": 9,
+      "bassclarity": 8,
+      "vocals": 6,
+      "instruments": 7,
+      "midwarmth": 7,
+      "detail": 7,
+      "sibilance": 3,
+      "air": 6,
+      "separation": 7,
+      "soundstage": 7,
+      "imaging": 7,
+      "comfort": 3,
+      "isolation": 9,
+      "build": 5,
+      "value": 2
+    },
+    "timestamp": "2026-08-27T10:00:00.000Z",
+    "overall": 6.7,
+    "summary": "Sound Signature: Bass-heavy\nStrong bass presence dominates — exciting for bass-driven genres but can overwhelm the midrange.\n\n✅ Strong areas: Bass, Treble, Technical.\n✅ Smooth, non-fatiguing treble — sibilance is well-controlled.\n🎵 Best for: EDM, Hip-hop, Live rock, Classical, Jazz.\n💰 Poor value — better alternatives likely exist at this price.\n\nVerdict: Good (6.7/10) — Above average, enjoyable daily driver.",
+    "id": 1787824800000
+  },
+  {
     "name": "Leteciel After Rain",
     "driver": "DD",
     "price": "$20-50",
