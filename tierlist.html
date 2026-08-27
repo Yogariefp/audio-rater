@@ -52,6 +52,33 @@
   header a { color: var(--accent2); text-decoration: none; }
   header a:hover { text-decoration: underline; }
 
+  .mode-toggle {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 14px;
+  }
+
+  .mode-btn {
+    background: var(--surface);
+    color: var(--muted);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 6px 14px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .mode-btn.active {
+    background: var(--accent);
+    color: #0f1117;
+    border-color: var(--accent);
+  }
+
+  .bar-value-row { transition: opacity 0.2s; }
+  body.mode-noValue .bar-value-row { opacity: 0.3; }
+
   .wrap {
     max-width: 900px;
     margin: 0 auto;
@@ -177,6 +204,10 @@
   <h1>🏆 IEM Tier List</h1>
   <p>Auto-ranked from your saved ratings, grouped by overall score</p>
   <p><a href="iem-audio-rater.html">&larr; Back to Rater</a> &nbsp;·&nbsp; <a href="eartips-tierlist.html">Eartips Tier List &rarr;</a></p>
+  <div class="mode-toggle">
+    <button class="mode-btn active" id="mode-btn-withValue" onclick="setMode('withValue')">Overall (incl. Value)</button>
+    <button class="mode-btn" id="mode-btn-noValue" onclick="setMode('noValue')">Sound Only (excl. Value)</button>
+  </div>
 </header>
 
 <div class="wrap" id="content">
@@ -213,12 +244,44 @@
     Value:  { ids: ['value'], color: '#f87171' }
   };
 
+  // Weights mirror iem-audio-rater.html's formula (sum 7.0 with Value, 6.4 without).
+  const WEIGHTS = { Bass: 1.5, Mids: 1.5, Treble: 1.2, Tech: 1.2, Fit: 1.0, Value: 0.6 };
+
   function groupAvg(scores, def) {
     const vals = def.ids.map(id => {
       const v = scores[id] ?? 5;
       return id === def.invert ? 11 - v : v;
     });
     return vals.reduce((a, b) => a + b, 0) / vals.length;
+  }
+
+  // Always recomputed from raw scores (not the stored `overall`/`overallNoValue`
+  // fields) so both modes work consistently even for entries saved before this
+  // feature existed.
+  function computeOverall(scores) {
+    const g = {};
+    Object.entries(GROUPS).forEach(([label, def]) => { g[label] = groupAvg(scores || {}, def); });
+    const withValueWeight = Object.values(WEIGHTS).reduce((a, b) => a + b, 0); // 7.0
+    const noValueWeight = withValueWeight - WEIGHTS.Value;                     // 6.4
+    let withValueSum = 0, noValueSum = 0;
+    Object.entries(WEIGHTS).forEach(([label, w]) => {
+      withValueSum += g[label] * w;
+      if (label !== 'Value') noValueSum += g[label] * w;
+    });
+    return {
+      withValue: Math.round((withValueSum / withValueWeight) * 10) / 10,
+      noValue:   Math.round((noValueSum / noValueWeight) * 10) / 10
+    };
+  }
+
+  let mode = 'withValue';
+
+  function setMode(m) {
+    mode = m;
+    document.getElementById('mode-btn-withValue').classList.toggle('active', m === 'withValue');
+    document.getElementById('mode-btn-noValue').classList.toggle('active', m === 'noValue');
+    document.body.classList.toggle('mode-noValue', m === 'noValue');
+    renderList();
   }
 
   function escHtml(s) {
@@ -251,8 +314,9 @@
     return Object.entries(GROUPS).map(([label, def]) => {
       const avg = groupAvg(item.scores || {}, def);
       const pct = ((avg - 1) / 9 * 100).toFixed(0);
+      const rowClass = label === 'Value' ? 'tier-bar-row bar-value-row' : 'tier-bar-row';
       return `
-        <div class="tier-bar-row">
+        <div class="${rowClass}">
           <span class="tier-bar-label">${label}</span>
           <div class="tier-bar-track">
             <div class="tier-bar-fill" style="width:${pct}%; background:${def.color};"></div>
@@ -261,24 +325,31 @@
     }).join('');
   }
 
-  async function render() {
-    const content = document.getElementById('content');
-    const ratings = await loadAllRatings();
+  let allRatings = [];
 
-    if (!ratings.length) {
+  function renderList() {
+    const content = document.getElementById('content');
+
+    if (!allRatings.length) {
       content.innerHTML = '<div class="empty-state">No ratings yet. Go rate some IEMs first!</div>';
       return;
     }
 
-    ratings.sort((a, b) => (b.overall ?? 0) - (a.overall ?? 0));
+    const scored = allRatings.map(item => ({
+      item,
+      score: computeOverall(item.scores)[mode]
+    }));
+
+    scored.sort((a, b) => b.score - a.score);
 
     const grouped = new Map(TIERS.map(t => [t.key, []]));
-    ratings.forEach(item => grouped.get(tierOf(item.overall ?? 0).key).push(item));
+    scored.forEach(row => grouped.get(tierOf(row.score).key).push(row));
 
     content.innerHTML = TIERS.map(t => {
-      const items = grouped.get(t.key);
-      const body = items.length
-        ? items.map((item, i) => {
+      const rows = grouped.get(t.key);
+      const body = rows.length
+        ? rows.map((row, i) => {
+            const item = row.item;
             const driver = item.driver ? ` · ${escHtml(item.driver)}` : '';
             const price = item.price ? ` · ${escHtml(item.price)}` : '';
             return `
@@ -288,7 +359,7 @@
                   <div class="tier-name">${escHtml(item.name)}</div>
                   <div class="tier-meta">${driver}${price}</div>
                 </div>
-                <div class="tier-score" style="color:${scoreColor(item.overall ?? 0)}">${(item.overall ?? 0).toFixed(1)}</div>
+                <div class="tier-score" style="color:${scoreColor(row.score)}">${row.score.toFixed(1)}</div>
                 <div class="tier-bars">${renderBars(item)}</div>
               </div>`;
           }).join('')
@@ -300,6 +371,11 @@
           <div class="tier-body">${body}</div>
         </div>`;
     }).join('');
+  }
+
+  async function render() {
+    allRatings = await loadAllRatings();
+    renderList();
   }
 
   render();

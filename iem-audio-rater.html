@@ -319,6 +319,17 @@
     margin-top: 4px;
   }
 
+  .score-alt {
+    font-size: 0.74rem;
+    color: var(--muted);
+    text-align: center;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px dashed var(--border);
+  }
+
+  .score-alt b { color: var(--text); }
+
   /* Breakdown bars */
   .breakdown { margin-top: 4px; }
 
@@ -1037,6 +1048,7 @@
         </div>
         <div class="verdict" id="verdict-text">Decent</div>
         <div class="verdict-desc" id="verdict-desc">Adjust sliders to rate</div>
+        <div class="score-alt">Sound-only (excl. Value): <b id="score-alt-val">5.0</b> / 10</div>
       </div>
 
       <!-- Breakdown -->
@@ -1363,6 +1375,17 @@
     recalc();
   }
 
+  // Shared weighted-average formula, with and without the Value criterion.
+  // Weights: Bass 1.5, Mids 1.5, Treble 1.2, Tech 1.2, Fit 1.0, Value 0.6 (sum 7.0; sum without Value 6.4).
+  function calcOverall(g) {
+    const withValue = (g.bass*1.5 + g.mids*1.5 + g.treble*1.2 + g.tech*1.2 + g.fit*1.0 + g.value*0.6) / 7.0;
+    const noValue   = (g.bass*1.5 + g.mids*1.5 + g.treble*1.2 + g.tech*1.2 + g.fit*1.0) / 6.4;
+    return {
+      withValue: Math.round(withValue * 10) / 10,
+      noValue:   Math.round(noValue * 10) / 10
+    };
+  }
+
   function recalc() {
     const bass   = groupAvg(GROUPS.bass, null);
     const mids   = groupAvg(GROUPS.mids, null);
@@ -1371,9 +1394,7 @@
     const fit    = groupAvg(GROUPS.fit, null);
     const value  = getVal('value');
 
-    // Weighted average
-    const overall = (bass*1.5 + mids*1.5 + treble*1.2 + tech*1.2 + fit*1.0 + value*0.6) / 7.0;
-    const rounded = Math.round(overall * 10) / 10;
+    const { withValue: rounded, noValue: roundedNoValue } = calcOverall({ bass, mids, treble, tech, fit, value });
 
     // Ring
     const circ = 314.16;
@@ -1388,6 +1409,10 @@
     document.getElementById('verdict-text').textContent = vLabel;
     document.getElementById('verdict-text').style.color = scoreColor(rounded);
     document.getElementById('verdict-desc').textContent = vDesc;
+
+    const altEl = document.getElementById('score-alt-val');
+    altEl.textContent = roundedNoValue.toFixed(1);
+    altEl.style.color = scoreColor(roundedNoValue);
 
     setBar('bass',   bass,   '#7c6af7');
     setBar('mids',   mids,   '#a78bfa');
@@ -1501,7 +1526,9 @@
     const tech   = groupAvg(GROUPS.tech, null);
     const fit    = groupAvg(GROUPS.fit, null);
     const value  = getVal('value');
-    data.overall = Math.round(((bass*1.5 + mids*1.5 + treble*1.2 + tech*1.2 + fit*1.0 + value*0.6) / 7.0) * 10) / 10;
+    const { withValue, noValue } = calcOverall({ bass, mids, treble, tech, fit, value });
+    data.overall = withValue;
+    data.overallNoValue = noValue;
     data.summary = generateSummaryFromScores(data.scores);
 
     // Upsert: update existing entry if same name, otherwise insert
@@ -1610,6 +1637,7 @@
       if (item.genre)  lines.push(`Genre tested: ${item.genre}`);
       lines.push(`Date: ${new Date(item.timestamp).toLocaleString()}`);
       lines.push(`Overall: ${item.overall}/10`);
+      if (item.overallNoValue != null) lines.push(`Sound-only (excl. Value): ${item.overallNoValue}/10`);
       lines.push('');
       lines.push('Scores:');
       const labels = {
@@ -1662,7 +1690,7 @@
     const tech   = avg([sc.separation, sc.soundstage, sc.imaging]);
     const fit    = avg([sc.comfort, sc.isolation, sc.build]);
     const value  = sc.value;
-    const overall = Math.round(((bass*1.5 + mids*1.5 + treble*1.2 + tech*1.2 + fit*1.0 + value*0.6) / 7.0) * 10) / 10;
+    const { withValue: overall, noValue: overallNoValue } = calcOverall({ bass, mids, treble, tech, fit, value });
 
     let sig;
     if      (bass - mids > 1   && treble - mids > 1)  sig = 'V-shaped';
@@ -1715,6 +1743,7 @@
     lines.push('');
     const [vLabel, vDesc] = verdictOf(overall);
     lines.push(`Verdict: ${vLabel} (${overall}/10) — ${vDesc}`);
+    lines.push(`Sound-only (excl. Value): ${overallNoValue}/10`);
 
     return lines.join('\n');
   }
