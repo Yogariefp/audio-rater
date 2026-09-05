@@ -1,5 +1,36 @@
 [
   {
+    "name": "Tanchjim Bunny (USB version)",
+    "driver": "DD",
+    "price": "<$20",
+    "genre": "",
+    "notes": "Budget V-shaped tuning gone wrong: sub-bass and mid-bass are both very weak/thin (bass is 'so weak' per own notes), mids are pushed back and always lack expression, and treble is shrill/intrusive to the point of being fatiguing rather than just bright. Large plastic housings aren't very comfortable, and the stock cable is cheap and has a bad smell. The one genuine standout is the USB-DAC dongle's companion app — a powerful, feature-rich parametric EQ, which is really the only reason to pick this over a plain budget DD. Graded C/C- across the board by the source review (Tuning C, Tech C, Bass C, Mids C, Treble C-, Dynamics C-, Soundstage C-, Details C, Imaging C) but the prose is more damning than the letter grades, so scores lean toward the described weaknesses rather than a flat 'average C'.",
+    "scores": {
+      "subbass": 3,
+      "basshit": 3,
+      "bassclarity": 5,
+      "vocals": 4,
+      "instruments": 4,
+      "midwarmth": 3,
+      "detail": 5,
+      "sibilance": 8,
+      "air": 5,
+      "separation": 5,
+      "soundstage": 4,
+      "imaging": 5,
+      "comfort": 4,
+      "isolation": 5,
+      "build": 3,
+      "value": 6
+    },
+    "timestamp": "2026-09-05T10:00:00.000Z",
+    "overall": 4.2,
+    "overallNoValue": 4.0,
+    "overallPureAudio": 4.0,
+    "summary": "Sound Signature: V-shaped (poorly executed)\nBoth sub-bass and mid-bass are weak/thin and mids are recessed and lack expression, while treble is shrill and intrusive — a bright, fatiguing tuning without the bass slam that usually justifies a V-shape.\n\n⚠️ Weak areas: Bass, Mids, Fit & Build.\n🎵 Best for: EQ tinkerers — the bundled parametric EQ app can correct a lot of this.\n\nVerdict: Mediocre (4.2/10) — Noticeable weaknesses, look for alternatives.\nSound-only (excl. Value): 4.0/10\nPure Audio (excl. Fit & Value): 4.0/10",
+    "id": 1788602400000
+  },
+  {
     "name": "ZiiGaat Odyssey",
     "driver": "1DD+3BA",
     "price": "$100-300",
