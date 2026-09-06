@@ -4,7 +4,7 @@
     "driver": "DD",
     "price": "<$20",
     "genre": "",
-    "notes": "Revised after direct comparison to Tangzu Wan'er S.G II: vocals are a genuine standout — clear and expressive, arguably the best reason to own this IEM — and treble is cleaner/better resolved than the Wan'er 2's. Sub/mid-bass remains genuinely weak ('no bass'), the one clear sonic hole. Instrument texture, midrange warmth, and technical performance (separation/stage/imaging) are normalized to an average baseline here rather than the original pasted review's harsher 'thin/hollow' framing, since that framing wasn't independently reconfirmed and doesn't square with 'better than Wan'er 2 sound-wise except bass.' Where it clearly still loses to the Wan'er 2 is build and accessories — large plastic housing that isn't very comfortable, and a stock cable that's cheap and has a bad smell, versus the Wan'er 2's praised box/accessories. The USB-DAC dongle's companion app (powerful parametric EQ) remains a genuine plus. Sanity-checked against price tier: even with vocals/treble this strong, it still sits below every $20-50+ entry and just behind the pricier Wan'er 2 — no weird tier inversion.",
+    "notes": "V-shaped budget DD, dirt cheap. Vocals are actually amazing, best part of it by far. Bass is basically not there though — don't buy this expecting any rumble. Treble surprised me too, cleaner than Wan'er 2 honestly. Housing's big plastic and not that comfy, cable's cheap and smells bad. Only real reason to grab the USB version is the EQ app — genuinely powerful, worth it if you want to fix the bass yourself.",
     "scores": {
       "subbass": 3,
       "basshit": 3,
@@ -13,7 +13,7 @@
       "instruments": 5,
       "midwarmth": 5,
       "detail": 6,
-      "sibilance": 3,
+      "sibilance": 4,
       "air": 6,
       "separation": 5,
       "soundstage": 5,
@@ -21,13 +21,13 @@
       "comfort": 5,
       "isolation": 5,
       "build": 5,
-      "value": 5
+      "value": 6
     },
     "timestamp": "2026-09-05T10:00:00.000Z",
     "overall": 5.2,
     "overallNoValue": 5.2,
-    "overallPureAudio": 5.3,
-    "summary": "Sound Signature: Vocal-forward, bass-light\nVocals are the clear highlight — clean and expressive — and treble is smoother/better resolved than the pricier Wan'er S.G II. Sub/mid-bass is genuinely weak and remains the one hole in an otherwise competitive budget tuning.\n\n✅ Strong areas: Vocals, Treble.\n⚠️ Weak areas: Bass.\n🎵 Best for: Vocal-centric listening (pair with the bundled EQ app if you want more bass).\n\nVerdict: Decent (5.2/10) — Gets the job done, some compromises.\nSound-only (excl. Value): 5.2/10\nPure Audio (excl. Fit & Value): 5.3/10",
+    "overallPureAudio": 5.2,
+    "summary": "Sound Signature: Neutral\nNo dominant frequency colouration — relatively even response across the board.\n\n⚠️ Weak areas: Bass.\n🎵 Best for: General listening.\n\nVerdict: Decent (5.2/10) — Gets the job done, some compromises.\nSound-only (excl. Value): 5.2/10\nPure Audio (excl. Fit & Value): 5.2/10",
     "id": 1788602400000
   },
   {
@@ -35,7 +35,7 @@
     "driver": "1DD+3BA",
     "price": "$100-300",
     "genre": "",
-    "notes": "Bass is the best out of the whole lineup — strong, controlled sub-bass and punch. Treble is smoother than expected, not as harsh/sibilant as anticipated (Headfonics corroborates: near-zero sibilance, though treble detail retrieval is a known weak point — 'certain elements sounding dampened'). Vocals are a bit unusual in presentation but still enjoyable; mids are otherwise natural and engaging per big-reviewer consensus. Shell itself is decent (lightweight, no rough edges), but the stock cable is explicitly flimsy — Headfonics: 'feels like it could snap with a firm tug' — so Build Quality (which bundles shell+cable+connectors per this app's own rubric) can't sit in the 'premium' tier. Seal is excellent (best isolation tested) but it's too good — causes dizziness/pressure discomfort, making it hard to actually use for extended listening; note this diverges from other reviewers, who call Odyssey's isolation only 'okay' due to a vent near the 2-pin connectors — likely a personal fit/ear-anatomy factor. Stock cable and eartips are terrible for a $200 IEM.",
+    "notes": "Bass is the best out of everything I've tried — hits hard and controlled. Treble's way smoother than I expected too, not harsh at all (other reviews online say pretty much the same, though they mention detail retrieval isn't its strongest point). Vocals are a bit weird in presentation but still good, mids otherwise natural. Shell feels solid but the stock cable is flimsy as hell, feels like it could snap. Isolation is stupid good — actually too good, gave me dizziness/pressure and made it hard to wear for long sessions. Funny thing is other reviews say isolation's just okay because of a vent by the connectors, so it's probably just my ears/fit. Cable and eartips are straight up bad for a $200 iem.",
     "scores": {
       "subbass": 9,
       "basshit": 9,
@@ -93,7 +93,7 @@
     "driver": "DD",
     "price": "$20-50",
     "genre": "J-Rock",
-    "notes": "Drier and less bassy than ZiiGaat x Vivir Digital Rumba and Tangzu Wan'er S.G II — leaner low end trades slam for cleaner, tighter bass. Upper-mid/vocal region sits forward and clear, per squig.link FR (COZOY D1 AVG vs Crinacle target), tracking close to the ZiiGaat through bass/mids but pulling ahead in the 2-4kHz vocal presence region. Treble is more jagged with peaks around 8-11kHz giving a metallic, energetic edge rather than the smoother, safer top end of the Rumba.",
+    "notes": "Drier and less bassy than the Zii Rumba and Wan'er 2 — thinner low end but cleaner, tighter bass. Vocals/upper mids sit more forward and clear (checked squig.link FR vs Crinacle target, tracks close to the Zii through bass/mids but pulls ahead 2-4khz). Treble's more jagged, some peaks around 8-11khz give it a metallic, energetic edge instead of the smoother safer top end on the Rumba.",
     "scores": {
       "subbass": 6,
       "basshit": 5,
@@ -122,7 +122,7 @@
     "driver": "DD",
     "price": "$20-50",
     "genre": "",
-    "notes": "Fun basshead-leaning tuning, sub-bass emphasis with controlled decay, vocals said to be pushed forward by 2.5-3kHz pinna gain, smooth/safe treble but closed-in on air. Competes at $35 against Truthear Gate (~$20, more neutral-warm, wider stage) and Tangzu Wan'er S.G II (~$20-25, more vocal-forward, better accessories) — both cheaper and actually battle-tested. Kiwi Ears Cadenza II ($49.99) also on the radar but not re-auditioned recently. Revisit with a real listen before trusting these numbers.",
+    "notes": "Fun basshead-leaning tuning, sub-bass hits with decent control. Vocals pushed forward (some pinna gain around 2.5-3khz apparently), treble's smooth/safe but feels a bit closed-in on air. At $35 it's up against Truthear Gate (~$20, more neutral-warm, wider stage) and Wan'er 2 (~$20-25, more vocal-forward, better accessories) — both cheaper and already proven. Kiwi Ears Cadenza II ($49.99) is on my radar too but haven't re-tested it. Need to actually revisit this with a real listen before trusting these numbers.",
     "scores": {
       "subbass": 7,
       "basshit": 7,
@@ -151,7 +151,7 @@
     "driver": "Hybrid",
     "price": "$50-100",
     "genre": "J-Pop",
-    "notes": "Hidizs My Lin — DD+BA hybrid collab IEM. Absolute V-shape tuning: elevated bass shelf (~70 dB, 20–60 Hz) with a significant mid scoop (~10 dB recession at 250–800 Hz), then a sharp treble peak at 6–7 kHz that is the highest point on the entire FR curve. Mids are recessed and instruments lack body. Vocals are thinned out by the lower-mid recession. The 6–7 kHz peak brings perceived detail but causes notable sibilance. Deep trough at 8–9 kHz then steep rolloff limits air extension. Channel matching is near-perfect (L/R almost identical). Build and comfort are above average for the price tier.",
+    "notes": "DD+BA hybrid collab. Pretty hard V-shape — bass is boosted a lot, mids are noticeably scooped so instruments sound a bit thin, and there's a sharp treble peak around 6-7khz that's the loudest part of the whole FR. That peak adds some perceived detail but also causes real sibilance. Air rolls off pretty steep after that. L/R channel matching felt spot on though. Build and comfort are above average for the price.",
     "scores": {
       "subbass": 7,
       "basshit": 7,
@@ -180,7 +180,7 @@
     "driver": "DD",
     "price": "<$20",
     "genre": "Based on Test Tips",
-    "notes": "Single DD entry-level IEM. Warm-neutral tuning with a strong focus on midrange and vocal presence especially female vocals. Natural, intimate presentation makes it ideal for J-Pop, acoustic, and podcast listening. Bass is soft and non-punchy; poor fit for EDM or hip-hop. Detail retrieval and instrument separation are average. Narrow soundstage creates an intimate but confined presentation. Minimal sibilance and smooth treble make it fatigue-free for long sessions.",
+    "notes": "Cheap single DD. Warm-neutral, mids/vocals are the focus especially female vocals. Good for J-pop, acoustic, podcasts — natural and intimate. Bass is soft, no punch, bad for EDM/hip-hop. Detail and separation are just average. Soundstage's narrow so it feels a bit boxed in. Treble's smooth with barely any sibilance though, easy to listen to for hours.",
     "scores": {
       "subbass": 4,
       "basshit": 4,
