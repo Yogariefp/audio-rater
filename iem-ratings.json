@@ -4,7 +4,7 @@
     "driver": "DD",
     "price": "<$20",
     "genre": "",
-    "notes": "Single DD, $20, absolute basshead bomb — bass hits stupidly hard but it's not clean/controlled like Odyssey, it just floods everything. Mids get muddied out because of it, vocals and instruments aren't clear. Treble's fully rolled off — dark and safe, no sparkle at all but also zero harshness. Stage feels congested/smeared because the bass takes over. Comfort and isolation are just average, nothing special. Build's generic budget stuff aside from the anime faceplate, which is honestly the best part of it.",
+    "notes": "Single DD, $20, absolute basshead bomb — bass hits stupidly hard but it's not clean/controlled like Odyssey, it just floods everything. Mids get muddied out because of it, vocals and instruments aren't clear. Treble's fully rolled off — dark and safe, no sparkle at all but also zero harshness. Stage takes a hit from the bass bleed but isn't a total mess. Comfort's actually good, isolation's just average. Build's generic budget stuff aside from the anime faceplate, which is honestly the best part of it.",
     "scores": {
       "subbass": 9,
       "basshit": 9,
@@ -15,19 +15,20 @@
       "detail": 3,
       "sibilance": 2,
       "air": 2,
-      "separation": 3,
-      "soundstage": 3,
-      "imaging": 3,
-      "comfort": 5,
+      "separation": 4,
+      "soundstage": 4,
+      "imaging": 4,
+      "comfort": 7,
       "isolation": 5,
       "build": 5,
-      "value": 6
+      "value": 6,
+      "design": 8
     },
     "timestamp": "2026-09-09T10:00:00.000Z",
-    "overall": 5.0,
-    "overallNoValue": 4.9,
-    "overallPureAudio": 4.9,
-    "summary": "Sound Signature: Bass-heavy (uncontrolled)\nBass is massive but bleeds into everything — not the clean, controlled slam of something like Odyssey, just overwhelming quantity that muddies the mids. Treble's fully rolled off — dark and safe, no harshness, but no sparkle either.\n\n✅ Strong areas: Bass (quantity).\n⚠️ Weak areas: Mids, Treble, Technical.\n🎵 Best for: Bass-only listening (EDM/hip-hop, if you don't care about clarity).\n\nVerdict: Decent (5.0/10) — Gets the job done, some compromises.\nSound-only (excl. Value): 4.9/10\nPure Audio (excl. Fit & Value): 4.9/10",
+    "overall": 5.4,
+    "overallNoValue": 5.2,
+    "overallPureAudio": 5.1,
+    "summary": "Sound Signature: Bass-heavy\nStrong bass presence dominates — exciting for bass-driven genres but can overwhelm the midrange.\n\n✅ Strong areas: Bass.\n⚠️ Weak areas: Mids, Treble, Technical.\n✅ Smooth, non-fatiguing treble — sibilance is well-controlled.\nℹ️ Punchy but muddy bass — good impact, but fast bass passages may sound bloated.\n🎵 Best for: EDM, Hip-hop, Live rock.\n👀 Standout looks — a real head-turner (that anime faceplate).\n\nVerdict: Decent (5.4/10) — Gets the job done, some compromises.\nSound-only (excl. Value): 5.2/10\nPure Audio (excl. Fit & Value): 5.1/10",
     "id": 1788948000000
   },
   {
@@ -35,16 +36,16 @@
     "driver": "DD",
     "price": "<$20",
     "genre": "",
-    "notes": "V-shaped budget DD, dirt cheap. Vocals are actually amazing, best part of it by far. Pulled up the squig.link FR overlay (Bunny DSP default vs Wan'er 2 vs Rays) to double check myself: bass shelf is actually close to Wan'er 2, not the near-nothing I first described — so 'no bass' was an exaggeration. Treble's a different story though — Bunny's got the tallest peak of the three up around 9-10khz, taller than both Wan'er 2 and Rays, so it's probably not actually smoother than Wan'er 2 like I thought, Wan'er 2 just rolls off earlier which is why it sounds safer. Housing's big plastic and not that comfy, cable's cheap and smells bad. Only real reason to grab the USB version is the EQ app — genuinely powerful, worth it if you want to tame that treble peak or add more bass.",
+    "notes": "V-shaped budget DD, dirt cheap. Vocals are actually amazing, best part of it by far. Bass is basically not there though — don't buy this expecting any rumble. Treble surprised me too, cleaner than Wan'er 2 honestly. Housing's big plastic and not that comfy, cable's cheap and smells bad. Only real reason to grab the USB version is the EQ app — genuinely powerful, worth it if you want to fix the bass yourself.",
     "scores": {
-      "subbass": 5,
-      "basshit": 5,
+      "subbass": 3,
+      "basshit": 3,
       "bassclarity": 5,
       "vocals": 8,
       "instruments": 5,
       "midwarmth": 5,
       "detail": 6,
-      "sibilance": 5,
+      "sibilance": 4,
       "air": 6,
       "separation": 5,
       "soundstage": 5,
@@ -52,13 +53,14 @@
       "comfort": 5,
       "isolation": 5,
       "build": 5,
-      "value": 6
+      "value": 6,
+      "design": 6
     },
     "timestamp": "2026-09-05T10:00:00.000Z",
-    "overall": 5.5,
-    "overallNoValue": 5.4,
-    "overallPureAudio": 5.5,
-    "summary": "Sound Signature: Vocal-forward\nVocals are the clear highlight. Bass and treble both land close to Wan'er S.G II once checked against measured FR — bass shelf nearly matches, and treble has the tallest 9-10khz peak of the two, so it's a wash rather than clearly better.\n\n✅ Strong areas: Vocals.\n🎵 Best for: Vocal-centric listening.\n\nVerdict: Decent (5.5/10) — Gets the job done, some compromises.\nSound-only (excl. Value): 5.4/10\nPure Audio (excl. Fit & Value): 5.5/10",
+    "overall": 5.3,
+    "overallNoValue": 5.2,
+    "overallPureAudio": 5.2,
+    "summary": "Sound Signature: Neutral\nNo dominant frequency colouration — relatively even response across the board.\n\n⚠️ Weak areas: Bass.\n🎵 Best for: General listening.\n\nVerdict: Decent (5.3/10) — Gets the job done, some compromises.\nSound-only (excl. Value): 5.2/10\nPure Audio (excl. Fit & Value): 5.2/10",
     "id": 1788602400000
   },
   {
@@ -83,7 +85,8 @@
       "comfort": 3,
       "isolation": 9,
       "build": 5,
-      "value": 2
+      "value": 2,
+      "design": 8
     },
     "timestamp": "2026-08-27T10:00:00.000Z",
     "overall": 6.7,
@@ -112,11 +115,12 @@
       "comfort": 7,
       "isolation": 6,
       "build": 7,
-      "value": 7
+      "value": 7,
+      "design": 9
     },
     "timestamp": "2026-08-14T16:56:42.503Z",
-    "overall": 6.2,
-    "summary": "Sound Signature: Neutral / Balanced\nEven across all frequencies — versatile and accurate without strong colouration.\n\n🎵 Best for: General listening.\n\nVerdict: Good (6.2/10) — Above average, enjoyable daily driver.",
+    "overall": 6.4,
+    "summary": "Sound Signature: Neutral / Balanced\nEven across all frequencies — versatile and accurate without strong colouration.\n\n🎵 Best for: General listening.\n👀 Standout looks — a real head-turner.\n\nVerdict: Good (6.4/10) — Above average, enjoyable daily driver.",
     "id": 1786726602503
   },
   {
@@ -141,11 +145,12 @@
       "comfort": 5,
       "isolation": 5,
       "build": 5,
-      "value": 6
+      "value": 6,
+      "design": 5
     },
     "timestamp": "2026-08-01T01:56:51.921Z",
-    "overall": 5.8,
-    "summary": "Sound Signature: Neutral\nNo dominant frequency colouration — relatively even response across the board.\n\n🎵 Best for: General listening.\n\nVerdict: Decent (5.8/10) — Gets the job done, some compromises.",
+    "overall": 5.7,
+    "summary": "Sound Signature: Neutral\nNo dominant frequency colouration — relatively even response across the board.\n\n🎵 Best for: General listening.\n\nVerdict: Decent (5.7/10) — Gets the job done, some compromises.",
     "id": 1785549411923
   },
   {
@@ -170,11 +175,12 @@
       "comfort": 5,
       "isolation": 5,
       "build": 7,
-      "value": 6
+      "value": 6,
+      "design": 5
     },
     "timestamp": "2026-07-14T00:00:00.000Z",
-    "overall": 5.9,
-    "summary": "Sound Signature: Neutral / Balanced\nEven across all frequencies — versatile and accurate without strong colouration.\n\n✅ Smooth, non-fatiguing treble — sibilance is well-controlled.\n🎵 Best for: General listening.\n\nVerdict: Decent (5.9/10) — Gets the job done, some compromises.",
+    "overall": 5.8,
+    "summary": "Sound Signature: Neutral / Balanced\nEven across all frequencies — versatile and accurate without strong colouration.\n\n✅ Smooth, non-fatiguing treble — sibilance is well-controlled.\n🎵 Best for: General listening.\n\nVerdict: Decent (5.8/10) — Gets the job done, some compromises.",
     "id": 1783877406109
   },
   {
@@ -199,11 +205,12 @@
       "comfort": 8,
       "isolation": 7,
       "build": 8,
-      "value": 9
+      "value": 9,
+      "design": 9
     },
     "timestamp": "2026-07-01T10:56:54.791Z",
-    "overall": 7,
-    "summary": "Sound Signature: Neutral / Balanced\nEven across all frequencies — versatile and accurate without strong colouration.\n\n✅ Strong areas: Fit & Build.\n🎵 Best for: General listening.\n💰 Excellent value — competes with IEMs above its price tier.\n\nVerdict: Very Good (7/10) — Solid performer with minor flaws.",
+    "overall": 7.1,
+    "summary": "Sound Signature: Neutral / Balanced\nEven across all frequencies — versatile and accurate without strong colouration.\n\n✅ Strong areas: Fit & Build.\n🎵 Best for: General listening.\n💰 Excellent value — competes with IEMs above its price tier.\n👀 Standout looks — a real head-turner.\n\nVerdict: Very Good (7.1/10) — Solid performer with minor flaws.",
     "id": 1782903414791
   },
   {
@@ -228,11 +235,12 @@
       "comfort": 5,
       "isolation": 4,
       "build": 4,
-      "value": 7
+      "value": 7,
+      "design": 2
     },
     "timestamp": "2026-06-19T10:00:00.000Z",
-    "overall": 5.1,
-    "summary": "Sound Signature: Neutral\nNo dominant frequency colouration — relatively even response across the board.\n\n⚠️ Weak areas: Bass, Technical, Fit & Build.\n✅ Smooth, non-fatiguing treble — sibilance is well-controlled.\n🎵 Best for: General listening.\n\nVerdict: Decent (5.1/10) — Gets the job done, some compromises.",
+    "overall": 4.9,
+    "summary": "Sound Signature: Neutral\nNo dominant frequency colouration — relatively even response across the board.\n\n⚠️ Weak areas: Bass, Technical, Fit & Build.\n✅ Smooth, non-fatiguing treble — sibilance is well-controlled.\n🎵 Best for: General listening.\n👀 Not much to look at — purely function over form.\n\nVerdict: Mediocre (4.9/10) — Noticeable weaknesses, look for alternatives.",
     "id": 1781784000000
   },
   {
@@ -257,11 +265,12 @@
       "comfort": 5,
       "isolation": 5,
       "build": 7,
-      "value": 7
+      "value": 7,
+      "design": 5
     },
     "timestamp": "2026-05-19T10:05:00.000Z",
-    "overall": 5.6,
-    "summary": "Sound Signature: Neutral / Balanced\nEven across all frequencies — versatile and accurate without strong colouration.\n\n✅ Smooth, non-fatiguing treble — sibilance is well-controlled.\n🎵 Best for: General listening.\n\nVerdict: Decent (5.6/10) — Gets the job done, some compromises.",
+    "overall": 5.5,
+    "summary": "Sound Signature: Neutral / Balanced\nEven across all frequencies — versatile and accurate without strong colouration.\n\n✅ Smooth, non-fatiguing treble — sibilance is well-controlled.\n🎵 Best for: General listening.\n\nVerdict: Decent (5.5/10) — Gets the job done, some compromises.",
     "id": 1779069900000
   },
   {
@@ -286,11 +295,12 @@
       "comfort": 8,
       "isolation": 7,
       "build": 7,
-      "value": 6
+      "value": 6,
+      "design": 8
     },
     "timestamp": "2026-05-19T10:00:00.000Z",
-    "overall": 7.2,
-    "summary": "Sound Signature: Neutral / Balanced\nEven across all frequencies — versatile and accurate without strong colouration.\n\n✅ Strong areas: Bass, Mids, Treble, Fit & Build.\n✅ Smooth, non-fatiguing treble — sibilance is well-controlled.\n🎵 Best for: EDM, Hip-hop, Live rock, Vocals, Acoustic.\n\nVerdict: Very Good (7.2/10) — Solid performer with minor flaws.",
+    "overall": 7.3,
+    "summary": "Sound Signature: Neutral / Balanced\nEven across all frequencies — versatile and accurate without strong colouration.\n\n✅ Strong areas: Bass, Mids, Treble, Fit & Build.\n✅ Smooth, non-fatiguing treble — sibilance is well-controlled.\n🎵 Best for: EDM, Hip-hop, Live rock, Vocals, Acoustic.\n👀 Standout looks — a real head-turner.\n\nVerdict: Very Good (7.3/10) — Solid performer with minor flaws.",
     "id": 1779069600000
   },
   {
@@ -315,11 +325,12 @@
       "comfort": 7,
       "isolation": 6,
       "build": 6,
-      "value": 6
+      "value": 6,
+      "design": 5
     },
     "timestamp": "2026-05-17T16:18:00.402Z",
-    "overall": 6.1,
-    "summary": "Sound Signature: Neutral\nNo dominant frequency colouration — relatively even response across the board.\n\n✅ Smooth, non-fatiguing treble — sibilance is well-controlled.\n🎵 Best for: General listening.\n\nVerdict: Good (6.1/10) — Above average, enjoyable daily driver.",
+    "overall": 6.0,
+    "summary": "Sound Signature: Neutral\nNo dominant frequency colouration — relatively even response across the board.\n\n✅ Smooth, non-fatiguing treble — sibilance is well-controlled.\n🎵 Best for: General listening.\n\nVerdict: Good (6/10) — Above average, enjoyable daily driver.",
     "id": 1779034680402
   },
   {
@@ -344,11 +355,12 @@
       "comfort": 9,
       "isolation": 6,
       "build": 7,
-      "value": 7
+      "value": 7,
+      "design": 8
     },
     "timestamp": "2026-05-17T15:53:13.716Z",
-    "overall": 7.4,
-    "summary": "Sound Signature: Neutral / Balanced\nEven across all frequencies — versatile and accurate without strong colouration.\n\n✅ Strong areas: Bass, Mids, Treble, Technical, Fit & Build.\n🎵 Best for: EDM, Hip-hop, Live rock, Vocals, Acoustic.\n\nVerdict: Very Good (7.4/10) — Solid performer with minor flaws.",
+    "overall": 7.5,
+    "summary": "Sound Signature: Neutral / Balanced\nEven across all frequencies — versatile and accurate without strong colouration.\n\n✅ Strong areas: Bass, Mids, Treble, Technical, Fit & Build.\n🎵 Best for: EDM, Hip-hop, Live rock, Vocals, Acoustic.\n👀 Standout looks — a real head-turner.\n\nVerdict: Very Good (7.5/10) — Solid performer with minor flaws.",
     "id": 1779033193716
   }
 ]

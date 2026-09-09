@@ -245,11 +245,14 @@
     Treble: { ids: ['detail','sibilance','air'], color: '#5eead4', invert: 'sibilance' },
     Tech:   { ids: ['separation','soundstage','imaging'], color: '#34d399' },
     Fit:    { ids: ['comfort','isolation','build'], color: '#fbbf24' },
-    Value:  { ids: ['value'], color: '#f87171' }
+    Value:  { ids: ['value'], color: '#f87171' },
+    Design: { ids: ['design'], color: '#e879f9' }
   };
 
-  // Weights mirror iem-audio-rater.html's formula (sum 7.0 with Value, 6.4 without).
-  const WEIGHTS = { Bass: 1.5, Mids: 1.5, Treble: 1.2, Tech: 1.2, Fit: 1.0, Value: 0.6 };
+  // Weights mirror iem-audio-rater.html's formula (sum 7.5 with Value+Design, 6.4 without either).
+  // Design (looks) is excluded from noValue/pureAudio same as Value, since it's not audio-related.
+  const WEIGHTS = { Bass: 1.5, Mids: 1.5, Treble: 1.2, Tech: 1.2, Fit: 1.0, Value: 0.6, Design: 0.5 };
+  const AUDIO_EXCLUDED = ['Value', 'Design'];
 
   function groupAvg(scores, def) {
     const vals = def.ids.map(id => {
@@ -265,14 +268,14 @@
   function computeOverall(scores) {
     const g = {};
     Object.entries(GROUPS).forEach(([label, def]) => { g[label] = groupAvg(scores || {}, def); });
-    const withValueWeight = Object.values(WEIGHTS).reduce((a, b) => a + b, 0); // 7.0
-    const noValueWeight = withValueWeight - WEIGHTS.Value;                     // 6.4
+    const withValueWeight = Object.values(WEIGHTS).reduce((a, b) => a + b, 0); // 7.5
+    const noValueWeight = withValueWeight - WEIGHTS.Value - WEIGHTS.Design;    // 6.4
     const pureAudioWeight = noValueWeight - WEIGHTS.Fit;                       // 5.4
     let withValueSum = 0, noValueSum = 0, pureAudioSum = 0;
     Object.entries(WEIGHTS).forEach(([label, w]) => {
       withValueSum += g[label] * w;
-      if (label !== 'Value') noValueSum += g[label] * w;
-      if (label !== 'Value' && label !== 'Fit') pureAudioSum += g[label] * w;
+      if (!AUDIO_EXCLUDED.includes(label)) noValueSum += g[label] * w;
+      if (!AUDIO_EXCLUDED.includes(label) && label !== 'Fit') pureAudioSum += g[label] * w;
     });
     return {
       withValue: Math.round((withValueSum / withValueWeight) * 10) / 10,
@@ -324,8 +327,9 @@
       const avg = groupAvg(item.scores || {}, def);
       const pct = ((avg - 1) / 9 * 100).toFixed(0);
       let rowClass = 'tier-bar-row';
-      if (label === 'Value') rowClass += ' bar-value-row';
-      if (label === 'Fit')   rowClass += ' bar-fit-row';
+      if (label === 'Value')  rowClass += ' bar-value-row';
+      if (label === 'Design') rowClass += ' bar-value-row';
+      if (label === 'Fit')    rowClass += ' bar-fit-row';
       return `
         <div class="${rowClass}">
           <span class="tier-bar-label">${label}</span>

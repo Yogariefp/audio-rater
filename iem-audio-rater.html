@@ -1000,6 +1000,32 @@
         </div>
       </div>
 
+      <div class="criterion" id="cr-design">
+        <div class="criterion-header">
+          <div>
+            <div class="criterion-label">Aesthetic Design</div>
+            <div class="criterion-sub">Faceplate/shell looks — not durability</div>
+          </div>
+          <div class="score-badge" id="val-design">5</div>
+        </div>
+        <input type="range" min="1" max="10" value="5" id="design" oninput="update('design')">
+        <div class="tick-labels"><span>Plain</span><span>Nice</span><span>Stunning</span></div>
+        <div class="test-tip">💡 <b>How to judge:</b> Purely how it looks — faceplate art/finish, shell shape, color, whether you'd show it off. Has nothing to do with build sturdiness or comfort; a gorgeous IEM can still have a flimsy cable.</div>
+        <div class="score-guide-toggle" onclick="toggleGuide(this)">📊 Score guide ▼</div>
+        <div class="score-guide">
+          <div class="guide-row"><span class="guide-num g1">1</span><span class="guide-desc">Ugly; actively embarrassing to be seen wearing</span></div>
+          <div class="guide-row"><span class="guide-num g2">2</span><span class="guide-desc">Unattractive; cheap-looking finish or shape</span></div>
+          <div class="guide-row"><span class="guide-num g3">3</span><span class="guide-desc">Bland; forgettable, nothing offensive either</span></div>
+          <div class="guide-row"><span class="guide-num g4">4</span><span class="guide-desc">Below average; generic shell with no character</span></div>
+          <div class="guide-row"><span class="guide-num g5">5</span><span class="guide-desc">Average; plain but inoffensive</span></div>
+          <div class="guide-row"><span class="guide-num g6">6</span><span class="guide-desc">Decent; a nice touch or two (faceplate pattern, color)</span></div>
+          <div class="guide-row"><span class="guide-num g7">7</span><span class="guide-desc">Good-looking; would happily show it off</span></div>
+          <div class="guide-row"><span class="guide-num g8">8</span><span class="guide-desc">Great design; distinctive, gets compliments</span></div>
+          <div class="guide-row"><span class="guide-num g9">9</span><span class="guide-desc">Excellent; standout look, clearly a design priority</span></div>
+          <div class="guide-row"><span class="guide-num g10">10</span><span class="guide-desc">Stunning; a piece of art you'd buy for looks alone</span></div>
+        </div>
+      </div>
+
       <div style="margin-top: 12px;">
         <label for="notes" style="font-size:0.78rem; color:var(--muted); display:block; margin-bottom:6px;">Personal notes (what stands out, what to improve)</label>
         <textarea id="notes" placeholder="e.g. Bass is great but vocals sound slightly veiled. Cable microphonics are annoying. Would use for EDM and gaming." oninput="updateSummary()"></textarea>
@@ -1089,6 +1115,11 @@
           <div class="breakdown-name">Value</div>
           <div class="breakdown-bar-bg"><div class="breakdown-bar" id="bar-value" style="width:50%;background:#f87171"></div></div>
           <div class="breakdown-val" id="bv-value">5.0</div>
+        </div>
+        <div class="breakdown-row">
+          <div class="breakdown-name">Design</div>
+          <div class="breakdown-bar-bg"><div class="breakdown-bar" id="bar-design" style="width:50%;background:#e879f9"></div></div>
+          <div class="breakdown-val" id="bv-design">5.0</div>
         </div>
       </div>
     </div>
@@ -1315,6 +1346,18 @@
       'Great deal; competes with IEMs a full tier above',
       'Excellent value; punches 1.5\u20132 tiers above its price',
       'Incredible steal; competes 2+ tiers above its price'
+    ]},
+    design:      { inv: false, rows: [
+      'Ugly; actively embarrassing to be seen wearing',
+      'Unattractive; cheap-looking finish or shape',
+      'Bland; forgettable, nothing offensive either',
+      'Below average; generic shell with no character',
+      'Average; plain but inoffensive',
+      'Decent; a nice touch or two (faceplate pattern, color)',
+      'Good-looking; would happily show it off',
+      'Great design; distinctive, gets compliments',
+      'Excellent; standout look, clearly a design priority',
+      'Stunning; a piece of art you\u2019d buy for looks alone'
     ]}
   };
 
@@ -1324,7 +1367,7 @@
     'detail','sibilance','air',
     'separation','soundstage','imaging',
     'comfort','isolation','build',
-    'value'
+    'value','design'
   ];
 
   const GROUPS = {
@@ -1333,7 +1376,8 @@
     treble: ['detail','sibilance','air'],  // sibilance is inverted
     tech:   ['separation','soundstage','imaging'],
     fit:    ['comfort','isolation','build'],
-    value:  ['value']
+    value:  ['value'],
+    design: ['design']
   };
 
   function getVal(id) {
@@ -1383,12 +1427,14 @@
   }
 
   // Shared weighted-average formula, in three flavors.
-  // Weights: Bass 1.5, Mids 1.5, Treble 1.2, Tech 1.2, Fit 1.0, Value 0.6.
-  //   withValue:  everything                          (sum 7.0)
-  //   noValue:    drops Value                          (sum 6.4)
-  //   pureAudio:  drops Value AND Fit & Build           (sum 5.4)
+  // Weights: Bass 1.5, Mids 1.5, Treble 1.2, Tech 1.2, Fit 1.0, Value 0.6, Design 0.5.
+  //   withValue:  everything                          (sum 7.5)
+  //   noValue:    drops Value AND Design                (sum 6.4)
+  //   pureAudio:  drops Value, Design, AND Fit & Build   (sum 5.4)
+  // Design is cosmetic (looks), not audio or durability, so it's excluded from
+  // the two audio-focused scores the same way Value already is.
   function calcOverall(g) {
-    const withValue = (g.bass*1.5 + g.mids*1.5 + g.treble*1.2 + g.tech*1.2 + g.fit*1.0 + g.value*0.6) / 7.0;
+    const withValue = (g.bass*1.5 + g.mids*1.5 + g.treble*1.2 + g.tech*1.2 + g.fit*1.0 + g.value*0.6 + g.design*0.5) / 7.5;
     const noValue   = (g.bass*1.5 + g.mids*1.5 + g.treble*1.2 + g.tech*1.2 + g.fit*1.0) / 6.4;
     const pureAudio = (g.bass*1.5 + g.mids*1.5 + g.treble*1.2 + g.tech*1.2) / 5.4;
     return {
@@ -1405,8 +1451,9 @@
     const tech   = groupAvg(GROUPS.tech, null);
     const fit    = groupAvg(GROUPS.fit, null);
     const value  = getVal('value');
+    const design = getVal('design');
 
-    const { withValue: rounded, noValue: roundedNoValue, pureAudio: roundedPureAudio } = calcOverall({ bass, mids, treble, tech, fit, value });
+    const { withValue: rounded, noValue: roundedNoValue, pureAudio: roundedPureAudio } = calcOverall({ bass, mids, treble, tech, fit, value, design });
 
     // Ring
     const circ = 314.16;
@@ -1436,6 +1483,7 @@
     setBar('tech',   tech,   '#34d399');
     setBar('fit',    fit,    '#fbbf24');
     setBar('value',  value,  '#f87171');
+    setBar('design', design, '#e879f9');
     updateSummary();
   }
 
@@ -1542,7 +1590,8 @@
     const tech   = groupAvg(GROUPS.tech, null);
     const fit    = groupAvg(GROUPS.fit, null);
     const value  = getVal('value');
-    const { withValue, noValue, pureAudio } = calcOverall({ bass, mids, treble, tech, fit, value });
+    const design = getVal('design');
+    const { withValue, noValue, pureAudio } = calcOverall({ bass, mids, treble, tech, fit, value, design });
     data.overall = withValue;
     data.overallNoValue = noValue;
     data.overallPureAudio = pureAudio;
@@ -1664,7 +1713,7 @@
         detail:'Treble Detail', sibilance:'Sibilance (lower=better)', air:'Air/Extension',
         separation:'Separation', soundstage:'Soundstage', imaging:'Imaging',
         comfort:'Comfort', isolation:'Isolation', build:'Build Quality',
-        value:'Value for Money'
+        value:'Value for Money', design:'Aesthetic Design'
       };
       Object.entries(item.scores).forEach(([k,v]) => {
         lines.push(`  ${(labels[k] || k).padEnd(28)} ${v}/10`);
@@ -1708,7 +1757,8 @@
     const tech   = avg([sc.separation, sc.soundstage, sc.imaging]);
     const fit    = avg([sc.comfort, sc.isolation, sc.build]);
     const value  = sc.value;
-    const { withValue: overall, noValue: overallNoValue, pureAudio: overallPureAudio } = calcOverall({ bass, mids, treble, tech, fit, value });
+    const design = sc.design;
+    const { withValue: overall, noValue: overallNoValue, pureAudio: overallPureAudio } = calcOverall({ bass, mids, treble, tech, fit, value, design });
 
     let sig;
     if      (bass - mids > 1   && treble - mids > 1)  sig = 'V-shaped';
@@ -1758,6 +1808,9 @@
     if (value >= 8)      lines.push('💰 Excellent value — competes with IEMs above its price tier.');
     else if (value <= 3) lines.push('💰 Poor value — better alternatives likely exist at this price.');
 
+    if (design >= 8)      lines.push('👀 Standout looks — a real head-turner.');
+    else if (design <= 3) lines.push('👀 Not much to look at — purely function over form.');
+
     lines.push('');
     const [vLabel, vDesc] = verdictOf(overall);
     lines.push(`Verdict: ${vLabel} (${overall}/10) — ${vDesc}`);
@@ -1799,7 +1852,7 @@
     detail:'Treble Detail', sibilance:'Sibilance (↓ = smoother)', air:'Air/Extension',
     separation:'Separation', soundstage:'Soundstage Width', imaging:'Stereo Imaging',
     comfort:'Comfort', isolation:'Passive Isolation', build:'Build Quality',
-    value:'Value for Money'
+    value:'Value for Money', design:'Aesthetic Design'
   };
   SLIDERS.forEach(id => {
     const el = document.getElementById(id);
