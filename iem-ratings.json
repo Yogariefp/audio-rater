@@ -1,5 +1,36 @@
 [
   {
+    "name": "CVJ Vivian",
+    "driver": "DD",
+    "price": "<$20",
+    "genre": "",
+    "notes": "Single DD, $20, absolute basshead bomb — bass hits stupidly hard but it's not clean/controlled like Odyssey, it just floods everything. Mids get muddied out because of it, vocals and instruments aren't clear. Treble's fully rolled off — dark and safe, no sparkle at all but also zero harshness. Stage feels congested/smeared because the bass takes over. Comfort and isolation are just average, nothing special. Build's generic budget stuff aside from the anime faceplate, which is honestly the best part of it.",
+    "scores": {
+      "subbass": 9,
+      "basshit": 9,
+      "bassclarity": 3,
+      "vocals": 4,
+      "instruments": 4,
+      "midwarmth": 5,
+      "detail": 3,
+      "sibilance": 2,
+      "air": 2,
+      "separation": 3,
+      "soundstage": 3,
+      "imaging": 3,
+      "comfort": 5,
+      "isolation": 5,
+      "build": 5,
+      "value": 6
+    },
+    "timestamp": "2026-09-09T10:00:00.000Z",
+    "overall": 5.0,
+    "overallNoValue": 4.9,
+    "overallPureAudio": 4.9,
+    "summary": "Sound Signature: Bass-heavy (uncontrolled)\nBass is massive but bleeds into everything — not the clean, controlled slam of something like Odyssey, just overwhelming quantity that muddies the mids. Treble's fully rolled off — dark and safe, no harshness, but no sparkle either.\n\n✅ Strong areas: Bass (quantity).\n⚠️ Weak areas: Mids, Treble, Technical.\n🎵 Best for: Bass-only listening (EDM/hip-hop, if you don't care about clarity).\n\nVerdict: Decent (5.0/10) — Gets the job done, some compromises.\nSound-only (excl. Value): 4.9/10\nPure Audio (excl. Fit & Value): 4.9/10",
+    "id": 1788948000000
+  },
+  {
     "name": "Tanchjim Bunny (USB version)",
     "driver": "DD",
     "price": "<$20",
