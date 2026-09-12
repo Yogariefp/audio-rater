@@ -489,6 +489,57 @@
     padding: 20px 0;
   }
 
+  /* Compare-against (inline, beside each score) */
+  .compare-select-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .compare-select-row label {
+    font-size: 0.78rem;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .compare-select-row select {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 10px;
+    color: var(--text);
+    font-size: 0.85rem;
+    outline: none;
+  }
+
+  .compare-select-row select:focus { border-color: var(--accent); }
+
+  #compare-a-label { color: var(--accent2); }
+  #compare-b-label { color: var(--accent); }
+
+  .criterion-header { flex-wrap: wrap; }
+
+  .cmp-inline {
+    display: flex;
+    gap: 5px;
+    flex: 0 0 auto;
+  }
+
+  .cmp-chip {
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 5px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    white-space: nowrap;
+  }
+
+  .cmp-chip.cmp-a { color: var(--accent2); border-color: rgba(94,234,212,0.35); }
+  .cmp-chip.cmp-b { color: var(--accent); border-color: rgba(124,106,247,0.4); }
+
   /* Scrollbar */
   ::-webkit-scrollbar { width: 5px; height: 5px; }
   ::-webkit-scrollbar-track { background: transparent; }
@@ -506,6 +557,25 @@
 <div class="layout">
   <!-- Left column -->
   <div>
+
+    <!-- Compare against -->
+    <div class="card">
+      <h2><span class="icon">⚖️</span> Compare Against</h2>
+      <div class="compare-select-row">
+        <div>
+          <label id="compare-a-label" for="compare-a">IEM A</label>
+          <select id="compare-a" onchange="refreshCompareInline()">
+            <option value="">— none —</option>
+          </select>
+        </div>
+        <div>
+          <label id="compare-b-label" for="compare-b">IEM B</label>
+          <select id="compare-b" onchange="refreshCompareInline()">
+            <option value="">— none —</option>
+          </select>
+        </div>
+      </div>
+    </div>
 
     <!-- IEM Info -->
     <div class="card">
@@ -565,7 +635,7 @@
             <div class="criterion-label">Sub-Bass Extension</div>
             <div class="criterion-sub">Rumble &amp; depth you feel (20–80 Hz)</div>
           </div>
-          <div class="score-badge" id="val-subbass">5</div>
+          <span class="cmp-inline" id="cmp-subbass"></span><div class="score-badge" id="val-subbass">5</div>
         </div>
         <input type="range" min="1" max="10" value="5" id="subbass" oninput="update('subbass')">
         <div class="tick-labels"><span>Weak</span><span>Moderate</span><span>Deep</span></div>
@@ -591,7 +661,7 @@
             <div class="criterion-label">Bass Punch &amp; Impact</div>
             <div class="criterion-sub">Kick drums, bass guitar slam</div>
           </div>
-          <div class="score-badge" id="val-basshit">5</div>
+          <span class="cmp-inline" id="cmp-basshit"></span><div class="score-badge" id="val-basshit">5</div>
         </div>
         <input type="range" min="1" max="10" value="5" id="basshit" oninput="update('basshit')">
         <div class="tick-labels"><span>Lean</span><span>Balanced</span><span>Hard-hitting</span></div>
@@ -617,7 +687,7 @@
             <div class="criterion-label">Bass Clarity / Control</div>
             <div class="criterion-sub">Notes are defined, not bloated or muddy</div>
           </div>
-          <div class="score-badge" id="val-bassclarity">5</div>
+          <span class="cmp-inline" id="cmp-bassclarity"></span><div class="score-badge" id="val-bassclarity">5</div>
         </div>
         <input type="range" min="1" max="10" value="5" id="bassclarity" oninput="update('bassclarity')">
         <div class="tick-labels"><span>Muddy</span><span>OK</span><span>Tight &amp; clean</span></div>
@@ -648,7 +718,7 @@
             <div class="criterion-label">Vocal Clarity</div>
             <div class="criterion-sub">Voices sound natural, present, and clear</div>
           </div>
-          <div class="score-badge" id="val-vocals">5</div>
+          <span class="cmp-inline" id="cmp-vocals"></span><div class="score-badge" id="val-vocals">5</div>
         </div>
         <input type="range" min="1" max="10" value="5" id="vocals" oninput="update('vocals')">
         <div class="tick-labels"><span>Thin/Recessed</span><span>Natural</span><span>Forward</span></div>
@@ -674,7 +744,7 @@
             <div class="criterion-label">Instrument Texture</div>
             <div class="criterion-sub">Guitars, piano, strings sound lifelike</div>
           </div>
-          <div class="score-badge" id="val-instruments">5</div>
+          <span class="cmp-inline" id="cmp-instruments"></span><div class="score-badge" id="val-instruments">5</div>
         </div>
         <input type="range" min="1" max="10" value="5" id="instruments" oninput="update('instruments')">
         <div class="tick-labels"><span>Flat</span><span>OK</span><span>Rich &amp; detailed</span></div>
@@ -700,7 +770,7 @@
             <div class="criterion-label">Warmth / Timbre</div>
             <div class="criterion-sub">Tone sounds natural, not plasticky or sterile</div>
           </div>
-          <div class="score-badge" id="val-midwarmth">5</div>
+          <span class="cmp-inline" id="cmp-midwarmth"></span><div class="score-badge" id="val-midwarmth">5</div>
         </div>
         <input type="range" min="1" max="10" value="5" id="midwarmth" oninput="update('midwarmth')">
         <div class="tick-labels"><span>Cold/Thin</span><span>Neutral</span><span>Warm</span></div>
@@ -731,7 +801,7 @@
             <div class="criterion-label">Detail &amp; Clarity</div>
             <div class="criterion-sub">Hi-hats, cymbals, micro-details</div>
           </div>
-          <div class="score-badge" id="val-detail">5</div>
+          <span class="cmp-inline" id="cmp-detail"></span><div class="score-badge" id="val-detail">5</div>
         </div>
         <input type="range" min="1" max="10" value="5" id="detail" oninput="update('detail')">
         <div class="tick-labels"><span>Dull</span><span>Clear</span><span>Very detailed</span></div>
@@ -757,7 +827,7 @@
             <div class="criterion-label">Sibilance / Harshness</div>
             <div class="criterion-sub">Painful "S" and "T" sounds, shrill peaks</div>
           </div>
-          <div class="score-badge" id="val-sibilance">6</div>
+          <span class="cmp-inline" id="cmp-sibilance"></span><div class="score-badge" id="val-sibilance">6</div>
         </div>
         <input type="range" min="1" max="10" value="6" id="sibilance" oninput="update('sibilance')">
         <div class="tick-labels"><span>None 👍</span><span>Mild</span><span>Harsh 👎</span></div>
@@ -783,7 +853,7 @@
             <div class="criterion-label">Air &amp; Extension</div>
             <div class="criterion-sub">Top-end sparkle and openness above 10 kHz</div>
           </div>
-          <div class="score-badge" id="val-air">5</div>
+          <span class="cmp-inline" id="cmp-air"></span><div class="score-badge" id="val-air">5</div>
         </div>
         <input type="range" min="1" max="10" value="5" id="air" oninput="update('air')">
         <div class="tick-labels"><span>Rolled-off</span><span>Decent</span><span>Airy</span></div>
@@ -814,7 +884,7 @@
             <div class="criterion-label">Instrument Separation</div>
             <div class="criterion-sub">Each instrument sounds distinct, not blended</div>
           </div>
-          <div class="score-badge" id="val-separation">5</div>
+          <span class="cmp-inline" id="cmp-separation"></span><div class="score-badge" id="val-separation">5</div>
         </div>
         <input type="range" min="1" max="10" value="5" id="separation" oninput="update('separation')">
         <div class="tick-labels"><span>Congested</span><span>Good</span><span>Excellent</span></div>
@@ -840,7 +910,7 @@
             <div class="criterion-label">Soundstage</div>
             <div class="criterion-sub">How wide/deep the music feels around you</div>
           </div>
-          <div class="score-badge" id="val-soundstage">5</div>
+          <span class="cmp-inline" id="cmp-soundstage"></span><div class="score-badge" id="val-soundstage">5</div>
         </div>
         <input type="range" min="1" max="10" value="5" id="soundstage" oninput="update('soundstage')">
         <div class="tick-labels"><span>In-head</span><span>Medium</span><span>Wide &amp; open</span></div>
@@ -866,7 +936,7 @@
             <div class="criterion-label">Imaging</div>
             <div class="criterion-sub">Can you pinpoint where each sound comes from?</div>
           </div>
-          <div class="score-badge" id="val-imaging">5</div>
+          <span class="cmp-inline" id="cmp-imaging"></span><div class="score-badge" id="val-imaging">5</div>
         </div>
         <input type="range" min="1" max="10" value="5" id="imaging" oninput="update('imaging')">
         <div class="tick-labels"><span>Vague</span><span>Decent</span><span>Precise</span></div>
@@ -897,7 +967,7 @@
             <div class="criterion-label">Comfort / Fit</div>
             <div class="criterion-sub">Stays in ear, no pressure or pain after 30+ min</div>
           </div>
-          <div class="score-badge" id="val-comfort">5</div>
+          <span class="cmp-inline" id="cmp-comfort"></span><div class="score-badge" id="val-comfort">5</div>
         </div>
         <input type="range" min="1" max="10" value="5" id="comfort" oninput="update('comfort')">
         <div class="tick-labels"><span>Uncomfortable</span><span>OK</span><span>Excellent fit</span></div>
@@ -923,7 +993,7 @@
             <div class="criterion-label">Passive Isolation</div>
             <div class="criterion-sub">How well it blocks outside noise</div>
           </div>
-          <div class="score-badge" id="val-isolation">5</div>
+          <span class="cmp-inline" id="cmp-isolation"></span><div class="score-badge" id="val-isolation">5</div>
         </div>
         <input type="range" min="1" max="10" value="5" id="isolation" oninput="update('isolation')">
         <div class="tick-labels"><span>Poor</span><span>Decent</span><span>Great seal</span></div>
@@ -949,7 +1019,7 @@
             <div class="criterion-label">Build Quality</div>
             <div class="criterion-sub">Shell, cable, connectors feel sturdy</div>
           </div>
-          <div class="score-badge" id="val-build">5</div>
+          <span class="cmp-inline" id="cmp-build"></span><div class="score-badge" id="val-build">5</div>
         </div>
         <input type="range" min="1" max="10" value="5" id="build" oninput="update('build')">
         <div class="tick-labels"><span>Flimsy</span><span>OK</span><span>Solid</span></div>
@@ -980,7 +1050,7 @@
             <div class="criterion-label">Value for Money</div>
             <div class="criterion-sub">What you get vs. what you paid</div>
           </div>
-          <div class="score-badge" id="val-value">5</div>
+          <span class="cmp-inline" id="cmp-value"></span><div class="score-badge" id="val-value">5</div>
         </div>
         <input type="range" min="1" max="10" value="5" id="value" oninput="update('value')">
         <div class="tick-labels"><span>Overpriced</span><span>Fair</span><span>Steal!</span></div>
@@ -1006,7 +1076,7 @@
             <div class="criterion-label">Aesthetic Design</div>
             <div class="criterion-sub">Faceplate/shell looks — not durability</div>
           </div>
-          <div class="score-badge" id="val-design">5</div>
+          <span class="cmp-inline" id="cmp-design"></span><div class="score-badge" id="val-design">5</div>
         </div>
         <input type="range" min="1" max="10" value="5" id="design" oninput="update('design')">
         <div class="tick-labels"><span>Plain</span><span>Nice</span><span>Stunning</span></div>
@@ -1630,22 +1700,56 @@
     const list = document.getElementById('history-list');
     if (!history.length) {
       list.innerHTML = '<div class="empty-state">No ratings saved yet.<br>Fill in the form and hit Save.</div>';
-      return;
+    } else {
+      list.innerHTML = history.map(item => {
+        const date = new Date(item.timestamp).toLocaleDateString();
+        const driver = item.driver ? ` · ${item.driver}` : '';
+        const price = item.price ? ` · ${item.price}` : '';
+        return `
+          <div class="history-item" onclick="loadItem(${item.id})">
+            <div class="history-item-top">
+              <div class="history-item-name">${escHtml(item.name)}</div>
+              <div class="history-item-score" style="color:${scoreColor(item.overall)}">${item.overall}/10</div>
+              <button class="history-item-del" onclick="deleteItem(event,${item.id})">✕</button>
+            </div>
+            <div class="history-item-meta">${date}${driver}${price}</div>
+          </div>`;
+      }).join('');
     }
-    list.innerHTML = history.map(item => {
-      const date = new Date(item.timestamp).toLocaleDateString();
-      const driver = item.driver ? ` · ${item.driver}` : '';
-      const price = item.price ? ` · ${item.price}` : '';
-      return `
-        <div class="history-item" onclick="loadItem(${item.id})">
-          <div class="history-item-top">
-            <div class="history-item-name">${escHtml(item.name)}</div>
-            <div class="history-item-score" style="color:${scoreColor(item.overall)}">${item.overall}/10</div>
-            <button class="history-item-del" onclick="deleteItem(event,${item.id})">✕</button>
-          </div>
-          <div class="history-item-meta">${date}${driver}${price}</div>
-        </div>`;
-    }).join('');
+    populateCompareSelectors();
+  }
+
+  // Compare-against: pick up to 2 saved IEMs, their scores show as small
+  // chips beside the score-badge on every slider so you can eyeball them
+  // against whatever you're currently scoring, live, without leaving the form.
+  function populateCompareSelectors() {
+    const history = loadHistory();
+    ['compare-a', 'compare-b'].forEach(selId => {
+      const sel = document.getElementById(selId);
+      if (!sel) return;
+      const prev = sel.value;
+      sel.innerHTML = '<option value="">— none —</option>' +
+        history.map(item => `<option value="${item.id}">${escHtml(item.name)}</option>`).join('');
+      if (prev && history.some(h => String(h.id) === prev)) sel.value = prev;
+    });
+    refreshCompareInline();
+  }
+
+  function refreshCompareInline() {
+    const history = loadHistory();
+    const aId = document.getElementById('compare-a')?.value;
+    const bId = document.getElementById('compare-b')?.value;
+    const a = aId ? history.find(h => String(h.id) === aId) : null;
+    const b = bId ? history.find(h => String(h.id) === bId) : null;
+
+    SLIDERS.forEach(id => {
+      const el = document.getElementById(`cmp-${id}`);
+      if (!el) return;
+      let html = '';
+      if (a) html += `<span class="cmp-chip cmp-a" title="${escHtml(a.name)}">A ${a.scores[id] ?? '—'}</span>`;
+      if (b) html += `<span class="cmp-chip cmp-b" title="${escHtml(b.name)}">B ${b.scores[id] ?? '—'}</span>`;
+      el.innerHTML = html;
+    });
   }
 
   function escHtml(s) {
@@ -1666,6 +1770,15 @@
       slider.value = item.scores[id] || 5;
       update(id);
     });
+    clearCompareSelectors();
+  }
+
+  function clearCompareSelectors() {
+    const a = document.getElementById('compare-a');
+    const b = document.getElementById('compare-b');
+    if (a) a.value = '';
+    if (b) b.value = '';
+    refreshCompareInline();
   }
 
   function deleteItem(event, id) {
@@ -1686,6 +1799,7 @@
       document.getElementById(id).value = id === 'sibilance' ? 6 : 5;
       update(id);
     });
+    clearCompareSelectors();
   }
 
   function exportAll() {

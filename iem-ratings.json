@@ -1,34 +1,98 @@
 [
   {
+    "name": "QoA x 7th Acoustics Ryusei",
+    "driver": "1DD",
+    "price": "$100-300",
+    "genre": "",
+    "notes": "Shit was sibilancy from time to time. bass, kinda feel it but not as nice as rays or my lin or daybreak. Nice vocal pretty good instrument details.",
+    "scores": {
+      "subbass": 7,
+      "basshit": 6,
+      "bassclarity": 6,
+      "vocals": 7,
+      "instruments": 7,
+      "midwarmth": 7,
+      "detail": 6,
+      "sibilance": 5,
+      "air": 6,
+      "separation": 6,
+      "soundstage": 6,
+      "imaging": 6,
+      "comfort": 6,
+      "isolation": 7,
+      "build": 7,
+      "value": 9,
+      "design": 6
+    },
+    "timestamp": "2026-09-12T15:07:34.890Z",
+    "overall": 6.6,
+    "overallNoValue": 6.4,
+    "overallPureAudio": 6.4,
+    "summary": "Sound Signature: Neutral / Balanced\nEven across all frequencies — versatile and accurate without strong colouration.\n\n✅ Strong areas: Mids.\n🎵 Best for: Vocals, Acoustic.\n💰 Excellent value — competes with IEMs above its price tier.\n\nVerdict: Good (6.6/10) — Above average, enjoyable daily driver.\nSound-only (excl. Value): 6.4/10\nPure Audio (excl. Fit & Value): 6.4/10",
+    "id": 1789225654890
+  },
+  {
+    "name": "Truthear Hexa",
+    "driver": "1DD+3BA",
+    "price": "$50-100",
+    "genre": "",
+    "notes": "Bass just as I like but not punchy enough even after using final type e. Literal sibilance magnet.\nGood detail technicalities and vocal",
+    "scores": {
+      "subbass": 6,
+      "basshit": 6,
+      "bassclarity": 6,
+      "vocals": 8,
+      "instruments": 8,
+      "midwarmth": 8,
+      "detail": 8,
+      "sibilance": 6,
+      "air": 6,
+      "separation": 7,
+      "soundstage": 6,
+      "imaging": 7,
+      "comfort": 8,
+      "isolation": 7,
+      "build": 6,
+      "value": 8,
+      "design": 7
+    },
+    "timestamp": "2026-09-12T14:38:16.332Z",
+    "overall": 6.9,
+    "overallNoValue": 6.8,
+    "overallPureAudio": 6.8,
+    "summary": "Sound Signature: Mid-forward\nProminent vocals and instruments — ideal for acoustic, jazz, and vocal-centric music.\n\n✅ Strong areas: Mids, Fit & Build.\n🎵 Best for: Vocals, Acoustic.\n💰 Excellent value — competes with IEMs above its price tier.\n\nVerdict: Good (6.9/10) — Above average, enjoyable daily driver.\nSound-only (excl. Value): 6.8/10\nPure Audio (excl. Fit & Value): 6.8/10",
+    "id": 1789223896332
+  },
+  {
     "name": "CVJ Vivian",
     "driver": "DD",
     "price": "<$20",
     "genre": "",
     "notes": "Single DD, $20, absolute basshead bomb — bass hits stupidly hard but it's not clean/controlled like Odyssey, it just floods everything. Mids get muddied out because of it, vocals and instruments aren't clear. Treble's fully rolled off — dark and safe, no sparkle at all but also zero harshness. Stage takes a hit from the bass bleed but isn't a total mess. Comfort's actually good, isolation's just average. Build's generic budget stuff aside from the anime faceplate, which is honestly the best part of it.",
     "scores": {
-      "subbass": 9,
-      "basshit": 9,
-      "bassclarity": 3,
+      "subbass": 7,
+      "basshit": 7,
+      "bassclarity": 5,
       "vocals": 4,
       "instruments": 4,
       "midwarmth": 5,
       "detail": 3,
       "sibilance": 2,
-      "air": 2,
+      "air": 3,
       "separation": 4,
       "soundstage": 4,
       "imaging": 4,
       "comfort": 7,
-      "isolation": 5,
+      "isolation": 6,
       "build": 5,
       "value": 6,
       "design": 8
     },
     "timestamp": "2026-09-09T10:00:00.000Z",
     "overall": 5.4,
-    "overallNoValue": 5.2,
-    "overallPureAudio": 5.1,
-    "summary": "Sound Signature: Bass-heavy\nStrong bass presence dominates — exciting for bass-driven genres but can overwhelm the midrange.\n\n✅ Strong areas: Bass.\n⚠️ Weak areas: Mids, Treble, Technical.\n✅ Smooth, non-fatiguing treble — sibilance is well-controlled.\nℹ️ Punchy but muddy bass — good impact, but fast bass passages may sound bloated.\n🎵 Best for: EDM, Hip-hop, Live rock.\n👀 Standout looks — a real head-turner (that anime faceplate).\n\nVerdict: Decent (5.4/10) — Gets the job done, some compromises.\nSound-only (excl. Value): 5.2/10\nPure Audio (excl. Fit & Value): 5.1/10",
+    "overallNoValue": 5.1,
+    "overallPureAudio": 5,
+    "summary": "Sound Signature: Bass-heavy\nStrong bass presence dominates — exciting for bass-driven genres but can overwhelm the midrange.\n\n⚠️ Weak areas: Mids, Technical.\n✅ Smooth, non-fatiguing treble — sibilance is well-controlled.\n🎵 Best for: General listening.\n👀 Standout looks — a real head-turner.\n\nVerdict: Decent (5.4/10) — Gets the job done, some compromises.\nSound-only (excl. Value): 5.1/10\nPure Audio (excl. Fit & Value): 5/10",
     "id": 1788948000000
   },
   {
@@ -68,7 +132,7 @@
     "driver": "1DD+3BA",
     "price": "$100-300",
     "genre": "",
-    "notes": "Bass is the best out of the whole lineup — strong, controlled sub-bass and punch. Treble is smoother than expected, not as harsh/sibilant as anticipated (Headfonics corroborates: near-zero sibilance, though treble detail retrieval is a known weak point — 'certain elements sounding dampened'). Vocals are a bit unusual in presentation but still enjoyable; mids are otherwise natural and engaging per big-reviewer consensus. Shell itself is decent (lightweight, no rough edges), but the stock cable is explicitly flimsy — Headfonics: 'feels like it could snap with a firm tug' — so Build Quality (which bundles shell+cable+connectors per this app's own rubric) can't sit in the 'premium' tier. Seal is excellent (best isolation tested) but it's too good — causes dizziness/pressure discomfort, making it hard to actually use for extended listening; note this diverges from other reviewers, who call Odyssey's isolation only 'okay' due to a vent near the 2-pin connectors — likely a personal fit/ear-anatomy factor. Stock cable and eartips are terrible for a $200 IEM.",
+    "notes": "Bass is the best out of the whole lineup — strong, controlled sub-bass and punch. Treble is smoother than expected, not as harsh/sibilant as anticipated. Certain elements sounding dampened. Vocals are a bit unusual in presentation but still enjoyable; mids are otherwise natural and engaging. Shell itself is decent (lightweight, no rough edges), but the stock cable is explicitly flimsy. Seal is excellent (best isolation tested) but it's too good — causes dizziness/pressure discomfort, making it hard to actually use for extended listening; note this diverges from other reviewers, who call Odyssey's isolation only 'okay' due to a vent near the 2-pin connectors — likely a personal fit/ear-anatomy factor. Stock cable and eartips are terrible for a $200 IEM.",
     "scores": {
       "subbass": 9,
       "basshit": 9,
@@ -90,7 +154,9 @@
     },
     "timestamp": "2026-08-27T10:00:00.000Z",
     "overall": 6.7,
-    "summary": "Sound Signature: Bass-heavy\nStrong bass presence dominates — exciting for bass-driven genres but can overwhelm the midrange.\n\n✅ Strong areas: Bass, Treble, Technical.\n✅ Smooth, non-fatiguing treble — sibilance is well-controlled.\n🎵 Best for: EDM, Hip-hop, Live rock, Classical, Jazz.\n💰 Poor value — better alternatives likely exist at this price.\n\nVerdict: Good (6.7/10) — Above average, enjoyable daily driver.",
+    "overallNoValue": 7.1,
+    "overallPureAudio": 7.4,
+    "summary": "Sound Signature: Bass-heavy\nStrong bass presence dominates — exciting for bass-driven genres but can overwhelm the midrange.\n\n✅ Strong areas: Bass, Treble, Technical.\n✅ Smooth, non-fatiguing treble — sibilance is well-controlled.\n🎵 Best for: EDM, Hip-hop, Live rock, Classical, Jazz.\n💰 Poor value — better alternatives likely exist at this price.\n👀 Standout looks — a real head-turner.\n\nVerdict: Good (6.7/10) — Above average, enjoyable daily driver.\nSound-only (excl. Value): 7.1/10\nPure Audio (excl. Fit & Value): 7.4/10",
     "id": 1787824800000
   },
   {
@@ -98,7 +164,7 @@
     "driver": "DD",
     "price": "$20-50",
     "genre": "",
-    "notes": "",
+    "notes": "Peak weebs IEM",
     "scores": {
       "subbass": 5,
       "basshit": 5,
@@ -120,7 +186,9 @@
     },
     "timestamp": "2026-08-14T16:56:42.503Z",
     "overall": 6.4,
-    "summary": "Sound Signature: Neutral / Balanced\nEven across all frequencies — versatile and accurate without strong colouration.\n\n🎵 Best for: General listening.\n👀 Standout looks — a real head-turner.\n\nVerdict: Good (6.4/10) — Above average, enjoyable daily driver.",
+    "overallNoValue": 6.1,
+    "overallPureAudio": 6,
+    "summary": "Sound Signature: Neutral / Balanced\nEven across all frequencies — versatile and accurate without strong colouration.\n\n🎵 Best for: General listening.\n👀 Standout looks — a real head-turner.\n\nVerdict: Good (6.4/10) — Above average, enjoyable daily driver.\nSound-only (excl. Value): 6.1/10\nPure Audio (excl. Fit & Value): 6/10",
     "id": 1786726602503
   },
   {
@@ -128,7 +196,7 @@
     "driver": "DD",
     "price": "$20-50",
     "genre": "J-Rock",
-    "notes": "Drier and less bassy than ZiiGaat x Vivir Digital Rumba and Tangzu Wan'er S.G II — leaner low end trades slam for cleaner, tighter bass. Upper-mid/vocal region sits forward and clear, per squig.link FR (COZOY D1 AVG vs Crinacle target), tracking close to the ZiiGaat through bass/mids but pulling ahead in the 2-4kHz vocal presence region. Treble is more jagged with peaks around 8-11kHz giving a metallic, energetic edge rather than the smoother, safer top end of the Rumba.",
+    "notes": "Drier and less bassy than ZiiGaat x Vivir Digital Rumba and Tangzu Wan'er S.G II — leaner low end trades slam for cleaner, tighter bass. Upper-mid/vocal region sits forward and clear, tracking close to the ZiiGaat through bass/mids but pulling ahead in the 2-4kHz vocal presence region. Treble is more jagged giving a metallic, energetic edge rather than the smoother, safer top end of the Rumba.",
     "scores": {
       "subbass": 6,
       "basshit": 5,
@@ -150,7 +218,9 @@
     },
     "timestamp": "2026-08-01T01:56:51.921Z",
     "overall": 5.7,
-    "summary": "Sound Signature: Neutral\nNo dominant frequency colouration — relatively even response across the board.\n\n🎵 Best for: General listening.\n\nVerdict: Decent (5.7/10) — Gets the job done, some compromises.",
+    "overallNoValue": 5.7,
+    "overallPureAudio": 5.9,
+    "summary": "Sound Signature: Neutral\nNo dominant frequency colouration — relatively even response across the board.\n\n🎵 Best for: General listening.\n\nVerdict: Decent (5.7/10) — Gets the job done, some compromises.\nSound-only (excl. Value): 5.7/10\nPure Audio (excl. Fit & Value): 5.9/10",
     "id": 1785549411923
   },
   {
@@ -158,7 +228,7 @@
     "driver": "DD",
     "price": "$20-50",
     "genre": "",
-    "notes": "Fun basshead-leaning tuning, sub-bass emphasis with controlled decay, vocals said to be pushed forward by 2.5-3kHz pinna gain, smooth/safe treble but closed-in on air. Competes at $35 against Truthear Gate (~$20, more neutral-warm, wider stage) and Tangzu Wan'er S.G II (~$20-25, more vocal-forward, better accessories) — both cheaper and actually battle-tested. Kiwi Ears Cadenza II ($49.99) also on the radar but not re-auditioned recently. Revisit with a real listen before trusting these numbers.",
+    "notes": "Fun basshead-leaning tuning, sub-bass emphasis with controlled decay, vocals said to be pushed forward by 2.5-3kHz pinna gain, smooth/safe treble but closed-in on air. Competes at $35 against Truthear Gate (~$20, more neutral-warm, wider stage) and Tangzu Wan'er S.G II (~$20-25, more vocal-forward, better accessories) — both cheaper and actually battle-tested. Kiwi Ears Cadenza II ($49.99) also on the radar but not re-auditioned recently.",
     "scores": {
       "subbass": 7,
       "basshit": 7,
@@ -180,7 +250,9 @@
     },
     "timestamp": "2026-07-14T00:00:00.000Z",
     "overall": 5.8,
-    "summary": "Sound Signature: Neutral / Balanced\nEven across all frequencies — versatile and accurate without strong colouration.\n\n✅ Smooth, non-fatiguing treble — sibilance is well-controlled.\n🎵 Best for: General listening.\n\nVerdict: Decent (5.8/10) — Gets the job done, some compromises.",
+    "overallNoValue": 5.9,
+    "overallPureAudio": 5.9,
+    "summary": "Sound Signature: Neutral / Balanced\nEven across all frequencies — versatile and accurate without strong colouration.\n\n✅ Smooth, non-fatiguing treble — sibilance is well-controlled.\n🎵 Best for: General listening.\n\nVerdict: Decent (5.8/10) — Gets the job done, some compromises.\nSound-only (excl. Value): 5.9/10\nPure Audio (excl. Fit & Value): 5.9/10",
     "id": 1783877406109
   },
   {
@@ -190,9 +262,9 @@
     "genre": "J-Pop",
     "notes": "Hidizs My Lin — DD+BA hybrid collab IEM. Absolute V-shape tuning: elevated bass shelf (~70 dB, 20–60 Hz) with a significant mid scoop (~10 dB recession at 250–800 Hz), then a sharp treble peak at 6–7 kHz that is the highest point on the entire FR curve. Mids are recessed and instruments lack body. Vocals are thinned out by the lower-mid recession. The 6–7 kHz peak brings perceived detail but causes notable sibilance. Deep trough at 8–9 kHz then steep rolloff limits air extension. Channel matching is near-perfect (L/R almost identical). Build and comfort are above average for the price tier.",
     "scores": {
-      "subbass": 7,
-      "basshit": 7,
-      "bassclarity": 6,
+      "subbass": 8,
+      "basshit": 8,
+      "bassclarity": 7,
       "vocals": 7,
       "instruments": 7,
       "midwarmth": 6,
@@ -209,8 +281,10 @@
       "design": 9
     },
     "timestamp": "2026-07-01T10:56:54.791Z",
-    "overall": 7.1,
-    "summary": "Sound Signature: Neutral / Balanced\nEven across all frequencies — versatile and accurate without strong colouration.\n\n✅ Strong areas: Fit & Build.\n🎵 Best for: General listening.\n💰 Excellent value — competes with IEMs above its price tier.\n👀 Standout looks — a real head-turner.\n\nVerdict: Very Good (7.1/10) — Solid performer with minor flaws.",
+    "overall": 7.3,
+    "overallNoValue": 7.1,
+    "overallPureAudio": 6.9,
+    "summary": "Sound Signature: Neutral / Balanced\nEven across all frequencies — versatile and accurate without strong colouration.\n\n✅ Strong areas: Bass, Fit & Build.\n🎵 Best for: EDM, Hip-hop, Live rock.\n💰 Excellent value — competes with IEMs above its price tier.\n👀 Standout looks — a real head-turner.\n\nVerdict: Very Good (7.3/10) — Solid performer with minor flaws.\nSound-only (excl. Value): 7.1/10\nPure Audio (excl. Fit & Value): 6.9/10",
     "id": 1782903414791
   },
   {
@@ -329,7 +403,7 @@
       "design": 5
     },
     "timestamp": "2026-05-17T16:18:00.402Z",
-    "overall": 6.0,
+    "overall": 6,
     "summary": "Sound Signature: Neutral\nNo dominant frequency colouration — relatively even response across the board.\n\n✅ Smooth, non-fatiguing treble — sibilance is well-controlled.\n🎵 Best for: General listening.\n\nVerdict: Good (6/10) — Above average, enjoyable daily driver.",
     "id": 1779034680402
   },
@@ -338,7 +412,7 @@
     "driver": "DD+Planar",
     "price": "$50-100",
     "genre": "Based on Test Tips",
-    "notes": "Crazy secondary value",
+    "notes": "Crazy value",
     "scores": {
       "subbass": 7,
       "basshit": 7,
@@ -347,20 +421,22 @@
       "instruments": 8,
       "midwarmth": 7,
       "detail": 8,
-      "sibilance": 4,
-      "air": 6,
+      "sibilance": 5,
+      "air": 7,
       "separation": 8,
       "soundstage": 8,
       "imaging": 8,
-      "comfort": 9,
-      "isolation": 6,
+      "comfort": 8,
+      "isolation": 7,
       "build": 7,
       "value": 7,
       "design": 8
     },
     "timestamp": "2026-05-17T15:53:13.716Z",
     "overall": 7.5,
-    "summary": "Sound Signature: Neutral / Balanced\nEven across all frequencies — versatile and accurate without strong colouration.\n\n✅ Strong areas: Bass, Mids, Treble, Technical, Fit & Build.\n🎵 Best for: EDM, Hip-hop, Live rock, Vocals, Acoustic.\n👀 Standout looks — a real head-turner.\n\nVerdict: Very Good (7.5/10) — Solid performer with minor flaws.",
+    "overallNoValue": 7.5,
+    "overallPureAudio": 7.5,
+    "summary": "Sound Signature: Neutral / Balanced\nEven across all frequencies — versatile and accurate without strong colouration.\n\n✅ Strong areas: Bass, Mids, Treble, Technical, Fit & Build.\n🎵 Best for: EDM, Hip-hop, Live rock, Vocals, Acoustic.\n👀 Standout looks — a real head-turner.\n\nVerdict: Very Good (7.5/10) — Solid performer with minor flaws.\nSound-only (excl. Value): 7.5/10\nPure Audio (excl. Fit & Value): 7.5/10",
     "id": 1779033193716
   }
 ]
